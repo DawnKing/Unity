@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080">
+  <displayList>
+    <graph id="n9_n4w4" name="n9" xy="0,0" size="1920,1080" type="rect"/>
+    <component id="n1_ef43" name="BtnLogin" src="ef431" xy="833,652" size="124,48" group="n8_ef43">
+      <Button title="登陆" titleFontSize="30"/>
+    </component>
+    <text id="n2_ef43" name="TxtAccount" xy="964,562" size="114,34" group="n8_ef43" input="true" prompt="账号" fontSize="30" autoSize="height" text=""/>
+    <text id="n3_ef43" name="TxtPassword" xy="967,614" size="114,34" group="n8_ef43" input="true" prompt="密码&#xD;" password="true" fontSize="30" autoSize="height" text=""/>
+    <text id="n4_ef43" name="n4" xy="864,561" size="95,34" group="n8_ef43" fontSize="30" text="账号："/>
+    <text id="n5_ef43" name="n5" xy="866,610" size="95,34" group="n8_ef43" fontSize="30" text="密码："/>
+    <component id="n6_ef43" name="BtnRegister" src="ef431" xy="978,652" size="134,50" group="n8_ef43">
+      <Button title="注册" titleFontSize="30"/>
+    </component>
+    <group id="n8_ef43" name="n8" xy="833,561" size="279,141"/>
+  </displayList>
+</component>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<MapTemplate isclient="1">
+	<field field="Id" type="uint" comment="id"/>
+	<field field="Res" type="string" comment="资源路径"/>
+</MapTemplate>

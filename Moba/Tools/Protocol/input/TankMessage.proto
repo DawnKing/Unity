@@ -1,0 +1,813 @@
+// ----------------------------------------------------------------------
+///    @file            protocol/TankMessage.h
+///    @brief           
+///    @author          linyixiong
+///    @copyright       Sixcube Information Technology Co,. Ltd. (2012)
+///    @date            
+// ----------------------------------------------------------------------
+
+import ShareTypes;
+import BulkDataEnum;
+import BulkDataType;
+import TradeMessage;
+
+// 角色信息
+message TankInfo {
+    required UINT32 m_acctOid = 1;      ///< 玩家id（唯一的id）
+    required INT16 m_x = 3;             ///< x 坐标
+    required INT16 m_y = 4;             ///< y 坐标
+    required int m_hp = 5;              ///< 坦克血条
+    required int m_maxHp = 6;           ///< 此坦克的血条上限
+    required BYTE m_iStar = 7;           ///< 坦克星级
+    required BYTE m_iCamp = 8;          ///< 阵营信息，1,红方；2，蓝方
+    
+    required string m_name = 9;         ///< 玩家名字
+    repeated BuffInfo m_buffVec = 10;     ///< buff信息
+    required INT16 m_lifeCount = 11;   ///< 命数 -1:表示无限
+    required UINT32 m_curBattleExp = 12;   ///< 当前战场经验
+    required BYTE m_battleLevel = 14;    ///< 当前战场等级
+    required BYTE m_tankLevel = 15;      ///< 坦克等级
+    required int m_mp = 16;              ///< 能量当前值
+    required int m_maxMp = 17;           ///< 能量上限
+}
+
+/*
+ * server->client 上线通知自身数据
+ */
+message NotifySelfData {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SELF_DATA; }
+
+    required TankInfo m_selfData = 1;   ///< 坦克id
+    required INT16 m_fireRate = 2;        ///< 射速
+    required INT16 m_speed = 3;           ///< 移动速度
+    required UINT32 m_nSprayId  = 4;    ///< 喷图id
+    repeated PropsInfo m_skillVec  = 5;     ///< 技能信息
+    repeated GiveItemStruct m_itemVec = 6;  ///< 掉落物品列表
+    required BYTE m_nKillCount = 7;       ///< 击杀数
+    required BYTE m_nDeadCount = 8;       ///< 死亡数
+    required BYTE m_nAssistCount = 9;     ///< 助攻数
+}
+
+/*
+ * server->client 上线通知其他玩家数据
+ */
+message NotifyOtherList {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_OTHER_LIST; }
+
+    repeated TankInfo m_otherList = 1;          ///< 其他坦克
+}
+
+/*
+ * server->client 上线通知添加新的坦克数据
+ */
+message NotifyAddTank {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ADD_TANK; }
+
+    required TankInfo m_selfData = 1;          ///< 坦克
+}
+
+message TeamProp {
+    required PropsInfo m_nPropData = 1;
+    required UINT32 m_nOid = 2;      ///< 玩家id（唯一的id）
+    
+}
+
+/*
+ * server->client 上线通知队友大招信息
+ */
+message NotifyTeammateProp {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TEAMMATE_CD;}
+    
+    repeated TeamProp m_teamMateProp = 1;
+}
+
+/*
+ * client->server 客户端请求使用技能
+ */
+message RequestUseSkill{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_USE_SKILL; }
+    
+    required UINT32 m_sceneId = 1;      ///< 战场id
+    required ZGID   m_targetId = 2;     ///< 选择的目标
+    required BYTE   m_soltNo = 3;       ///< 选择的炮弹
+    required INT16  m_destX = 6;        ///< 攻击目标坐标
+    required INT16  m_destY = 7;
+}
+
+/*
+*   client->server 客户端请求信号机制
+*/
+message RequestSignalInfo {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SIGNAL_INFO; }
+
+    required UINT32 m_nSceneId      = 1;     /// 战场Id
+    required INT16  m_iDestX        = 2;     /// 坐标
+    required INT16  m_iDestY        = 3;     
+    required BYTE   m_iSignalType   = 4;     /// 信号类型
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_SIGNAL_INFO),
+// 通知战场信号信息
+message NotifySignalInfo {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SIGNAL_INFO; }
+    
+    required ZGID   m_objectId      = 1;     /// 信号发起者Id
+    required INT16  m_iDestX        = 2;     /// 坐标
+    required INT16  m_iDestY        = 3;     
+    required BYTE   m_iSignalType   = 4;     /// 信号类型
+}
+
+// MSGTYPE_DECLARE(MSG_UPDATE_BULLET_ORBIT),               
+// 同步炮弹轨迹
+message UpdateBulletOrbit {
+    enum { THIS_MSG_TYPE = MSG_UPDATE_BULLET_ORBIT; }
+    
+    required ZGID   m_bullteId = 1; ///< 炮弹对象实例id
+    required INT16 m_startX = 3;  ///< 炮弹当前位置
+    required INT16 m_startY = 4;
+    required INT16 m_destX = 5;   ///< 攻击目标坐标
+    required INT16 m_destY = 6;
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_TANK_RELIVE),           
+// 通知坦克复活等待时间
+message NotifyTankRelive{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TANK_RELIVE; }
+    
+    required UINT32 m_tankId = 1;          ///< 坦克id
+    required int m_iReliveTime = 2;     ///< 复活所需时间
+}
+        
+// 通知买活或者买命信息
+message NotifyBuyLifeInfo
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_BUY_LIFE_INFO; }
+    
+    required int m_iFreeCount   = 2;    ///< 免费次数
+    required int m_iCoin        = 3;    ///< 需要的银币 <= 0 表示不能用银币复活
+    required int m_iCash        = 4;    ///< 需要的点券 <= 0 表示不能用点券复活
+}
+
+// MSGTYPE_DECLARE(MSG_UPDATE_TANK_ATTR),                  
+// 通知更新坦克数据
+message UpdateTankAttr{
+    enum { THIS_MSG_TYPE = MSG_UPDATE_TANK_ATTR; }
+    
+    required UINT32 m_tankId = 1;       ///< 坦克id
+    required BYTE   m_updateType = 2;   ///< 更新类型 enum TANK_ATTR_TYPE
+    required int    m_iUpdateVal = 3;   ///< 更新值
+}
+
+enum PROPS_OP_TYPE {
+    DROP_PROPS  = 1;        ///< 丢弃道具
+    PICK_PROPS  = 100;      ///< 拾取道具，服务端通知客户端
+    SYNC_PROPS  = 101;      ///< 同步剩余数量
+}
+
+// 请求喷图
+message RequestOpSpray
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_OP_SPRAY; }  
+    
+    required UINT32 m_sceneId = 1;  ///< 战场id
+    required INT16 m_x = 2;        ///< x 坐标
+    required INT16 m_y = 3;        ///< y 坐标
+}
+
+// 通知喷图成功
+message NotifySpray
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_OP_SPRAY; }  
+
+    required UINT32 m_sprayId = 1;  ///< 图案的模板id
+    required UINT32 m_tankId = 2;   ///< 喷图者的id
+    required INT16 m_x = 3;                ///< x 坐标
+    required INT16 m_y = 4;                ///< y 坐标
+}
+
+// 通知坦克信息
+message NotifyTankList
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TANK_LIST; }
+    
+    enum {
+        PLAYER_LOGIN_TANK = 1;       ///< 玩家登录
+        ADD_TANK     = 2;       ///< 获得新坦克
+        ADD_PRESENT_HIRE_TANK = 3;   ///< 获得赠送的租用坦克
+    }
+    
+    repeated TankInstance  m_tankVec    = 1;    ///< 坦克信息
+    required BYTE   m_notifyType  	    = 2;    ///< 物品信息通知类型
+    required BYTE   m_contType          = 3;    ///< 坦克容器类型 enum TANK_CONTAINER_TYPE
+}
+
+// 更新单个坦克的实例信息
+message UpdateTankInstance
+{
+    enum { THIS_MSG_TYPE = MSG_UPDATE_TANK_INSTANCE; }
+    
+    required TankInstance m_tankInst = 1;   ///< 坦克的实例信息
+    required BYTE m_opType = 2;             ///< 类型 enum TANK_INST_OP_TYPE
+}
+
+// 坦克删除坦克
+message NotifyDeleteTank
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TANK_DELETE; }
+    
+    required string m_tankUuid = 1;
+}
+
+// 请求坦克出战
+message ChangeBattleTank
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_TANK_BATTLE; }
+    
+    required string m_tankUuid  = 1;    ///< 出战坦克的uuid
+}
+
+// 请求删除坦克
+message RequestDeleteTank
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_TANK_DELETE; }
+    
+    required string m_tankUuid = 1; ///< 删除坦克的uuid
+}
+
+// 请求租用坦克
+message RequestHireTank
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_TANK_HIRE; }
+    
+    required UINT32 m_nTankId   = 1;    ///< 坦克的id  
+    required INT32  m_iTankLevel = 2;   ///< 租用坦克的等级
+    required UINT32 m_nHireTime = 3;    ///< 租用时间 （小时）
+    required UINT32 m_nCoinType = 4;    ///< 货币类型 coin_type
+    required UINT32 m_nCoinValue = 5;   ///< 价格
+    required BYTE   m_nVipFreeHire = 6; ///< 是否VIP免费租用
+}
+
+// 通知更新租用坦克配置信息
+message NotifyRefreshHireTankConfig
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_REFRESH_HIRE_TANK_CONFIG; }
+}
+
+// 请求购买道具
+message SceneShopBuyMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SCENE_SHOP_BUY; }
+    
+    required UINT32 m_nRoomId   = 1;      ///< 房间id
+    required UINT32 m_nPropsId  = 2;      ///< 道具id
+    required BYTE   m_nType    = 3;       ///< 使用的货币类型enum COIN_TYPE
+}
+
+// 请求购买弹夹道具
+message ClipBuyMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CLIP_BUY; }
+    
+    required UINT32 m_nPropsId  = 1;    ///< 道具id
+    required BYTE   m_nType     = 2;    ///< 使用的货币类型enum COIN_TYPE
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_USE_SKILL),                  
+// 通知使用技能
+message NotifyUseSkill {
+    required ZGID   m_nCasterId = 1;    ///< 施放者id
+    required ZGID   m_nTargetId = 2;    ///< 目标id
+    required UINT32 m_nSkillId  = 3;    ///< 使用的技能
+    required INT16  m_StartX = 4;      ///< 技能起始点x 坐标
+    required INT16  m_StartY = 5;      ///< 技能起始点y 坐标
+    required INT16  m_x = 6;            ///< 技能目标点x 坐标
+    required INT16  m_y = 7;            ///< 技能目标点y 坐标
+    required BYTE  m_isReady = 8;      ///< 1：代表播放释放动画 0:表示技能生效
+    required BYTE m_nCount = 9;       ///< 该技能释放的次数
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_SKILL_STOP),
+// 通知客户端技能被停止
+message NotifySkillStop {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SKILL_STOP; }
+    
+    required ZGID  m_nCasterId = 1;     ///< 释放者ID
+    required UINT32 m_nSkillId  = 2;    ///< 使用的技能
+}
+
+// MSGTYPE_DECLARE(MSG_SYNC_SKILL_COOLTIME),               
+// 同步技能冷却时间
+message SyncSkillCooltime {
+    enum { THIS_MSG_TYPE = MSG_SYNC_SKILL_COOLTIME; }
+
+    required PropsInfo m_nPropData  = 1;    ///< 技能信息
+    required ZGID   m_nOwnerId = 2;         ///< 拥有者ID
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_CHANGE_SLOT_SKILL),               
+// 通知技能变化
+message NotifyChangeSlotSkill {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CHANGE_SLOT_SKILL; }
+
+    required PropsInfo m_itemData = 1; ///< 技能信息
+}
+
+// 请求坦克升级
+message RequestTankUp
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_TANK_UP; }
+    
+    required string m_tankUuid = 1; ///< 坦克的uuid    
+}
+
+// 请求坦克强化
+message RequestTankStrengthen
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_TANK_STTH; }
+    
+    required string m_tankUuid  = 1; ///< 坦克的uuid    
+    required UINT32 m_type      = 2; ///< 强化类型 enum TANK_STTEN_TYPE
+}
+
+// 请求坦克技能升级
+message RequestTankSkillUp
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_TANK_SKILL_UP; }
+    
+    required string m_tankUuid  = 1; ///< 坦克的uuid    
+    required UINT32 m_nSlot     = 2; ///< 强化类型 enum SKILL_SLOT 
+}
+
+// 请求坦克操作失败
+message NotifyTankOpFail
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TANK_OP_FAIL; }
+    
+    required string m_tankUuid  = 1; ///< 坦克的uuid    
+    required UINT32 m_nType     = 2; ///< enum TANK_INST_OP_TYPE
+}
+
+// 通知掉落物品
+message NotifyDropItem
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_DROP_ITEM; }
+    
+    required ZGID m_aiNpcGid = 1;           ///< 从哪个ainpc上掉落的   
+    repeated GiveItemStruct m_itemVec = 2;  ///< 掉落物品列表
+}
+
+// 请求更换主战助手(服务端更新主战坦克上的助手，客户端以主战坦克的助手作为主战助手显示)
+message RequestChangeBattleBooster
+{
+	enum { THIS_MSG_TYPE = MSG_REQUEST_CHANGE_BATTLE_BOOSTER; }
+
+	required string m_boosterUuid = 1;  ///< 助手UUID
+}
+
+// 请求更换坦克皮肤
+message RequestChangeSkin
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_TANK_CHANGE_SKIN; }
+    
+    required string m_tankUuid  = 1;    ///< 坦克的uuid    
+    required string m_skinUuid  = 2;    ///< 皮肤uuid
+    required BYTE   m_contType  = 3;    ///< 坦克容器类型 enum TANK_CONTAINER_TYPE
+}
+
+// 请求赠送租用坦克
+message RequestPresentHireTank
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_PRESENT_HIRE_TANK; }
+    
+    required UINT32 m_nTankId = 1;    ///< 坦克ID
+    required UINT32 m_nTankLevel = 2; ///< 坦克等级
+    required UINT32 m_nHireTime = 3;  ///< 租用时间
+    required UINT32 m_nCoinVal = 4;   ///< 租用价格
+    required string m_strName = 5;    ///< 目标玩家的名称
+}
+
+// 通知扣除赠送租用坦克的货币
+message NotifyConsumeHireTankCoin
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CONSUME_HIRE_TANK_COIN; }
+    
+    required UINT32 m_nTankId = 1;    ///< 坦克ID
+    required UINT32 m_nTankLevel = 2; ///< 坦克等级
+    required UINT32 m_nHireTime = 3;  ///< 租用时间
+    required UINT32 m_nCoinVal = 4;   ///< 租用价格
+    required UINT32 m_nTargetOid = 5;    ///< 目标玩家的Oid
+    required string m_strTargetUuid = 6; ///< 目标玩家的UUID
+}
+
+// 增加租用坦克的租用时间
+message AddHireTankPresentTime
+{
+    enum { THIS_MSG_TYPE = MSG_ADD_HIRE_TANK_PRESENT_TIME; }
+    
+    required string m_strPresentName = 1;   ///< 赠送玩家的名字
+    required UINT32 m_nTankId = 2;          ///< 坦克ID
+    required UINT32 m_nTankLevel = 3;       ///< 坦克等级
+    required UINT32 m_nHireTime = 4;        ///< 租用时间
+    required UINT32 m_nChipCount = 5;       ///< 返还的芯片个数
+    required UINT32 m_nTargetOid = 6;       ///< 目标玩家的Oid
+    required string m_strTargetUuid = 7;    ///< 目标玩家的UUID
+}
+
+// 通知玩家获得赠送的租用坦克
+message NotifyReceivePresentHireTank
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_RECEIVE_PRESENT_HIRE_TANK; }
+    
+    required string m_strPresentName = 1;   ///< 赠送玩家的名字
+    required UINT32 m_nTankId = 2;          ///< 坦克ID
+    required UINT32 m_nTankLevel = 3;       ///< 坦克等级
+    required UINT32 m_nHireTime = 4;        ///< 租用时间
+}
+
+// 通知玩家赠送租用坦克成功
+message NotifyPresentHireTankOK
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_PRESENT_HIRE_TANK_OK; }
+    
+    required UINT32 m_nTankId = 1;         ///<坦克ID
+    required UINT32 m_nTankLevel = 2;      ///<坦克等级
+    required UINT32 m_nHireTime = 3;       ///<租用时间
+}
+
+// 请求试用小助手
+message RequestTryBooster
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_TRY_BOOSTER; }
+    
+    required UINT32 m_sceneId = 1;      ///< 战场id
+}
+
+// 请求坦克一键升级
+message RequestTankQuickUp
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_TANK_QUICK_UP; }
+    
+    required string m_tankUuid = 1;    ///< 坦克UUID;
+    required UINT32 m_nLevel  = 2;     ///< 请求的目标等级
+    repeated GoodsCoinVal m_coinVec = 3; 
+}
+
+// 同步坦克信息给TRACK
+message SyncTankBrief
+{
+    enum { THIS_MSG_TYPE = MSG_SYNC_TANK_BRIEF; }
+    
+    enum {
+        TANK_ADD = 1;
+        TANK_DELETE = 2;
+        TANK_SKIN_CHANGE = 3;
+        TANK_EXIST_TIME_CHANGE = 4;
+        TANK_COMMAND_SKILL_CHANGE = 5; //指挥官技能变化
+    }
+    
+    required UINT32 m_nOid = 1;     ///< 角色账号ID
+    required UINT32 m_nType = 2;    ///< 同步类型
+    required TANK_BRIEF m_tankBrief = 3; ///< 坦克简要信息
+}
+
+// 通知客户端重复获得坦克
+message NotifyRepeatGiveTank
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_REPEAT_GIVE_TANK; }
+    
+    required UINT32 m_nTankId = 1;		///< 坦克ID
+}
+
+// 请求使用坦克光环 client -> gate
+message RequestUseTankHalo
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_USE_TANK_HALO; }
+
+    required string m_sTankUUID = 1; //坦克uuid
+    required UINT32 m_nHaloId   = 2; //光环的物品id
+}
+
+// 通知使用坦克光环的结果 gate -> client
+message NotifyUseTankHaloResult
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_USE_TANK_HALO_RESULT; }
+
+    required BYTE   m_bSuccess  = 1; //是否成功, 1 成功
+    required string m_sTankUUID = 2;
+    required UINT32 m_nHaloId   = 3;
+}
+
+// 获得新光环或者光环过期时通知
+// 通知坦克光环过期或者获得的信息 gate -> client
+message NotifyTankHaloInfo
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TANK_HALO_INFO; }
+
+    enum HALO_ACT_TYPE
+    {
+	HALO_GET     = 1; //新获得
+	HALO_OUTTIME = 2; //过期
+    }
+
+    required UINT32 m_nActType = 1; // see @ HALO_ACT_TYPE
+    required UINT32 m_nHaloId  = 2;
+    repeated string m_vTankUuid = 3; //受影响的坦克
+}
+
+// 通知客户端周免坦克
+message NotifyClientFreeWeekTank
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CLIENT_FREE_WEEK_TANK; }
+
+    repeated UINT32 m_vecTankId = 1;    // 周免坦克ID
+    required UINT32 m_needNotify = 2;   // 是否弹出通知
+}
+
+// 同步周免坦克信息(服务器间)
+message SyncFreeWeekTankConfig
+{
+	enum { THIS_MSG_TYPE = MSG_SYNC_FREE_WEEK_TANK_CONFIG;}
+
+	repeated UINT32 m_vecTankId = 1;    // 周免坦克ID
+}
+
+// 请求切换周免坦克（客户端没有周免坦克实例时，调用该协议）
+message RequestUseFreeWeekTank
+{
+	enum { THIS_MSG_TYPE = MSG_REQUEST_USE_FREE_WEEK_TANK; }
+
+	required UINT32 m_nTankId = 1;        // 周免坦克ID
+	required UINT32 m_nTankCont = 2;      // 周免坦克容器类型 TANK_CONT_FREE or TANK_CONT_FREE_LIMIT
+}
+
+// 请求检查主战的坦克是否过期
+message RequestCheckBattleTank
+{
+	enum { THIS_MSG_TYPE = MSG_REQUEST_CHECK_BATTLE_TANK; }
+}
+
+// 通知客户端战场经验
+message NotifyBattleExp
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_BATTLE_EXP; }
+
+    required UINT32 m_objectId = 1;
+    required UINT32 m_curExp = 3; // 当前经验
+}
+
+// 通知客户端坦克战场等级
+message NotifyTankBattleLevel
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TANK_BATTLE_LEVEL; }
+    
+    required UINT32 m_objectId = 1;
+    required BYTE m_Level = 2;
+}
+
+// 通知客户端坦克死亡
+message NotifyTankDeadMessage
+{
+		enum { THIS_MSG_TYPE = MSG_NOTIFY_TANK_DEAD; }
+}
+
+/////////////////////////////////////////////////////////////
+/// 坦克研究相关协议
+message TankResearchInfo
+{
+    required UINT32 m_nTankId = 1;  ///坦克ID
+    required UINT32 m_nResearchCount = 2; ///今日已研究次数
+    required UINT32 m_nSchedule = 3;  ///研究进度
+}
+
+/// 请求坦克研究信息
+/// 请求时机：
+/// 1.客户端触发了跨天处理，而且玩家在前一天有进行过研究
+message RequestTankResearchInfo
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_TANK_RESEARCH_INFO; }
+}
+
+// 通知坦克研究信息
+message NotifyTankResearchInfo
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TANK_RESEARCH_INFO; }
+    
+    repeated TankResearchInfo m_vecResearch = 1;  //各坦克的研究信息
+}
+
+// 请求研究坦克
+message RequestResearchTank
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_TANK_RESEARCH; }
+    
+    required UINT32 m_nTankId = 1; ///坦克ID
+    required UINT32 m_nCoinType = 2; ///COIN_TYPE
+}
+
+// 通知研究结果
+message NotifyResearchTankResult
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TANK_RESEARCH_RESULT; }
+    
+    enum 
+    {
+        
+        RS_ERROR = 0;          /// 研究失败
+        RS_ERROR_GOT_TANK = 1; /// 研究失败，已拥有坦克
+        RS_ERROR_NO_COIN = 2;  /// 研究失败，货币不足
+        RS_ERROR_COMPLETED = 3;/// 研究失败，已经研究完成
+        RS_ERROR_NOT_OPEN = 4; /// 研究失败，未开放研究
+        RS_ERROR_COIN_TYPE_ERROR = 5; /// 研究失败，货币类型错误
+        RS_ERROR_DAILY_LIMIT = 6; /// 研究失败，今日研究已达上限
+        RS_ERROR_COOL_TIME = 7;   /// 研究失败，冷却未结束
+        RS_ERROR_LACK_OWN_TANK = 8; /// 研究失败，坦克数量不达标
+        RS_OK_NO_BONUS = 10;   /// 研究成功
+        RS_OK_BONUS_1 = 11;    /// 研究成功，有加成
+        RS_OK_BONUS_2 = 12;    /// 研究成功，有很多加成
+        RS_OK_BONUS_3 = 13;    /// 研究成功，有超多加成
+        RS_OK_USE_CHIP_ITEM = 14; /// 使用研究碎片增加进度
+    }
+    required UINT32 m_nTankId = 1; ///坦克ID
+    required UINT32 m_nResult = 2; ///研究结果
+    required UINT32 m_nSchedule = 3; ///当前进度（成功时有效，失败时为0）
+    required UINT32 m_nTodayCount = 4; /// 今日已研究次数（成功时有效，失败时为0）
+}
+
+// 请求兑换研究进度为经验
+message RequestRecycleTankResearch
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_RECYCLE_TANK_RESEARCH; }
+    
+    required UINT32 m_nTankId = 1; /// 坦克ID
+}
+
+// 通知兑换坦克研究的结果
+message NotifyRecycleTankResearchResult
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_RECYCLE_TANK_RESEARCH_RESULT; }
+    
+    enum 
+    {
+        RT_OK = 1;     /// 兑换成功
+        RT_ERROR_NOT_OWN_TANK = 10;  /// 兑换失败，未拥有该坦克
+    }
+    
+    required UINT32 m_nResult = 1;  /// 
+    required UINT32 m_nTankId = 2;  /// 坦克ID
+    required UINT32 m_nExp = 3;     /// 获得的坦克经验
+}
+
+// 请求换取已研究完成的坦克
+message RequestGetResearchTank
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_GET_RESEARCH_TANK; }
+    
+    required UINT32 m_nTankId = 1;   /// 坦克ID
+}
+
+// 通知换取坦克的结果
+message NotifyGetResearchTankResult
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GET_RESEARCH_TANK_RESULT; }
+    
+    enum 
+    {
+        GRT_OK = 1;     /// 换取成功
+        GRT_ERROR = 2;  /// 失败
+        GRT_ERROR_OWN_TANK = 3; /// 失败，已拥有坦克
+        GRT_ERROR_NOT_COMPLETE = 4; /// 失败，研究进度未完成
+    }
+    
+    required UINT32 m_nResult = 1;   
+    required UINT32 m_nTankId = 2;   /// 坦克ID
+    required UINT32 m_nSchedule = 3; /// 剩余进度 （成功有效，失败时为0）
+}
+
+/////////////////////////////////////////////////////////////
+/// 坦克皮肤进度信息
+
+message TankSkinChipInfo
+{
+    required UINT32 m_nSkinId = 1;      ///皮肤ID
+    required UINT32 m_nSchedule = 2;    ///进度
+}
+
+message NotifyTankSkinChipInfo
+{
+    enum {THIS_MSG_TYPE = MSG_NOTIFY_TANK_SKIN_CHIP_INFO; }
+    
+    repeated TankSkinChipInfo m_vecChip = 1;    /// 皮肤碎片
+}
+
+message RequestBuyTankSkinChip
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_BUY_TANK_SKIN_CHIP; }
+    
+    required BYTE m_bBatch = 1;     ///是否10连
+    required UINT32 m_nSkinId = 2;    ///皮肤ID
+    required UINT32 m_nCoinType = 3;  ///货币类型
+}
+
+// 通知购买坦克碎片的结果
+message NotifySkinChipResult
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TANK_SKIN_CHIP_RESULT; }
+    
+    enum 
+    {
+        BUY_SC_OK = 1;    /// 成功
+        BUY_SC_ERROR = 5; /// 失败
+        BUY_SC_ERROR_OWNED_SKIN = 6;  /// 失败，已拥有皮肤
+        BUY_SC_ERROR_LACK_COIN = 7; /// 失败，缺少货币
+        BUY_SC_ERROR_NOT_OPEN_CHIP = 8; /// 失败，该坦克皮肤未开启碎片功能
+        BUY_SC_ERROR_COIN_TYPE_ERROR = 9; /// 失败，错误的货币类型
+    }
+    
+    required UINT32 m_nResult = 1;    /// 结果枚举
+    required UINT32 m_nSkinId = 2;    /// 皮肤ID
+    required UINT32 m_nSchedule = 3;  /// 碎片进度（成功有效，失败时为0）
+}
+
+// 请求将皮肤进度兑换成皮肤
+message RequestGetTankSkin
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_GET_TANK_SKIN; }
+    
+    required UINT32 m_nSkinId = 1;    /// 皮肤ID
+}
+
+// 请求领取稀有坦克奖励
+message RequestGetRareTank
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_GET_RARE_TANK; }
+
+    required UINT32 m_nRareId = 1;     /// Id
+}
+// 通知兑换皮肤的结果
+message NotifyGetTankSkinResult
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GET_TANK_SKIN_RESULT; }
+    
+    enum 
+    {
+        GET_SKIN_OK = 1;    /// 成功
+        GET_SKIN_ERROR = 5; /// 失败
+        GET_SKIN_ERROR_NOT_COMPLETE = 6; /// 失败，碎片数不足
+        GET_SKIN_ERROR_OWNED_SKIN = 7;   /// 失败，已拥有皮肤
+    }
+    
+    required UINT32 m_nResult = 1;    /// 结果枚举
+    required UINT32 m_nSkinId = 2;    /// 皮肤ID
+}
+
+// 火球赛可选坦克
+message NotifyFireBallCanSelTankMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_FIRE_BALL_CAN_SEL_TANK; }
+
+    repeated UINT32 m_vecTankId = 1;    // 火球赛可选坦克ID
+}
+
+// 请求远征
+message RequestExpedition
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_EXPEDITION; }
+
+    required UINT32 m_nExpeditionId     = 1;   // 远征id
+    repeated UINT32 m_vecTankId         = 2;   // 出征坦克Id
+}
+
+// 请求取消远征
+message RequestCancelExpedition
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CANCEL_EXPEDITION; }
+    
+    required UINT32 m_nExpeditionId     = 1;   // 远征id
+}
+
+// 请求远征领取奖励
+message RequestGetExpeditionAward
+{
+   enum { THIS_MSG_TYPE = MSG_REQUEST_GET_EXPEDITION_AWARD; }
+   
+   required UINT32 m_nExpeditionId      = 1;   // 远征id
+}
+
+// 通知远征信息
+message NotifyExpeditionInfo
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_EXPEDITION_INFO; }
+
+    required UINT32 m_nTime1 = 1;
+    required UINT32 m_nTime2 = 2;
+    required UINT32 m_nTime3 = 3;
+    required UINT32 m_nTankId1 = 4;
+    required UINT32 m_nTankId2 = 5;
+    required UINT32 m_nTankId3 = 6;
+    required UINT32 m_nTankId4 = 7;
+    required UINT32 m_nTankId5 = 8;
+    required UINT32 m_nTankId6 = 9;
+    required UINT32 m_nTankId7 = 10;
+    required UINT32 m_nTankId8 = 11;
+    required UINT32 m_nTankId9 = 12;
+}

@@ -1,0 +1,31 @@
+// ----------------------------------------------------------------------
+///	@file			protocol/CacheMessage.h
+///	@brief
+///	@author			Bob
+///	@copyright		Sixcube Information Technology Co,. Ltd. (2012)
+///	@date			2016-5-26 14:43:18
+// ----------------------------------------------------------------------
+/// @addtogroup dt_ManageMessage
+/// @{
+
+// MSGTYPE_DECLARE(MSG_CACHING_REFRESH_REQUEST),
+///< 请求刷新特定的缓存
+
+message CacheRefreshRequest {
+    enum { THIS_MSG_TYPE = MSG_CACHING_REFRESH_REQUEST; }
+
+    required string m_cacheKey = 1;      ///- 缓存的KEY
+    required string m_parameters = 2;    ///- 缓存刷新参数(自定义)
+    required UINT32 m_expires = 3;	     ///- 缓存有效时间
+}
+
+// MSGTYPE_DECLARE(MSG_CACHING_REFRESH_RESULT),
+///< 返回特定缓存刷新的结果
+message CacheRefreshResult {
+    enum { THIS_MSG_TYPE = MSG_CACHING_REFRESH_RESULT; }
+
+    required string m_cacheKey = 1;      ///- 缓存的KEY
+    required UINT32 m_result = 2;       ///- 刷新的条数
+}
+
+/// @}

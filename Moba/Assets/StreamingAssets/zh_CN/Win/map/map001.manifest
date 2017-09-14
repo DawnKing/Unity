@@ -1,0 +1,53 @@
+ManifestFileVersion: 0
+CRC: 3473321808
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 160cb4f89b0f30e0a6e1d2b2b1d1deb7
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 4dda2f972ffb2ec0a1767116ff229c77
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+Assets:
+- Assets/LocalAssets/zh_CN/map/map001/map001_02.mat
+- Assets/LocalAssets/zh_CN/map/map001/map001_06.jpg
+- Assets/LocalAssets/zh_CN/map/map001/map001_03.jpg
+- Assets/LocalAssets/zh_CN/map/map001/map001_07.jpg
+- Assets/LocalAssets/zh_CN/map/map001/map001_04.mat
+- Assets/LocalAssets/zh_CN/map/map001/map001_03.mat
+- Assets/LocalAssets/zh_CN/map/map001/map001_03.FBX
+- Assets/LocalAssets/zh_CN/map/map001/map001_01.FBX
+- Assets/LocalAssets/zh_CN/map/map001/map001_01.mat
+- Assets/LocalAssets/zh_CN/map/map001/map001_07.FBX
+- Assets/LocalAssets/zh_CN/map/map001/map001_06.FBX
+- Assets/LocalAssets/zh_CN/map/map001/map001_04.FBX
+- Assets/LocalAssets/zh_CN/map/map001/map001_01.jpg
+- Assets/LocalAssets/zh_CN/map/map001/map001_07.mat
+- Assets/LocalAssets/zh_CN/map/map001/map001.prefab
+- Assets/LocalAssets/zh_CN/map/map001/map001_05.FBX
+- Assets/LocalAssets/zh_CN/map/map001/map001_06.mat
+- Assets/LocalAssets/zh_CN/map/map001/map001_04.jpg
+- Assets/LocalAssets/zh_CN/map/map001/map001_02.FBX
+- Assets/LocalAssets/zh_CN/map/map001/map001_02.jpg
+Dependencies: []

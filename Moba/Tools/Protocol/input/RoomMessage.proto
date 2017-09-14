@@ -1,0 +1,710 @@
+// ----------------------------------------------------------------------
+///    @file            protocol/RoomMessage.h
+///    @brief           
+///    @author          linyixiong
+///    @copyright       Sixcube Information Technology Co,. Ltd. (2012)
+///    @date            
+// ----------------------------------------------------------------------
+
+import BulkDataType;
+import BulkDataEnum;
+
+// MSGTYPE_DECLARE(MSG_REQUEST_IN_HALL),                    
+// 通知进入游戏大厅
+message RequestInHall {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_IN_HALL; }
+
+    required BYTE m_bType = 1;      ///< 模式enum ROOM_TYPE
+    required int  m_iSite = 2;      ///< 起始位置
+}
+
+// 房间状态枚举
+enum ROOM_STATE_TYPE
+{
+    RST_WAIT    = 1;    // 等待状态
+    RST_PAIR    = 2;    // 等待配对状态
+    RST_BATTLE  = 3;    // 战斗状态
+}
+
+// 房间信息
+message RoomInfo {
+    required UINT32 m_nRoomId   = 1;        ///< 房间id
+    required UINT32 m_nNum      = 2;        ///< 人数
+    required UINT32 m_nMax      = 3;        ///< 最大人数
+    required UINT32 m_mapId     = 4;        ///< 地图id
+    required UINT32 m_mode      = 6;        ///< 房间模式 enum BATTLE_MODE， 匹配模式选择开启，通知client
+    required BYTE   m_state     = 7;        ///< 房间状态 enum ROOM_STATE_TYPE
+    required BYTE   m_isValidate= 8;        ///< 是否有密码
+    required BYTE   m_type      = 9;        ///< 房间类型
+    required string m_szName    = 10;       ///< 房间名
+    required UINT32 m_nTeamId   = 11;       ///< 战队赛的战队id
+}
+
+// 战场信息
+message SceneInfo {
+    required UINT32 m_nSceneId  = 1;        ///< 战斗id
+    required UINT32 m_nNum      = 2;        ///< 战斗人数
+    required UINT32 m_nAllNum   = 3;        ///< 总人数，包含观战的
+    required UINT32 m_mapId     = 4;        ///< 地图id
+    required BYTE   m_inBattle  = 5;        ///< 是否进行中
+    required BYTE   m_roomType  = 6;        ///< 房间类型 room_type 房间类型为ROOM_NONE 的为人机模式
+    required BYTE   m_isLookerMax = 7;      ///< 观战人数是否已满
+    required UINT32 m_startTime = 8;        ///< 战斗开始时间
+    
+    required string m_szName    = 10;       ///< 房间名
+}
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_SCENE_LIST),
+// 通知跨服战场列表信息
+message GlobalSceneList{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_SCENE_LIST; }
+
+    required BYTE m_bType = 1;              ///< 战场类型
+    required SceneInfo m_sceneInfo = 2;     ///< 战场信息
+}
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_DEL_SCENE_LIST),
+// 通知删除战场列表信息
+message GlobalDelSceneList {
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_DEL_SCENE_LIST; }
+
+    required BYTE m_bType = 1;          ///< 战场类型
+    required UINT32 m_sceneId = 2;      ///< 要删除的战场id
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_HALL_DISPLAY_LIST),
+// 通知客户端大厅显示列表
+message NotifyHallDisplayList {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_HALL_DISPLAY_LIST; }
+    
+    repeated RoomInfo m_roomList = 1;   ///< 房间列表
+    repeated SceneInfo m_sceneList = 2; ///< 战场列表
+    required int  m_iSite = 2;          ///< 当前起始位置
+    required BYTE m_bType = 3;          ///< 模式enum ROOM_TYPE
+}
+
+// 通知客户端，通知匹配赛开始
+message NotifyPairSceneStart {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_PAIR_SCENE; }
+    
+    required UINT32 m_nSceneId      = 1;
+    required UINT32 m_nMapId        = 2;        ///< 地图模板id
+    required BYTE   m_type          = 3;        ///< ROOM_TYPE
+    repeated CHAR_BRIEF m_charData  = 4;        ///< 成员数据
+    repeated UINT32 m_lockCharIdVec = 5;        ///< 已锁定角色id列表
+    required UINT32 m_nTime         = 6;        ///< 几秒后开始战斗
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_SCENE_CHANGE_CAMP),
+// 通知客户端，切换阵营
+message NotifySceneChangeCamp {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SCENE_CHANGE_CAMP; }
+    
+    required UINT32 m_nSceneId      = 1;        ///< 场景ID
+    required BYTE   m_campId        = 2;        ///< 阵营ID
+    required UINT32 m_nTime         = 3;        ///< 选择时间
+    required UINT32 m_iLockNum      = 4;        ///< 当前阵营可选择的人数
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_OUT_HALL),                  
+// 通知离开游戏大厅
+message RequestOutHall {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_OUT_HALL; }
+}
+
+// MSGTYPE_DECLARE_ASSIGN(MSG_REQUEST_CREATE_ROOM, 700),   
+// 创建房间
+message RequestCreateRoom {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CREATE_ROOM; }
+    
+    required BYTE   m_bType     = 1;        ///< 房间类型 enum ROOM_TYPE
+    required BYTE   m_bMode     = 2;        ///< 房间模式 enum BATTLE_MODE
+    required UINT32 m_mapId     = 3;        ///< 地图id
+    required UINT32 m_passWord  = 4;        ///< 密码，对于联赛类房间不允许设密码，则为ContestID
+    required string m_szName    = 5;        ///< 房间名
+    required UINT32 m_nItemId   = 6;        ///< 使用的物品ID
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_JOIN_ROOM),                 
+// 加入房间
+message RequestJoinRoom {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_JOIN_ROOM; }
+    
+    required UINT32 m_nRoomId   = 1;    ///< 房间id, id=0,表示自动加入房间
+    required BYTE   m_bType     = 2;    ///< 房间类型 enum ROOM_TYPE
+    required BYTE   m_bMode     = 3;    ///< 战斗模式选择，用于自动加入房间的过滤条件 enum BATTLE_MODE
+    required UINT32 m_mapId     = 4;    ///< 用于PVE自动加入房间的过滤条件，地图id
+    required UINT32 m_nPassword = 5;    ///< 房间密码
+    required UINT32 m_nContestId = 6;   ///< 邀请赛需要指定对阵ID
+}
+
+
+
+// MSGTYPE_DECLARE_ASSIGN(MSG_ENTER_ROOM_OK, 1450),     
+// 成功进入房间，通知房间信息
+message EnterRoomOk {
+    enum { THIS_MSG_TYPE = MSG_ENTER_ROOM_OK; }
+    
+    required UINT32 m_nRoomId   = 1;            ///< 房间id
+    required UINT32 m_nCreateId = 2;            ///< 创建者id
+    required UINT32 m_nMapId    = 3;            ///< 地图模板id
+    required UINT32 m_nMax      = 4;            ///< 最大人数
+    required UINT32 m_nMin      = 5;            ///< 最少人数
+    required UINT32 m_nPassword = 6;            ///< 房间密码
+    required string m_szName    = 8;            ///< 房间名
+    required BYTE   m_state     = 9;            ///< 房间状态 enum ROOM_STATE_TYPE
+    required BYTE   m_bType     = 10;           ///< 房间类型 enum ROOM_TYPE
+    required UINT32 m_mode      = 11;           ///< 房间模式 enum BATTLE_MODE 普通匹配，为匹配模式选择
+    required BYTE   m_bBanRobot = 12;           ///< 是否禁止机器人
+    repeated UINT32 m_readyVec  = 13;           ///< 完成准备的成员列表
+    repeated UINT32 m_battleVec = 14;           ///< 战斗中的成员列表  
+    repeated CHAR_BRIEF m_charVec   = 15;       ///< 成员数据
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_ROOM_ADD),                   
+// 通知客户端，有新角色加入房间
+message NotifyRoomAdd {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ROOM_ADD; }
+
+    required CHAR_BRIEF m_charData  = 1;        ///< 新成员数据
+}
+
+// 通知客户端，同步房间内角色信息发生变化
+message NotifyRoomCharChange
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ROOM_CHAR_CHANGE; }
+    
+    required PLAYER_BRIEF m_charData = 1;     ///< 角色数据
+    required OTHER_BRIEF m_otherData = 2;     ///< 其他简要信息
+}
+
+enum ROOM_OP_TYPE
+{
+    ROPT_LEAVE = 1;     ///< 离开队伍
+    ROPT_MEMBER_READY   = 2;    ///< 队员准备完成
+    ROPT_MEMBER_CANCEL  = 3;    ///< 队员取消准备
+    ROPT_CHANGE_CAMP    = 4;    ///< 改变阵营
+    ROPT_LOOK_SCENE     = 6;    ///< 观战
+    ROPT_SWITCH         = 7;    ///< 切换房间
+    ROPT_MEMBER_CHANGE_TEAM_ID = 8; ///< 房间内成员的战队发生变化
+    
+    // 队长权限起始
+    ROPT_KICKOUT        = 20;   ///< 踢出队伍
+    ROPT_CLOSE          = 21;   ///< 关闭位置
+    ROPT_OPEN           = 22;   ///< 开启位置
+    ROPT_PASSWORD       = 23;   ///< 设置密码
+    ROPT_ENTER_SCENE    = 24;   ///< 所有队员都准备完成，队长选择进入战场
+    ROPT_REPLEADER      = 26;   ///< 更换队长
+    ROPT_BATTLE_MODE    = 27;   ///< 更换匹配模式
+    // 队长权限终止
+    
+    // 以下协议由服务端返回，客户端不能发送
+    ROPT_SVR_PASSWORD   = 101;  ///< 通知房间密码
+    ROPT_SVR_ALL_CANCEL = 102;  ///< 通知清除房间所有人准备状态
+    ROPT_SVR_PVP_SCENE_BACK_ROOM = 103; ///< 通知客户端，玩家从战场返回房间
+    ROPT_SVR_PVP_SCENE_ALL_BACK_ROOM = 104; ///< 通知客户端，所有玩家从战场返回
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_ROOM_OP),
+// 客户端请求队伍操作
+message RequestRoomOp {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_ROOM_OP; }
+
+    required BYTE   m_roomOp    = 1;    ///< 操作类型
+    required UINT32 m_nTarget   = 2;    ///< 目标角色
+}
+
+// 通过战场id请求观战
+message RequestLookScene
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_LOOK_SCENE; }
+    
+    required UINT32 m_nSceneId  = 1;    ///< 战场id
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_ROOM_OP),
+// 通知队伍操作结果
+message NotifyRoomOp {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ROOM_OP; }
+
+    required BYTE   m_roomOp    = 1;    ///< 操作类型
+    required UINT32 m_nStartOid = 2;    ///< 操作的发起者
+    required UINT32 m_nTarget   = 3;    ///< 目标角色
+}
+
+// MSGTYPE_DECLARE(MSG_SET_ROOM_MAP),                      
+// 切磋模式请求选择地图
+message RequestSetMap {
+    enum { THIS_MSG_TYPE = MSG_SET_ROOM_MAP; }
+
+    required UINT32 m_nMapId  = 2;            ///< 地图id
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_ROOM_MAP),                   
+// 通知地图
+message NotifyRoomMap {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ROOM_MAP; }
+
+    required UINT32 m_nMapId  = 2;            ///< 地图id
+}
+
+// MSGTYPE_DECLARE(MSG_GAME_CREATE_SCENE),                     
+// 通知game创建新房间
+message GameCreateScene {
+    enum { THIS_MSG_TYPE = MSG_GAME_CREATE_SCENE; }
+    
+    required UINT32 m_nSceneId  = 1;        ///< 房间id
+    required BYTE   m_bType     = 2;        ///< 模式enum ROOM_TYPE
+    required UINT32 m_nMapId    = 3;        ///< 地图模板id
+    required UINT32 m_level     = 4;        ///< 战场等级
+    required BYTE   m_dogfallWinCamp = 5;   ///< CAMP_TYPE
+    required string m_raceUuid  = 6;        ///< 比赛uuid
+    required int    m_redElo    = 7;        ///< 红方elo
+    required int    m_redAtk    = 8;        ///< 红方助手总战力
+    required int    m_buleElo   = 9;        ///< 蓝方elo
+    required int    m_buleAtk   = 10;       ///< 蓝方助手总战力
+    required UINT32 m_contestId = 11;	    ///< 联赛对阵ID
+    required BYTE   m_bpvpActOpen = 12;     ///< 是否有开启pvp活动掉落
+}
+
+// MSGTYPE_DECLARE(MSG_GAME_CREATE_SCENE_OK),                        
+// 通知track创建成功
+message CreateSceneOk {
+    enum { THIS_MSG_TYPE = MSG_GAME_CREATE_SCENE_OK; }
+    
+    required UINT32 m_nSceneId  = 1;        ///< 房间id
+}
+
+// MSGTYPE_DECLARE(MSG_GAME_REMOVE_SCENE),                     
+// 通知track销毁战场
+message GameRemoveScene {
+    enum { THIS_MSG_TYPE = MSG_GAME_REMOVE_SCENE; }
+
+    required UINT32 m_nSceneId  = 1;        ///< 房间id
+    required UINT32 m_nErr      = 2;        ///< 错误id，0表示创建成功
+}
+
+enum ENTER_SCENE_TYPE {
+    EST_NATURAL = 0;        ///< 正常进入
+    EST_MIDWAY  = 1;        ///< 中途加入
+    EST_LOOKER  = 2;        ///< 观战
+}
+
+// MSGTYPE_DECLARE(MSG_GATE_ENTER_SCENE),                      
+// 通知gate坦克进入战场
+message GateEnterScene {
+    enum { THIS_MSG_TYPE = MSG_GATE_ENTER_SCENE; }
+    
+    required UINT32 m_nGameSvrId    = 1;        ///< 游戏服务器id
+    required BYTE   m_roomType      = 2;        ///< enum ROOM_TYPE
+    required UINT32 m_nMapId        = 3;        ///< 地图id
+    required UINT32 m_nSceneId      = 4;        ///< 战场id
+    required BYTE   m_campId        = 5;        ///< 阵营
+    required BYTE   m_bEnterType    = 6;        ///< enum ENTER_SCENE_TYPE
+    required BATTLE_INFO info       = 10;       ///< tracksvr提供的信息
+}
+
+// MSGTYPE_DECLARE(MSG_GAME_JOIN_SCENE),                       
+// 通知game有玩家加入房间
+message GameJoinScene {
+    enum { THIS_MSG_TYPE = MSG_GAME_JOIN_SCENE; }
+    
+    required UINT32 m_nSceneId = 1;         ///< 战场id
+    required BYTE m_campId = 2;             ///< 阵营
+    required CHAR_BATTLE m_charData = 3;    ///< 加入者数据
+}
+
+// MSGTYPE_DECLARE(MSG_GAME_ADD_LOOKER),                       
+// 通知game有玩家进入战场观战
+message GameAddLooker {
+    enum { THIS_MSG_TYPE = MSG_GAME_ADD_LOOKER; }
+
+    required UINT32     m_nSceneId  = 1;    ///< 房间id
+    required UINT32     m_nCharId = 2;      ///< 观战的玩家id
+}
+
+// MSGTYPE_DECLARE_ASSIGN(MSG_NOTIFY_START_GAME, 1500),    
+// 成功进入房间，开始游戏
+message NotifyStartGame {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_START_GAME; }
+    
+    required UINT32 m_nSceneId      = 1;
+    required UINT32 m_nMapId        = 2;        ///< 地图模板id
+    required BYTE   m_type          = 3;        ///< ROOM_TYPE
+    repeated CHAR_BRIEF m_charData  = 4;        ///< 成员数据（所有的成员，包括下线者）
+    repeated UINT32     m_backData  = 6;        ///< 下线者的ID
+    required BYTE   m_bEnterType    = 7;        ///< enum ENTER_SCENE_TYPE
+}
+
+// 中途玩家进入
+message NotifyMidwayJoin 
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_MIDWAY_JOIN; }
+    
+    required CHAR_BRIEF m_charBrief = 1;    ///< 新加入玩家的信息
+}
+
+// MSGTYPE_DECLARE(MSG_SYNC_LOAD_DELAY),                   
+// 同步客户端加载进度和网络延迟
+message SyncLoadAndDelay {
+    enum { THIS_MSG_TYPE = MSG_SYNC_LOAD_DELAY; }
+
+    required UINT32 m_nSceneId = 1;     // 玩家当前战场id
+    required UINT32 m_nTankId = 2;      // 角色id
+    required UINT32 m_nDelay  = 3;      // 客户端延迟
+    required UINT32 m_nLoaded = 4;      // 客户端加载进度
+}
+
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_LOADED_RATE),                
+// 通知客户端，加载进度和延迟
+message NotifyLoadedRate {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_LOADED_RATE; }
+
+    required UINT32 m_nTankId = 2;      // 角色id
+    required UINT32 m_nDelay  = 3;      // 客户端延迟
+    required UINT32 m_nLoaded = 4;      // 客户端加载进度
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_PLAYER_LIST),               
+// 客户端请求玩家列表
+message RequestPlayerList {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_PLAYER_LIST; }
+
+    required BYTE m_listType = 1;   // enum PLAYER_LIST_TYPE,玩家列表类型前4个
+    required int m_iSite = 2;       // 请求页的起始位置
+}
+
+// 玩家列表类型
+enum PLAYER_LIST_TYPE
+{
+    PLT_HALL = 1;               ///< 大厅玩家列表
+    PLT_FRIEND = 2;             ///< 大厅好友列表
+    PLT_GUILD = 3;              ///< 大厅军团列表
+    PLT_ROOMINVITE  = 4;        ///< 房间邀请玩家列表
+    
+    PLT_QUICKFRIENDADD = 11;    ///< 快捷添加玩家列表
+    PLT_MASTERLIST = 12;        ///< 师徒广场师傅列表
+    PLT_PRENTICELIST = 13;      ///< 师徒广场徒弟列表
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_PLAYER_LIST),                
+// 通知客户端，玩家列表
+message NotifyPlayerList {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_PLAYER_LIST; }
+
+    required BYTE m_listType = 1;               // 玩家列表类型 enum PLAYER_LIST_TYPE
+    required BYTE m_pageNumber = 2;             // 数据页编号
+    repeated PLAYER_BRIEF m_playerList = 3;     // 本页数据
+}
+
+// MSGTYPE_DECLARE(MSG_ADD_PLAYER_LIST),                   
+// 通知客户端，游戏大厅列表添加
+message AddPlayerList {
+    enum { THIS_MSG_TYPE = MSG_ADD_PLAYER_LIST; }
+
+    required PLAYER_BRIEF   m_playerInfo    = 1;    // 玩家数据
+}
+
+// MSGTYPE_DECLARE(MSG_DEL_PLAYER_LIST),                   
+// 通知客户端，游戏大厅列表删除
+message DelPlayerList {
+    enum { THIS_MSG_TYPE = MSG_DEL_PLAYER_LIST; }
+
+    required UINT32     m_acctId    = 1;
+}
+
+// MSGTYPE_DECLARE(MSG_UPDATE_PLAYER_LIST),                
+// 通知客户端，游戏大厅列表等级更新
+message UpdatePlayerList {
+    enum { THIS_MSG_TYPE = MSG_UPDATE_PLAYER_LIST; }
+
+    required UINT32     m_acctId    = 1;
+    required int        m_elo       = 2;    // elo值
+    required BYTE       m_vipLevel  = 3;
+}
+
+// MSGTYPE_DECLARE(MSG_GAME_START_CAMP_POISE),                 
+// 通知game开启人数平衡
+message StartCampPoise {
+    enum { THIS_MSG_TYPE = MSG_GAME_START_CAMP_POISE; }
+
+    required UINT32     m_nSceneId  = 1;    // 战场id
+    required BYTE       m_bCamp     = 2;    // 需要平衡的阵营
+}
+
+// MSGTYPE_DECLARE(MSG_GAME_UPDATE_TANK_CAMP),                 
+// 通知game切换阵营
+message UpdateTankCamp {
+    enum { THIS_MSG_TYPE = MSG_GAME_UPDATE_TANK_CAMP; }
+
+    required UINT32     m_nSceneId  = 1;    // 战场id
+    required UINT32     m_nTankId   = 2;    // 坦克id
+    required BYTE       m_bCamp     = 3;    // 改变后的阵营
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_ROOM_INVITE),               
+// 发送房间邀请
+message RequestRoomInvite {
+    enum {THIS_MSG_TYPE = MSG_REQUEST_ROOM_INVITE; }
+
+    required string     m_target = 1;       // 目标玩家名
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_ROOM_INVITE),                
+// 通知客户端，房间邀请
+message NotifyRoomInvite {
+    enum {THIS_MSG_TYPE = MSG_NOTIFY_ROOM_INVITE; }
+
+    required string m_start     = 1;    // 发起玩家名
+    required UINT32 m_nRoomId   = 2;    // 目标房间id
+    required BYTE   m_bType     = 3;    // 房间类型 enum ROOM_TYPE
+    required UINT32 m_nPassword = 4;    // 房间密码
+    required UINT32 m_nStartId  = 5;    // 发起玩家id
+    required UINT32 m_nMapId    = 6;    // 地图id
+    required UINT32 m_nBattleMode = 7;  // 匹配模式选择 BATTLE_MODE
+}
+
+// MSGTYPE_DECLARE(MSG_REJECT_ROOM_INVITE),                
+// 拒绝房间邀请
+message RejectRoomInvite {
+    enum {THIS_MSG_TYPE = MSG_REJECT_ROOM_INVITE; }
+
+    required UINT32 m_nStartId  = 1;    // 发起玩家id
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_START_MATCH),               
+// 请求开始个人赛
+message RequestStartMatch {
+    enum {THIS_MSG_TYPE = MSG_REQUEST_START_MATCH; }
+    
+    required BYTE m_bType = 1;  // 房间类型 enum ROOM_TYPE
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_STOP_MATCH),                
+// 请求停止配对
+message RequestStopMatch {
+    enum {THIS_MSG_TYPE = MSG_REQUEST_STOP_MATCH; }
+
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_START_MATCH),                
+// 通知开始个人赛配对倒计时
+message NotifyStartMatch {
+    enum {THIS_MSG_TYPE = MSG_NOTIFY_START_MATCH; }
+
+    required UINT32 m_nPairTime     = 1;    // 匹配开始时间
+    required PvpPairInfo m_pairInfo = 2;    // 匹配信息
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_STOP_MATCH),                 
+// 通知停止配对倒计时
+message NotifyStopMatch {
+    enum {THIS_MSG_TYPE = MSG_NOTIFY_STOP_MATCH; }
+}
+
+// MSGTYPE_DECLARE(MSG_SYNC_PVP_PAIR_INFO),                   
+// 通知匹配信息
+message SyncPvpPairInfo {
+    enum {THIS_MSG_TYPE = MSG_SYNC_PVP_PAIR_INFO; }
+
+    repeated PvpPairInfo m_infoVec = 1;    // 匹配信息列表
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_KICKOUT_COUNTDOWN),          
+// 通知玩家房间踢人倒计时
+message NotifyKickoutCountdown {
+    enum {THIS_MSG_TYPE = MSG_NOTIFY_KICKOUT_COUNTDOWN; }
+
+    required UINT32 m_charId    = 1;        // 目标玩家
+    required UINT32 m_nCount    = 2;        // 倒计时时间
+}
+
+// MSGTYPE_DECLARE(MSG_CLEAR_KICKOUT_COUNTDOWN),           
+// 通知清除房间踢人倒计时
+message ClearKickoutCountdown {
+    enum {THIS_MSG_TYPE = MSG_CLEAR_KICKOUT_COUNTDOWN; }
+
+    required UINT32 m_charId    = 1;        // 目标玩家
+}
+
+/// 请求退出战斗结算
+message RequestExitBattleEnd
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_EXIT_BATTLEEND; }
+    
+    required BYTE m_type = 1;    // enum BATTLEEND_EXIT_TYPE
+}
+
+/// 通知退到队伍的人数
+message NotifyEixtBatEndCount
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_EXIT_BATEND_COUNT; }
+    
+    required int m_iCount = 1;    // 数量
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_ROOM_BUFF),
+// 通知房间buff信息
+message NotifyRoomBuff
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ROOM_BUFF; }
+    
+    required UINT32 m_nCharId = 1;      // 角色id
+    repeated UINT32 m_nBuffVec = 2;     // 角色buff列表
+}
+
+message NotifyRoomPairOption
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ROOM_PAIR_OPTION; }
+    
+    required BYTE m_bBanRobot = 1;   // 禁止机器人匹配
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_LOOK_ROOM),
+// 加入房间观战
+message RequestLookRoom {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_LOOK_ROOM; }
+    
+    required UINT32 m_nRoomId   = 1;    ///< 房间id
+    required BYTE   m_bType     = 2;    ///< 房间类型 enum ROOM_TYPE
+    required UINT32 m_nContestId = 3;   ///< 邀请赛需要指定对阵ID
+}
+
+message NotifyNeedRoomPassword
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_NEED_ROOM_PASSWORD; }
+    
+    required UINT32 m_nRoomId = 1;    // 房间ID
+    required BYTE   m_nRoomType = 2;  // 房间类型 enum ROOM_TYPE
+    required BYTE   m_bMode = 3;      // 房间模式 enum BATTLE_MODE
+}
+
+// global->track
+message RequestMatchRoomCharData{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_MATCH_ROOM_CHAR_DATA; }
+    
+    required UINT32 m_nSceneId = 1;   // 战场ID
+    required UINT32 m_nRoomType = 2;  // 房间类型 enum ROOM_TYPE
+    required UINT32 m_nTeamId = 3;    // 战队ID
+    required UINT32 m_nGuildId = 4;   // 军团ID
+    required UINT32 m_nRoomId = 5;    // 房间ID
+    required UINT32 m_nCamp = 6;      // 阵营 
+}
+
+message SelTankCount
+{
+    required UINT32 m_nTankId = 1;
+    required UINT32 m_nCount = 2;
+}
+
+message ROOM_CHAR_DATA
+{
+    required CHAR_BRIEF m_charBrief = 1;  // 角色信息
+    required CHAR_TANK_BRIEF_CONT m_tankBrief = 2;  // 坦克信息
+    repeated SelTankCount m_vecSelTank = 3;  // 已选坦克信息
+}
+
+// track->global
+message NotifyMatchRoomCharData{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_MATCH_ROOM_CHAR_DATA; }
+    
+    required UINT32 m_nRoomType = 1;        // 房间类型 enum ROOM_TYPE
+    required UINT32 m_nTeamId = 2;          // 
+    required UINT32 m_nGuildId = 3;         //
+    repeated ROOM_CHAR_DATA m_vecChar = 4;  // 房间内成员信息
+}
+
+// guild->client
+message NotifyTeamRoomInOtherLine{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TEAM_ROOM_IN_OTHER_LINE; }
+    
+    required UINT32 m_nClusterId = 1;  // 目标分线的集群ID
+    required UINT32 m_nRoomType = 2;   // 房间类型
+}
+
+/// track->activity
+message RequestGuildMatchSelectedTank
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_GUILD_MATCH_SELECTED_TANK; }
+    
+    required UINT32 m_nRoomId = 1;
+    required string m_strUuid = 2;
+}
+
+/// activity->track
+message SyncGuildMatchSelectedTank
+{
+    enum { THIS_MSG_TYPE = MSG_SYNC_GUILD_MATCH_SELECTED_TANK; }
+    
+    required UINT32 m_nRoomId = 1;
+    required string m_strUuid = 2;
+    repeated SelTankCount m_vecSelTank = 3;
+}
+
+// 请求军团赛其他房间的信息
+message RequestOtherGuildMatchRoomInfo{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_OTHER_GUILD_MATCH_ROOM_INFO; }
+}
+
+message OTHER_GUILD_ROOM_DATA
+{
+    required UINT32 m_nRoomId = 1;        // 房间ID
+    required string m_strRoomLeaderName = 3; // 房主名称
+    required UINT32 m_nAvatarId = 4;      // 房主avatar
+    required UINT32 m_nRoomBoosterAttack = 5; // 房间助手战力
+    required UINT32 m_nNum = 6;           // 当前人数
+    required UINT32 m_nMaxNum = 7;        // 最大人数
+}
+
+// 通知军团赛其他房间的信息
+message NotifyOtherGuildMatchRoomInfo{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_OTHER_GUILD_MATCH_ROOM_INFO; }
+    
+    repeated OTHER_GUILD_ROOM_DATA m_vecRoomInfo = 1;
+}
+
+// 请求切换到军团的其他房间
+message RequestSwitchGuildRoom{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SWITCH_GUILD_ROOM; }
+    
+    required UINT32 m_nSwitchRoomId = 1;  // 要切换的房间ID
+}
+
+// 请求开始3V3争霸赛报名参赛
+message RequestStart3V3Pair {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_START_3V3_PAIR; }
+    
+    required UINT32 m_nRoomId = 1;     // 房间Id
+    required UINT32 m_nTrackId = 2;    // 房间所在的trackId
+    required UINT32 m_nTeamElo = 3;    // 队伍Elo
+}
+
+// 请求取消3V3争霸赛报名参赛
+message RequestStop3V3Pair {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_STOP_3V3_PAIR; }
+    
+    required UINT32 m_nRoomId = 1;     // 房间Id
+    required UINT32 m_nTrackId = 2;    // 房间所在的trackId
+}
+
+// 轮空
+message Notify3V3DirectWin {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_3V3_DIRECT_WIN; }
+    
+    required UINT32 m_nRoomId = 1;     // 房间Id
+}
+
+// 通知gate更新3V3信息
+message NotifyUpdate3V3Info {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_UPDATE_3V3_INFO; }
+    required UINT32 m_n3V3Elo = 1;     // 积分
+    required BYTE   m_isWin   = 2;     // 是否胜利
+}
+
+// 通知组队副本地图ID
+message NotifyTeamPveMapId{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TEAM_PVE_MAP_ID; }
+    
+    required UINT32 nMapId = 1;     // 地图Id
+}

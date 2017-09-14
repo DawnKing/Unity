@@ -1,0 +1,134 @@
+// ----------------------------------------------------------------------
+///	@file			protocol/ChatMessage.h
+///	@brief
+///	@author			Hou Ming Yuan
+///	@copyright		Sixcube Information Technology Co,. Ltd. (2012)
+///	@date			2006-10-19 11:04:55
+// ----------------------------------------------------------------------
+
+import ShareTypes;
+
+/**
+ * 通知客户端聊天相关的错误信息
+ * MSGTYPE_DECLARE(MSG_CHAT_ERROR_INFO)
+ */
+message ChatErrorInfo {
+    enum { THIS_MSG_TYPE = MSG_CHAT_ERROR_INFO; }
+
+    required int m_errNo = 1;    // enum ENUM_CHAT_ERROR
+    required string m_errDesc = 2;
+}
+
+/**
+ * 聊天消息 
+ * MSGTYPE_DECLARE(MSG_CHAT_MESSAGE)
+ */
+message ChatMessage {
+    enum { THIS_MSG_TYPE = MSG_CHAT_MESSAGE; }
+
+    required ChatContents m_contents = 1;
+    required INT64 m_recvClientTime = 2;
+    required INT64 m_recvChatTime = 3;
+}
+
+/**
+ * 通知聊天服务器相关玩家信息 
+ */
+message NotifyChatPlayerInfo {
+    enum { THIS_MSG_TYPE = MSG_CHAT_PLAYER_INFO; }
+
+    required CHAT_PLAYER_INFO m_playerInfo = 1;
+}
+
+enum QUESTION_STATE
+{
+    QUESTION_STATE_NONE = 0;    ///< 无
+    QUESTION_STATE_PUT  = 1;    ///< 刚提交
+    QUESTION_STATE_GOING = 2;   ///< 处理中
+    QUESTION_STATE_ANSWER = 3;  ///< 已回复
+    QUESTION_STATE_CLOSED = 4;  ///< 已关闭
+}
+
+enum QUESTION_TYPE
+{
+    QUESTION_TYPE_NONE  = 0;
+    QUESTION_TYPE_BUG   = 1;    ///< 游戏错误
+    QUESTION_TYPE_IDEA  = 2;    ///< 意见建议
+    QUESTION_TYPE_REPORT = 3;   ///< 举报玩家
+}
+
+enum ANSWER_LEVEL_TYPE
+{
+    ANSWER_LEVEL_1 = 1;
+    ANSWER_LEVEL_2 = 2;
+    ANSWER_LEVEL_3 = 3;
+    ANSWER_LEVEL_4 = 4;
+}
+
+/// 玩家提问 client->chat->track
+message PutQuestionMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_QUESTION; }
+    
+    required UINT32 m_happenTime = 1;
+    required QUESTION_TYPE m_type = 2;
+    required string m_title = 3;
+    required string m_text = 4;
+}
+
+/// 玩家关闭问题client->chat->track
+message ReqeustClosedQuestion
+{
+    enum { THIS_MSG_TYPE = MSG_QUESTION_CLOSED; }
+    
+    required string m_uuid = 1;
+    required ANSWER_LEVEL_TYPE m_level = 2;
+    required string m_text = 3;
+}
+
+/// 通知玩家有反馈
+message NotifyHaveAnswer
+{
+    enum { THIS_MSG_TYPE = MSG_QUESTION_NOTIFY_HAVE_ANSWER; }
+}
+
+/// 玩家打开问题反馈界面
+message RequestOpenQuestionUI
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_OPEN_QUESTION; }
+}
+
+/// 系统公告
+message SystemBulletinNotify
+{
+    enum { THIS_MSG_TYPE = MSG_SYSTEM_BULLETIN_NOTIFY; }
+    
+    required UINT32 m_nPos = 1;             ///< 公告位置 enum BULLETIN_POSITION
+    required string m_szColor = 2;
+    required string m_szContent = 3;        ///< 公告内容
+    required string m_strPlatform = 5;      ///< 游戏平台标志。字段为空的时候，所有玩家都要显示
+    required UINT32 m_nPlayItemId = 6;      ///< 播放特效物品id
+}
+
+/// 模板系统公告
+message SystemTemplateBltNotify
+{
+    enum { THIS_MSG_TYPE = MSG_SYSTEM_TEMPLATE_BULLETIN_NOTIFY; }
+    
+    required UINT32 m_nBltId = 1;           ///< 公告ID
+    repeated string m_argList = 2;          ///< 公告参数
+    required UINT32 m_nPlayerItemId = 3;    ///< 播放特效物品id
+}
+
+/// 其他->track，公告
+message ClusterSystemBulletin
+{
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_SYSTEM_BULLETIN; }
+    
+    required UINT32 m_nBltId = 1;
+    required UINT32 m_nCharOid = 2;
+    repeated string m_argList = 3;
+    required UINT32 m_nParam = 4;
+}
+
+/// @}

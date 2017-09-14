@@ -1,0 +1,5 @@
+C:\Users\DawnK\Documents\Study\Game\Common\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
+C:\Users\DawnK\Documents\Study\Game\Client\Assets\Plugins\Common.dll
+C:\Users\DawnK\Documents\Study\Game\Client\Assets\Plugins\Common.pdb
+C:\Users\DawnK\Documents\Study\Game\Common\Common\obj\Debug\Common.dll
+C:\Users\DawnK\Documents\Study\Game\Common\Common\obj\Debug\Common.pdb

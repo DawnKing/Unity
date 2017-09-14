@@ -1,0 +1,69 @@
+// ----------------------------------------------------------------------
+///    @file            protocol/StageMessage.h
+///    @brief           
+///    @author          Bob Lee (bob@sxicube.cn)
+///    @copyright       Sixcube Information Technology Co,. Ltd. (2012)
+///    @date            2012/7/12 21:58:15
+// ----------------------------------------------------------------------
+
+import BulkDataEnum;
+
+// MSGTYPE_DECLARE_ASSIGN(MSG_NOTIFY_STAGE_REWARD, 1350),   
+// 通知阶段性奖励领取信息
+message NotifyStageReward
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_STAGE_REWARD; }
+    
+    required UINT32 m_nStage 	= 1; ///< 当前所在的Stage阶段  
+    required UINT32 m_bReward	= 2; ///< 有无奖励可领：1-有奖励；0-无奖励
+    required UINT32 m_nReaped	= 3; ///< 领取的时间（未领取为0）    
+    required UINT32 m_nNextTime = 4; ///< 倒计时的截至时间
+    required UINT32 m_nGetFlag  = 5; ///< 二进制,是否已领取
+}
+
+//MSGTYPE_DECLARE(MSG_REQUEST_STAGE_REAP_REWARD),			
+// 请求领取阶段性奖励
+message RequestReapStageReward
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_STAGE_REAP_REWARD; }
+    
+    required UINT32 m_nStage 	= 1;    ///< 请求领取的STAEG ID（类型*100+阶段）    
+    required BYTE   m_isShow    = 2;    ///< 是否展示
+}
+
+enum STAGE_REAP_ERROR
+{
+	SRE_NOERROR		= 0;	// 正常
+	SRE_ALREADYREAPED	= 1;	// 已经领取
+	SRE_NOSUCHSTAGE		= 2;	// 无此阶段
+	SRE_OTHERREASON		= 3;		// 其他错误
+}
+
+//MSGTYPE_DECLAR(MSG_NOTIFY_STAGE_REAP_RESULT), 					
+//通知奖励领取结果
+message NotifyStageReapResult
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_STAGE_REAP_RESULT; }
+    
+    required UINT32 m_nResult   = 1; ///< 0-成功；1-已经领过；2-数据错误；3-其他错误
+    required UINT32 m_nStage 	= 2; ///< 领取Stage ID    
+}
+
+//MSGTYPE_DECLARE(MSG_NOTIFY_STAGE_CLEARED),			
+// 通知奖励已经全部领取完成
+message NotifyStageCleared
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_STAGE_CLEARED; }
+    
+    required UINT32 m_nStage 	= 1; ///< 请求领取的STAEG ID（类型*100+阶段）    
+}
+
+//MSGTYPE_DECLARE(MSG_NOTIFY_STAGE_PROGRESS),			
+// 通知奖励领取的进度
+message NotifyStageProgress
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_STAGE_PROGRESS; }
+    required UINT32	m_stage = 1;	// 参见CHAR_STAGE枚举
+    repeated UINT32	m_now = 2;	// 当前值
+    repeated UINT32 	m_max = 3;	// 最大值    
+}

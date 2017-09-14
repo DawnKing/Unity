@@ -1,0 +1,42 @@
+// ----------------------------------------------------------------------
+///    @file            protocol/TestMessage.h
+///    @brief
+///    @author          Bob Lee (bob@sxicube.cn)
+///    @copyright       Sixcube Information Technology Co,. Ltd. (2012)
+///    @date            2012/7/8 16:38:15
+// ----------------------------------------------------------------------
+
+import BulkDataType;
+
+/// 测试用的结构体
+message TestInfo
+{
+    required UINT32 m_goodsId = 1;      ///< 商品id
+    required UINT32 m_coinType = 2;    ///< 使用的货币类型 enum COIN_TYPE
+    required int m_price = 3;           ///< 购买单价
+    required int m_count = 4;           ///< 购买数量
+    required LimitInfo m_limit = 5;
+}
+
+// MSGTYPE_DECLARE(MSG_TEST_FULL_DATATYPE),
+//测试 协议所支持的各种类型
+message TestFullDataTypes
+{
+    enum { THIS_MSG_TYPE = MSG_TEST_FULL_DATATYPE; }
+
+    required BYTE m_uint8   = 1;
+    required UINT16 m_uint16   = 2;
+    required UINT32 m_uint32   = 3;
+    required UINT64 m_uint64   = 4;
+    required BYTE m_int8   = 5;
+    required INT16 m_int16   = 6;
+    required INT32 m_int32   = 7;
+    required INT64 m_int64   = 8;
+    required FLOAT m_float32   = 9;
+    required string m_string   = 10;
+    required TestInfo m_info = 11;
+    repeated TestInfo m_infos = 12;
+    repeated UINT32 m_ints = 13;
+    required LimitInfo m_limit = 14;
+
+}

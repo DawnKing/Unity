@@ -1,0 +1,76 @@
+// ----------------------------------------------------------------------
+///    @file            protocol/MovementMessage.h
+///    @brief
+///    @author          Hou Ming Yuan
+///    @copyright       Sixcube Information Technology Co,. Ltd. (2012)
+///    @date            2005-3-25 15:03:13
+// ----------------------------------------------------------------------
+/// @addtogroup dt_UnitMovement
+/// @{
+import ShareTypes;
+
+/**
+ * 角色移动请求:向前
+ */
+message RequestMoveForward {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_MOVE_FORWARD; }
+    
+    required UINT16   m_start_x = 1;    ///< 客户端移动的起始点
+    required UINT16   m_start_y = 2;    ///< 客户端移动的起始点
+    required BYTE     m_direction = 5;  ///< 朝向
+    required UINT32   m_sceneId = 6;    ///< 战场id
+}
+
+/**
+ * 角色停止移动 
+ */
+message RequestStopMove {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_STOP_MOVE; }
+
+    required UINT32  m_oid = 1;
+}
+
+/**
+ * 停止移动通知消息 
+ */
+message NotifyStopMove {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_STOP_MOVE; }
+
+    required UINT32 m_sceneId = 1;  ///< 战场id
+    required ZGID   m_oid = 2;      ///< 对象id
+    required UINT16 m_x = 3;        ///< 停止点
+    required UINT16 m_y = 4;        ///< 停止点
+}
+
+/**
+ * 验证位置请求 
+ */
+message RequestValidatePosition {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_VALIDATE_POS; }
+
+    required UINT32 m_oid = 1;      ///< oid
+    required UINT16 m_x = 2;         ///< 玩家当前坐标
+    required UINT16 m_y = 3;         ///< 玩家当前坐标
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_SEEK_PATH),                  
+// 通知寻径结果
+message NotifySeekPath {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SEEK_PATH; }
+
+    required UINT32 m_sceneId = 1;  ///< 战场id
+    required ZGID   m_oid = 2;      ///< 对象id
+    required int    m_iRes = 3;     ///< 寻径结果 enum FIND_PATH_ERR_CODE
+    repeated MapPos m_pathVec = 3;  ///< 路径信息
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_SEEK_PATH)
+// 通知预缓存的寻径结果
+message NotifyRobotCachePath {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ROBOT_CACHE_PATH; }
+    
+    required UINT32 m_nMapId = 1;    ///< 地图ID
+    repeated MapPos m_pathVec = 3;   ///< 路径信息
+}
+
+/// @}

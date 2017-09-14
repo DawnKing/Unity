@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<SkillTemplate isclient="1">
+	<field field="Id" type="uint" comment="id"/>
+	<field field="Name" type="string" comment="名字"/>
+	<field field="Type" type="uint" comment="技能类型 SKILL_TYPE"/>
+
+	<field field="SkillEffectRes" type="string" comment="技能表现资源"/>
+</SkillTemplate>

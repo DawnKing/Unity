@@ -1,0 +1,205 @@
+// ----------------------------------------------------------------------
+
+import ShareTypes;
+import BulkDataType;
+import BulkDataEnum;
+
+enum MAIL_TYPE
+{
+	MAIL_TYPE_CHAR	= 0;	///< 玩家发送的邮件
+	MAIL_TYPE_SYS	= 1;	///< 系统发送的邮件
+	MAIL_TYPE_BACK	= 2;	///< 退回的邮件（玩家退回或者超时退回）
+  MAIL_TYPE_SYS_TIP = 3;  ///< 系统上线提示
+}
+
+enum MAIL_SEND_MODE
+{
+	MAIL_SEND_CHAR	= 0;	///< 玩家发送的普通邮件
+	MAIL_SEND_BACK	= 1;	///< 退回的邮件
+	MAIL_SEND_PAY	= 2;	///< 玩家发送的需要付款的邮件
+	MAIL_SEND_FOR_PAY	= 3;	///< 支付款项的回复邮件
+	MAIL_SEND_SYS	= 4;	///< 系统发送的邮件
+	MAIL_SEND_TURNUP_GET = 5;	///< 翻牌系统给与物品
+	MAIL_SEND_LARGESS_GOODS = 6;    ///< 玩家赠送的商城物品
+	MAIL_SEND_BUY_GOODS = 7;    ///< 商城购买物品，包裹满后邮寄
+	MAIL_SEND_AUTO_DEBUS = 8;    ///< 过期，自动卸下
+	MAIL_SEND_STAGE_REWARD = 9;	///< 玩家阶段性奖励发送的物品
+	MAIL_SEND_ROULETTE = 10;    ///< 轮盘赌获得的物品
+	MAIL_SEND_LEAGUE_REWARD = 11; ///< 联赛获得的奖励
+	MAIL_SEND_TICKET        = 12; ///< 月票物品使用获得邮件信息（玩家不能删除）
+}
+
+enum MAIL_STATE
+{
+    MAIL_STATE_NOREAD   = 0;    ///< 未读
+    MAIL_STATE_READ     = 1;    ///< 已读
+    MAIL_STATE_NOPAY    = 2;    ///< 未付款
+}
+
+///	邮件操作
+enum MAIL_OPERATE
+{
+	MAIL_OP_NONE		= 0;	///< 无
+	MAIL_OP_OPEN_BOX	= 1;	///< 打开邮箱
+	MAIL_OP_CLOSE_BOX	= 2;	///< 关闭邮箱
+	MAIL_OP_SEND		= 3;	///< 发送邮件
+	MAIL_OP_READ		= 4;	///< 读取邮件
+	MAIL_OP_DELETE		= 5;	///< 删除邮件
+	MAIL_OP_BACK		= 6;	///< 退回邮件
+	MAIL_OP_PAY_CASH	= 7;	///< 付款取信
+	MAIL_OP_PICKUP_ITEM	= 8;	///< 提取物品
+	MAIL_OP_PICKUP_CASH	= 9;	///< 提取点券
+	MAIL_OP_PICKUP_TANK = 10;   ///< 提取坦克
+	MAIL_OP_MAX			= 11;
+}
+
+/// 附件类型（可以通过|设置多种）
+enum MAIL_AFFIX_TYPE {
+    MAIL_AFFIX_ITEM = 1<<0;   	///< 物品
+    MAIL_AFFIX_MONEY = 1<<1;	///< 金钱
+    MAIL_AFFIX_TANK = 1<<2;     ///< 坦克
+}
+
+/// 付款取信时间(小时为单位)
+enum MAIL_DURATION_TYPE
+{
+    MAIL_DURATION_NONE      = 0;
+    MAIL_DURATION_ONE_HOUR  = 1;
+    MAIL_DURATION_SIX_HOUR  = 6;
+    MAIL_DURATION_SAVE_TIME = 3 * 24;
+    MAIL_DURATION_SYS_TIME  = 30 * 24;
+    MAIL_DURATION_PAY_TME   = 365 * 24;
+    MAIL_DURATION_LARGESS_TIME = 7 * 24;
+}
+
+///	邮件列表信息
+message MAIL_BRIEF_INFO
+{
+	required string	m_strUuid	= 1;	///< 邮件的uuid
+    required string	m_strSendUuid= 10;	///< 邮件的发送者uuid
+	required string	m_strSender	= 2;	///< 邮件的发送者
+	required string	m_strTitle	= 3;	///< 邮件的标题
+	required UINT32	m_nArriveTime =	4;	///< 邮件的过期时间点
+	required UINT32	m_nMailType	 = 5;	///< 邮件的类型
+	required UINT32	m_nMailState = 6;	///< 邮件的状态
+	required UINT32	m_nSendMode	 = 7;	///< 邮件的发送方式
+	required UINT32 m_nAffixSign = 8;	///< 邮件的附件标识
+	required UINT32	m_nCreateTime =	9;	///< 邮件的创建时间点
+}
+
+/// 邮件具体信息
+message MAIL_INSIDE_INFO
+{
+	required string	m_strUuid	= 1;	///< 邮件的uuid
+	required string m_strText	= 2;	///< 邮件的正文内容
+	required INT32	m_cashNum	= 3;	///< 邮件自带的点券数
+	repeated ITEM_INSTANCE m_itemVec = 4;	///< 邮件带的物品信息	
+	required TankInstance m_tankInst = 5;   ///< 邮件带的坦克信息
+}
+
+
+///	请求发送邮件
+message	RequestSendMail
+{
+	enum { THIS_MSG_TYPE = MSG_REQUEST_MAIL_SEND; }
+	
+	required string	m_strReceiver		= 1;	///< 接收者名称
+	required string	m_strTitle			= 2;	///< 邮件标题
+	required string	m_strText			= 3;	///< 邮件正文
+	required INT32	m_cashNum			= 4;	///< 付款金额
+	repeated INT32	m_itemEquipSlot		= 5;	///< 物品附件对应的装备栏格子
+	repeated INT32	m_itemGrocerySlot   = 6;	///< 物品附件对应的杂货栏格子
+	required MAIL_DURATION_TYPE m_time  = 7;    ///< 邮件持续时间
+	required string m_tankUuid          = 8;    ///< 发送坦克的uuid
+}
+
+// 通知可以发送邮件(buddy -> gate)
+message NotifyCanSendMail
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_CAN_SENDMAIL; }
+	
+	required string	m_strReceiver		= 1;	///< 接收者名称
+	required string	m_strTitle			= 2;	///< 邮件标题
+	required string	m_strText			= 3;	///< 邮件正文
+	required INT32	m_cashNum			= 4;	///< 付款金额
+	repeated INT32	m_itemEquipSlot		= 5;	///< 物品附件对应的装备栏格子
+	repeated INT32	m_itemGrocerySlot   = 6;	///< 物品附件对应的杂货栏格子
+	required MAIL_DURATION_TYPE m_time  = 7;    ///< 邮件持续时间
+	required string m_tankUuid          = 8;    ///< 发送坦克的uuid
+	required string  m_receiverUuid		= 9;	///< 接收者Uuid
+}
+
+///	请求邮件操作
+message	RequestMailOperate
+{
+	enum { THIS_MSG_TYPE = MSG_REQUEST_MAIL_OPERATE; }
+
+	required string	m_strUuid =	1;	///< 邮件的uuid
+	required MAIL_OPERATE m_opType = 2;
+}
+
+
+///	请求提取邮件物品
+message	ReuqestPickUpMailItem
+{
+	enum { THIS_MSG_TYPE = MSG_REQUEST_PICKUP_MAIL_ITEM; }
+	
+	required string	m_strMailUuid =	1;	///< 邮件的uuid
+	required string	m_strItemUuid =	2;	///< 物品的uuid	
+}
+
+///	通知有未读邮件
+message	NotifyNoReadMailCount
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_MAIL_NOREAD_COUNT; }
+	
+	required INT32	m_count	= 1;	///< 未读邮件的数量
+}
+
+/// 通知邮件列表
+message NotifyMailList
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_MAIL_LIST; }
+	
+	repeated MAIL_BRIEF_INFO m_briefList = 1;
+}
+
+/// 通知邮件的详细信息
+message NotifyMailInsideInfo
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_MAIL_INSIDE_INFO; }
+	
+	required MAIL_INSIDE_INFO m_info = 1;
+}
+
+/// 通知操作结果
+message NotifyMailOperateResult
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_MAIL_OP_RET; }
+	
+	required RESULT_TYPE 	m_result = 1;
+	required MAIL_OPERATE	m_opType = 2;
+	required string	        m_strMailUuid =	3;	///< 邮件的uuid
+}
+
+/// 通知更新邮件信息
+message UpdateMailBriefInfo
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_UPDATE_MAIL_INFO; }
+	
+	required MAIL_BRIEF_INFO	m_briefInfo = 1;
+}
+
+// 通知全局服务器新邮件消息(global -> track)
+message NotifyGlobalNewMailMessage
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_GLOBAL_NEW_MAIL; }
+	
+	required string	m_charUuid		 = 1;	///< 玩家UUID
+	required string m_mailTitle    = 2; ///< 邮件标题
+	required string m_mailText     = 3; ///< 邮件内容
+	required string m_mailItemInst = 4; ///< 邮件物品
+	required UINT32 m_createTime   = 5; ///< 邮件创建时间
+}
+///	@}
+

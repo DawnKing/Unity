@@ -1,0 +1,65 @@
+// ----------------------------------------------------------------------
+///	@file			protocol/UninetMessage.h
+///	@brief
+///	@author			Bob Lee (bob@onwind.cn)
+///	@copyright		Sixcube Information Technology Co,. Ltd. (2012)
+///	@date			2005-8-18 21:10:55
+// ----------------------------------------------------------------------
+message ConfigEntry
+{
+	required string first = 1;
+	required string second = 2;
+}
+
+/// MSGTYPE_DECLARE(MSG_CLUSTER_CONFIG_UPDATE)
+/// 通知群组配置信息，Adminsvr到各个服务器
+message ClusterConfigUpdate {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_CONFIG_UPDATE; }
+
+    repeated ConfigEntry m_configEntries = 1;
+}
+
+/// 请求远程服务器运行命令
+/// MSG_RUN_ROMOTE_COMMAND
+message RequestRunCommand {
+    enum { THIS_MSG_TYPE = MSG_RUN_ROMOTE_COMMAND; }
+
+    required int m_requestId = 1;
+    required string m_command = 2;
+}
+
+
+/// 命令运行结果
+/// MSG_COMMAND_RESULT
+message NotifyCommandResult {
+    enum { THIS_MSG_TYPE = MSG_COMMAND_RESULT; }
+
+    required int m_requestId = 1;
+    required string m_result = 2;
+}
+
+
+/// 服务器注册到监控后端
+/// MSGTYPE_DECLARE(MSG_ADMIN_REGISTER),
+message RequestAdminRegister {
+    enum { THIS_MSG_TYPE = MSG_ADMIN_REGISTER; }
+
+    required int m_serverType = 1;
+    required int m_serverUid = 2;
+    required UINT32 m_serverPort = 3;
+    required int m_processId = 4;
+    required string m_serverName = 5;
+    required string m_command = 6;
+    required string m_loadmaps = 7;
+}
+
+
+/**
+* 服务器启动成功，通知adminsvr
+* MSGTYPE_DECLARE(MSG_NOTIFY_SVR_STARTUP_OK),								
+*/
+message NotifyAdminStartupOk {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SVR_STARTUP_OK; }
+
+    required int m_severUid = 1;
+}

@@ -1,0 +1,193 @@
+// ----------------------------------------------------------------------
+/// @file			protocol/MasterPrenticeMessage.h
+/// @brief
+/// @author         xuyao
+/// @copyright		Sixcube Information Technology Co,. Ltd. (2012)
+/// @date			2014-03-17 13:42:03
+// -----------------------------------------------------------------------
+
+import ShareTypes;
+import BulkDataType;
+import BulkDataEnum;
+
+enum MP_APPLY_TYPE {
+    MAT_RECEIVE_PRENTICE = 0;       ///< 收徒
+    MAT_ENGAGE_MASTER  = 1;         ///< 拜师
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_CLEAR_MP_APPLY_LIST),                      
+// 请求清空师徒申请列表
+message RequestClearMPApplyList {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CLEAR_MP_APPLY_LIST; }
+}
+
+// 请求师徒申请列表信息
+message RequestMPApplyList {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_MP_APPLY_LIST; }
+}
+
+// 通知师徒申请列表
+message NotifyMPApplyList {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_MP_APPLY_LIST; }
+    
+    repeated BUDDY_BRIEF m_applyList = 1;   ///< 申请者列表
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_MP_APPLY_LIST_CLEARED), 
+// 通知清空师徒申请列表
+message NotifyMPApplyListCleared {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_MP_APPLY_LIST_CLEARED; }
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_RECEIVE_MP_APPLY), 
+// 通知角色收到师徒申请
+message NotifyReceiveMPApply {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_RECEIVE_MP_APPLY; }
+    
+    required BUDDY_BRIEF m_Buddy = 1;    ///< 申请者信息
+    required UINT32 m_nApplyType = 2;    ///< 申请类型 MP_APPLY_TYPE 
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_APPLY_MP_RELATION),
+// 申请建立师徒关系
+message RequestApplyMpRelation {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_APPLY_MP_RELATION; }
+    required string m_strUuid    = 1;        ///< 申请目标的UUID 
+    required UINT32 m_nApplyType = 2;        ///< 申请类型 MP_APPLY_TYPE 
+}
+
+// MSGTYPE_DECLARE(MSG_APPROVE_MP_RELATION_APPLY),
+// 同意建立师徒关系
+message ApproveMPApply {
+    enum { THIS_MSG_TYPE = MSG_APPROVE_MP_RELATION_APPLY; }
+    
+    required string m_strUuid    = 1;        ///< 申请者UUID
+}
+
+// MSGTYPE_DECLARE(MSG_REJECT_MP_RELATION_APPLY),
+// 拒绝建立师徒关系
+message RejectMPApply {
+    enum { THIS_MSG_TYPE = MSG_REJECT_MP_RELATION_APPLY; }
+    
+    required string m_strUuid    = 1;        ///< 申请者UUID
+}
+
+message MASTER_PRENTICE_BRIEF {
+    required UINT32 m_nIdentity = 1;       ///< 角色在关系中的身份 enum SOCIAL_REL_SUBTYPE
+    required BUDDY_BRIEF m_brief = 2;      ///< 角色BUDDY_BRIEF
+    required UINT32 m_nAmity = 3;          ///< 角色情谊值
+    required UINT32 m_nCharge = 4;         ///< 角色在师徒期间的充值数
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_MASTER_PRENTICE_INFO)
+// 通知角色的师徒信息
+message NotifyMasterPrenticeInfo {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_MASTER_PRENTICE_INFO; }
+    
+    repeated MASTER_PRENTICE_BRIEF  m_vecMPBrief = 1;    ///< 角色师徒信息
+}
+
+// MSGTYPE_DECLARE(MSG_UPDATE_MASTER_PRENTICE_INFO)
+// 更新师徒信息
+message NotifyUpdateMasterPrenticeInfo {
+    enum { THIS_MSG_TYPE = MSG_UPDATE_MASTER_PRENTICE_INFO; }
+    
+    required MASTER_PRENTICE_BRIEF m_mpBrief = 1;       ///< 角色师徒信息
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_MP_RELATION_CREATED)
+// 通知角色关系建立成功
+message NotifyMPRelationCreated {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_MP_RELATION_CREATED; }
+    
+    required MASTER_PRENTICE_BRIEF m_mpBrief = 1;          ///< 角色信息
+}
+
+message MASTER_PRENTICE_QUEST_INFO {
+    required UINT32 m_nQuestId = 1;        ///< 师徒任务ID
+    required QUEST_STATE_TYPE m_nState = 2;///< 任务状态
+    required UINT32 m_nCheckCount = 3;     ///< 检查点数量
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_MP_QUEST_LIST)
+// 通知师徒任务信息列表
+message NotifyMPQuestList {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_MP_QUEST_LIST; }
+    
+    required string m_strUuid = 1;                             ///< 角色UUID
+    repeated MASTER_PRENTICE_QUEST_INFO m_vecQuest = 2;        ///< 任务信息
+}
+
+// MSGTYPE_DECLARE（MSG_NOTIFY_MP_QUEST_INFO）
+// 通知单个师徒任务信息
+message NotifyMPQuestInfo {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_MP_QUEST_INFO; }
+    
+    required string m_strUuid = 1;                             ///< 角色UUID
+    required MASTER_PRENTICE_QUEST_INFO m_nQuestInfo = 2;      ///< 任务信息
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_MASTER_PRENTICE_AWARD) client->Gate
+// 请求领取师徒任务奖励
+message RequestMasterPrenticeAward {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_MASTER_PRENTICE_AWARD; }
+    
+    required string m_strUuid    = 1;        ///< 关系另一方的UUID
+    required UINT32 m_nQuestId   = 2;        ///< 任务ID
+}
+
+
+// 请求师徒广场列表
+message RequestMPSquareList {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_MP_SQUARE_LIST; }
+    
+    enum {
+        PER_PAGE_COUNT = 10;
+    }
+    
+    required UINT32 m_nType    = 1;        ///< 请求的List类型PLAYER_LIST_TYPE
+    required UINT32 m_nPageNum = 2;        ///< 页面编号
+    required UINT32 m_nPerPageCount = 3;   ///< 每页的个数
+}
+
+// 请求解散师徒关系
+message RequestDeleteSocialRelation {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_DELETE_SOCIAL_REL; }
+    
+    required UINT32 m_nType    = 1;        ///< 社交关系类型 SOCIAL_RELTYPE
+    required string m_tgtUuid = 2;   ///< 请求解除关系的目标UUID
+}
+
+// 通知移除师徒关系
+message NotifyRemoveSocialRelation {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_REMOVE_SOCIAL_REL; }
+    
+    required UINT32 m_nType    = 1;        ///< 社交关系类型
+    required string m_tgtUuid = 2;         ///< 移除关系的目标UUID
+}
+
+// 请求出师
+message RequestGraduate {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_GRADUATE; }
+}
+
+// 通知Gate发放社交任务奖励
+message NotifyGateDrawSocialQuestAward {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GATE_DRAW_SOCIAL_QUEST_AWARD; }
+    
+    required UINT32 m_nType   = 1;        ///< 社交关系类型
+    required UINT32 m_nAwardId = 2;       ///< 奖励ID
+    required UINT32 m_nRelId = 3;         ///< 关系ID
+    required UINT32 m_nQuestId = 4;       ///< 任务ID
+}
+
+// 通知奖励发放结果
+message NotifyDrawSocialQuestResult {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_DRAW_SOCIAL_AWARD_RESULT; }
+    
+    required UINT32 m_nSucceed    = 1;        ///< 奖励领取结果
+    required UINT32 m_nType    = 2;           ///< 关系类型
+    required UINT32 m_nRelId    = 3;          ///< 关系ID
+    required UINT32 m_nAwardId = 4;           ///< 奖励ID
+    required UINT32 m_nQuestId = 5;           ///< 任务ID
+}

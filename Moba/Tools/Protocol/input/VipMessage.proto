@@ -1,0 +1,88 @@
+// ----------------------------------------------------------------------
+///    @file            protocol/VipMessage.h
+///    @brief           
+///    @author          Bob Lee (bob@sxicube.cn)
+///    @copyright       Sixcube Information Technology Co,. Ltd. (2012)
+///    @date            2012/7/8 16:38:15
+// ----------------------------------------------------------------------
+
+// MSGTYPE_DECLARE_ASSIGN(MSG_NOTIFY_VIP_CHANGE, 1300),   
+// 通知VIP变化信息
+message NotifyVipChange
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_VIP_CHANGE; }
+    
+    required UINT32 m_nPoints 	= 1; ///< VIP点数
+    required UINT32 m_nEnded    = 2; ///< VIP特权结束时间
+    required UINT32 m_nAddTime  = 3; ///< 本次增加的时间（小时）
+    required UINT32 m_nTodayAddPoints = 4; ///< VIP点数今日的增加值
+    required UINT32 m_superVipEndTime = 5; ///< 超级VIP截止时间
+    required UINT32 m_superVipAddTime = 6; ///< 超级VIP增加时间
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_QQ_VIP),
+// 通知qq黄钻蓝钻信息
+message NotifyQQVip {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_QQ_VIP; }
+    
+    required UINT32 m_nYellowLevel = 1;     // 黄钻等级
+    required BYTE m_bIsYearYellow = 2;      // 是否是年费黄钻用户,0:不是;1:是
+    required BYTE m_bIsHighYellow = 3;      // 是否豪华版黄钻,0:不是;1:是
+    required UINT32 m_nBlueLevel = 4;       // 蓝钻等级
+    required BYTE m_bIsYearBlue = 5;        // 是否是年费蓝钻用户,0:不是;1:是
+    required BYTE m_bIsHighBlue = 6;        // 是否豪华版蓝钻,0:不是;1:是
+    required UINT32 m_n3366Level = 7;       // 3366等级
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_QQ_GIFT_OP),
+///< 请求qq好友礼物操作
+message RequestQQGiftOp {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_QQ_GIFT_OP; }
+    
+    enum {
+        QQGIFT_GIVE = 1;        // 赠送
+        QQGIFT_GET = 2;         // 索取
+        QQGIFT_DRAW = 3;        // 领取
+        QQGIFT_ACCEPT = 4;      // 同意赠送
+        QQGIFT_REJECT = 5;      // 拒绝赠送
+    }
+    
+    required string m_sendOpenid = 1;       // 发送者openid
+    required string m_charOpenid = 2;       // 角色openid
+    required string m_strDesc = 3;          // 礼物描述
+    required BYTE m_bOpType = 4;            // 操作类型
+    required UINT32 m_nItemId = 5;          // 礼物物品id
+    required UINT32 m_nGiftId = 6;          // 礼物id,QQGIFT_DRAW\QQGIFT_ACCEPT\QQGIFT_REJECT需要发送礼物id
+}
+
+message RequestSuperVipChargeInfoMessage {
+		enum { THIS_MSG_TYPE = MSG_REQUEST_SUPER_VIP_CHARGE_INFO; }
+}
+
+message ChargeBillsBakInfo {
+		required UINT32 	m_drawTime = 1;  		//领取时间
+		required UINT32 	m_coinCount = 2;		//获得点券数
+}
+
+message NotifySuperVipChargeInfoMessage {
+		enum { THIS_MSG_TYPE = MSG_NOTIFY_SUPER_VIP_CHARGE_INFO; }
+		
+		repeated ChargeBillsBakInfo m_infoVec = 1; 
+}
+
+message RequestDrawSuperVipChargeBackMessage {
+		enum { THIS_MSG_TYPE = MSG_REQUEST_DRAW_SUPER_VIP_CHARGE_BACK; }
+}
+
+message NotifyDrawSuperVipChargeBackMessage {
+		enum { THIS_MSG_TYPE = MSG_NOTIFY_DRAW_SUPER_VIP_CHARGE_BACK; }
+		
+		enum DRAW_RESULT {
+			DR_OK = 0;
+			DR_FAILE = 1;
+		}
+		
+		required UINT32 m_drawResult = 1; 
+		required INT32  m_backCash = 2;
+}
+

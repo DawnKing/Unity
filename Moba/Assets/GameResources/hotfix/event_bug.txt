@@ -1,0 +1,4 @@
+xlua.hotfix(CS.BattleEvent, 'AddEvent', 
+function(self)
+	print('123');
+end)

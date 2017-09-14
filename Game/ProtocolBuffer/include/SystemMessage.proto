@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+option csharp_namespace = "GameProtocol";
+
+message NotifyPing {
+    int32 Time = 1;
+}

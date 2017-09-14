@@ -1,0 +1,107 @@
+// ----------------------------------------------------------------------
+
+import BulkDataType;
+
+///< 天赋操作类型
+enum TALENT_OP_TYPE{
+	OP_NONE				= 0;    ///< 无
+    OP_ADD				= 1;    ///< 添加天赋页
+    OP_SAVE				= 2;    ///< 保存天赋页
+	OP_RESET			= 3;    ///< 重置天赋页
+	OP_DEL				= 4;    ///< 删除天赋页
+	OP_SET_CUR_NAME		= 5;    ///< 设置当前天赋页
+	OP_ALL_PAGE			= 6;    ///< 请求所有天赋信息
+}
+
+// 请求添加天赋页    
+message RequestAddTalentPage 
+{
+	enum { THIS_MSG_TYPE = MSG_REQUEST_ADD_TALENT_PAGE; }
+
+	required string strPageName    = 1;    ///< 天赋页名字
+}
+
+// 请求保存天赋页    
+message RequestSaveTalentPage 
+{
+	enum { THIS_MSG_TYPE = MSG_REQUEST_SAVE_TALENT_PAGE; }
+
+	required TALENT_PAGE talentPage = 1;	// 天赋页信息
+}
+
+// 通知更新天赋页
+message NotifyUpdateTalentPage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_UPDATE_TALENT_PAGE; }    
+    
+	required UINT32 opType    = 1;    ///< 天赋操作类型
+    required TALENT_PAGE talentPage = 2;	// 天赋页信息
+}
+	
+// 请求天赋页操作     
+message RequestOpTalentPage 
+{
+	enum { THIS_MSG_TYPE = MSG_REQUEST_OP_TALENT_PAGE; }
+	
+	required UINT32 opType    = 1;    ///< 天赋操作类型
+	required string strPageUuid    = 2;    ///< 天赋页uuid
+    required string tankUuid    = 3;    ///< 坦克uuid
+}
+
+// 通知天赋页操作
+message NotifyOpTalentPage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_OP_TALENT_PAGE; }    
+    
+	required UINT32 opType    = 1;    ///< 天赋操作类型
+    required string strPageUuid    = 2;    ///< 天赋页uuid
+}
+
+// 通知天赋信息
+message NotifyTalentInfo
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TALENT_INFO; }    
+    
+	repeated TALENT_PAGE talentPageVec = 1;	// 所有天赋页信息 
+	required UINT32		talTotalPoint = 2;	// 天赋总可用点数
+}
+
+// 通知天赋总可用点数
+message NotifyTalentTotalPoint
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TALENT_TOTALPOINT; }    
+    
+	required UINT32		talTotalPoint = 1;	// 天赋总可用点数
+}
+
+// global-->track-->gate 从Gate获取玩家当前天赋页 
+message GateGetCurTalentPage
+{
+    enum { THIS_MSG_TYPE = MSG_GATE_GET_CURTALENTPAGE; }    
+    
+	required BYTE bFromGlobal = 1;	///< 是否来自Global
+}
+
+// gate-->track-->global 向Track同步当前天赋页 
+message SyncCurTalentPage
+{
+    enum { THIS_MSG_TYPE = MSG_SYNC_CURTALENTPAGE; }    
+    
+	required BYTE bToGlobal = 1;	///< 是否发送到Global
+	required CHAR_TALENT_PAGE talentPage = 2;	///< 玩家当前天赋信息
+}
+
+// global-->track-->gate 通知Game解锁玩家的天赋操作 
+message GateUnlockTalentOp
+{
+    enum { THIS_MSG_TYPE = MSG_GATE_UNLOCK_TALENTOP; }    
+	
+}
+
+// 通知场景内所有玩家的当前天赋页
+message NotifySceneCurTalentPage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SCENE_CURTALENTPAGE; }    
+    
+	repeated CHAR_TALENT_PAGE talentVec = 1;	///< 玩家当前天赋信息集合
+}

@@ -1,0 +1,1048 @@
+// ----------------------------------------------------------------------
+///    @file            protocol/RoomMessage.h
+///    @brief           
+///    @author          linyixiong
+///    @copyright       Sixcube Information Technology Co,. Ltd. (2012)
+///    @date            
+// ----------------------------------------------------------------------
+
+import ShareTypes;
+import BulkDataType;
+
+/// 军团相关公共定义
+enum GUILD_COMMON_DEFINE
+{
+    TEAM_NUM_MAX    = 10;   ///< 战队最大人数
+    GUILD_COIN_TAX_RATE    = 30;    ///< 30%上缴军团   
+    CREATE_GUILD_INIT_COIN = 1000;  ///< 创建军团初始资金 
+    CREATE_GUILD_INIT_MERIT = 2000; ///< 创建军团，团长初始贡献度
+    CREATE_TEAM_NEED_COIN = 10000;  ///< 创建战队需要的军团资金
+    CREATE_TEAM_INIT_COIN = 1000;   ///< 战队初始资金
+    TEAM_DISMISS_OVERDUE_MAX = 7;   ///< 多长时间没有交维护费，解散战队
+    TEAM_TRANS_COOL_TIME = 1;       ///< 转队的冷却时间 3天
+    TEAM_TRANS_MERIT_RATE = 50;	    ///< 战队转移资金给军团每50点获得1点军团贡献
+}
+
+/// 战队扩展标志位
+enum TEAM_EXT_FLAG_BIT {
+    TMEF_OPEN_PVE       = 1<<0;     ///< 是否开启战队副本
+    TMEF_WILL_CLOSE_PVE = 1<<1;     ///< 是否在结算后关闭战队副本
+}
+
+/// 更新军团信息类型
+enum UPDATE_GUILD_TYPE
+{
+    UPDATE_GT_CHANGE_NAME   = 1;    ///< 改变名称
+    UPDATE_GT_UPGRADE       = 2;    ///< 升级
+    UPDATE_GT_CHANGE_POST   = 3;    ///< 职位变化
+    UPDATE_GT_SET_NOTICE    = 4;    ///< 改变公告
+    UPDATE_GT_ACTIVE   = 5;         ///< 改变军团活跃度
+    UPDATE_GT_CHANGE_COIN   = 6;    ///< 改变资金
+    UPDATE_GT_SETTING_BIT   = 7;    ///< 军团设置按位标志
+    UPDATE_GT_LEVEL_LIMIT   = 8;    ///< 申请最低准入等级
+    UPDATE_GT_LADDER_LIMIT  = 9;    ///< 申请最低准入段位
+    UPDATE_GT_RECRUIT_NOTICE = 10;  ///< 招募宣言
+}
+
+/// 更新战队信息类型
+enum UPDATE_TEAM_TYPE
+{
+    UPDATE_TT_OTHER         = 0;    ///< 其他
+    UPDATE_TT_CHANGE_NAME   = 1;    ///< 改变名称
+    UPDATE_TT_CHANGE_LEADER = 2;    ///< 改变队长
+    UPDATE_TT_CHANGE_PLACE  = 3;    ///< 改变名次
+    UPDATE_TT_CHANGE_HONOR  = 4;    ///< 改变荣誉
+    UPDATE_TT_CHANGE_COIN   = 5;    ///< 改变资金
+    UPDATE_TT_CHANGE_GLORY  = 6;    ///< 改变威望
+    UPDATE_TT_UPGRADE       = 7;    ///< 升级
+    UPDATE_TT_OPCL_PVE      = 8;    ///< 开启或者关闭副本
+}
+// 军团设置(只枚举按位标志)
+enum GUILD_SETTING_BIT
+{
+    GUILD_OP_AUTOJOIN       = 1 << 0;      // 自动加入军团设置
+    GUILD_OP_BAN_APPLY      = 1 << 1;      // 禁止申请
+    GUILD_OP_MEMBER_INVITE  = 1 << 2;      // 允许团员发送邀请
+}
+
+// 军团信息
+message GuildInfo {
+    required UINT32 nGuildId = 1;           ///< 军团id
+    required string strName = 2;            ///< 军团名称
+    required UINT32 nLevel = 3;             ///< 军团等级
+    required string leaderUuid = 4;         ///< 团长uuid
+    required string viceLeaderUuid = 5;     ///< 副团长uuid
+    required string strNotice = 6;          ///< 军团公告
+    required UINT32 nActiveNum = 7;         ///< 军团活跃度
+    required INT32  iCoin = 8;              ///< 军团资金
+    required UINT32 nCreateTime = 9;        ///< 创建时间
+    required INT32  iSettingBit = 10;       ///< 军团设置按位标志（GUILD_SETTING_BIT）
+    required UINT32 nLevelLimit = 11;       ///< 最低准入等级
+    required UINT32 nLadderLimit = 12;      ///< 最低准入段位
+    required string strRecruitNotice = 13;  ///< 招募公告
+}
+
+// 战队信息
+message TeamInfo {
+    required UINT32 nTeamId = 1;        ///< 战队id
+    required UINT32 nGuildId = 2;       ///< 军团id
+    required string strName = 3;        ///< 战队名称
+    required string leaderUuid = 4;     ///< 战队队长uuid
+    required UINT32 nPlace  = 5;        ///< 名次
+    required UINT32 nHonorId = 6;       ///< 战队荣誉
+    required UINT32 nCreateTime = 7;    ///< 创建时间  
+    required UINT32 nLevel = 8;         ///< 等级
+    required INT32  iCoin = 9;          ///< 资金
+    required INT32  iGlory = 10;        ///< 威望
+    required INT32  iMerit = 11;        ///< 贡献度，捐给军团资金
+    required UINT32 nExtFlag = 12;      ///< TEAM_EXT_FLAG_BIT
+    required INT32  iOverdueCount = 13; ///< 没有支付维护费的次数
+}
+
+// 成员信息
+message MemberInfo {
+    required UINT32 nTeamId = 1;        // 战队id
+    required string charUuid = 2;       // 角色uuid
+    required UINT32 nAcctId = 3;        // 账号id
+    required UINT32 nJoinTime = 4;      // 加入时间
+    required UINT32 nTransTime = 5;     // 转队时间
+    required int iMerit = 6;            // 角色贡献
+    required int iAllMerit = 7;         // 角色累计贡献
+}
+
+// 推荐人信息
+message GuildInviteInfo {
+    required UINT32 nAcctId      = 1;      ///< 帐号id
+    required string szInviteName = 2;      ///< 推荐人名字
+}
+/// 请求进入军团界面
+message RequestInGuildUI {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_IN_GUILD_UI; }    
+}
+
+/// 请求离开军团界面
+message RequestOutGuildUI {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_OUT_GUILD_UI; }    
+}
+
+/// 请求团员移队
+message RequestMoveMember {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_GUILD_MOVE_MEMBER; }    
+    
+    required UINT32 m_nOrigTeamId = 1;  ///< 源战队
+    required string m_origUuid = 2;     ///< 源队员
+    required UINT32 m_nDestTeamId = 3;  ///< 目标战队
+    required string m_destUuid = 4;     ///< 目标队员
+}
+
+/// 请求邀请团员
+message RequestInviteMember {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_GUILD_INVITE_MEMBER; }    
+    
+    required UINT32 m_nTeamId = 1;      ///< 战队id
+    required string m_charUuid = 2;     ///< 队员Uuid
+}
+
+/// 通知邀请团员
+message NotifyInviteMember {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_INVITE_MEMBER; }
+    
+    required string m_szStarter = 1;    ///< 发起者 名称
+    required string m_charUuid   = 2;   ///< 发起者 Uuid
+    required UINT32 m_nTeamId   = 3;    ///< 战队id 
+    required string m_nTeamName = 4;    ///< 战队名        
+}
+
+/// 接受团员邀请
+message AcceptChangeTeam {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_ACCEPT_CHANGE_TEAM; }
+    
+    required UINT32 m_nTeamId   = 1;    ///< 战队id   
+    required string m_charUuid  = 2;    ///< 发起者 Uuid
+}
+
+/// 创建队伍
+message RequestCreateTeam {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CREATE_TEAM; }
+    
+    required string m_szName    = 1;    ///< 战队名
+}
+
+message NotifyCreateTeam {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CREATE_TEAM; }
+    
+    required TeamInfo m_info = 1;
+}
+
+/// 解散战队
+message RequestDeleteTeam {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_DELETE_TEAM; }
+
+    required UINT32 m_nTeamId = 1;  ///< 战队id
+}
+
+message NotifyDeleteTeam {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_DELETE_TEAM; }
+
+    required UINT32 m_nTeamId = 1;  ///< 战队id
+}
+
+/// 创建军团
+message RequestCreateGuild {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CREATE_GUILD; }
+    
+    required string m_szGuildName   = 1;    ///< 军团名
+    required string m_szTeamName    = 2;    ///< 战队名    
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_JOIN_GUILD),                 
+// 加入军团
+message RequestJoinGuild {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_JOIN_GUILD; }
+    
+    required UINT32 m_nGuildId = 1;     ///< 军团id
+    required UINT32 m_nTeamId = 2;      ///< 战队id
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_JOIN_GUILD),                  
+// 通知有玩家加入军团
+message NotifyJoinGuild  {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_JOIN_GUILD; }
+
+    required BUDDY_BRIEF m_newMember = 1;   ///< 通知新加入队员的信息
+    required MemberInfo m_info = 2;
+}
+
+// MSGTYPE_DECLARE_ASSIGN(MSG_NOTIFY_GUILD_INFO, 1650),     
+// 通知军团信息  
+message NotifyGuildInfo {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_INFO; }
+
+    required GuildInfo  m_info      = 1;    ///< 军团信息
+    repeated TeamInfo   m_teamVec   = 2;    ///< 军团战队信息
+}
+
+// 通知战队成员
+message NotifyTeamMember {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TEAM_MEMBER; }
+
+    required UINT32 m_nContestId = 1;   ///< 对阵ID（联赛服需要传入）
+    required UINT32 m_nGuildId = 2;     ///< 军团id
+    required UINT32 m_nTeamId = 3;      ///< 战队id
+    repeated MemberInfo m_memberVec = 4;    ///< 军团成员信息
+}
+
+// MSGTYPE_DECLARE(MSG_UPDATE_TEAM_INFO),                  
+// 更新战队信息
+message UpdateTeamInfo {
+    enum { THIS_MSG_TYPE = MSG_UPDATE_TEAM_INFO; }
+
+    required TeamInfo   m_info  = 1;    ///< 战队信息
+    required UINT32     m_nType = 2;    ///< UPDATE_TEAM_TYPE  
+}
+                
+// 更新军团信息
+message UpdateGuildInfo {
+    enum { THIS_MSG_TYPE = MSG_UPDATE_GUILD_INFO; }
+
+    required GuildInfo  m_info  = 1;    ///< 军团信息
+    required UINT32     m_nType = 2;    ///< UPDATE_GUILD_TYPE  
+}
+
+/// 更新团员信息
+message UpdateMemberInfo {
+    enum { THIS_MSG_TYPE = MSG_UPDATE_GUILD_MEMBER_INFO; }
+
+    required MemberInfo  m_info    = 1;  ///< 团员信息
+}
+
+// 通知修改战队名称
+message NotifyChangeTeamName
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CHANGE_TEAM_NAME; }
+    
+    required string m_info  = 1;  ///< 新的战队名称
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_GUILD_INVITE),                  
+// 发送军团邀请
+message RequestGuildInvite {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_GUILD_INVITE; }
+
+    
+    required string m_nTargeter = 1;    ///< 邀请目标名字
+    required UINT32 m_nTeamId   = 2;    ///< 战队id
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_GUILD_INVITE),                
+// 通知军团邀请
+message NotifyGuildInvite {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_INVITE; }
+
+    required string m_szStarter   = 1;    ///< 发起者
+    required UINT32 m_nGuildId    = 2;    ///< 军团id
+    required string m_nGuildName  = 3;   ///< 军团名称
+    required UINT32 m_nTeamId     = 4;    ///< 战队id 
+    required string m_nTeamName   = 5;    ///< 战队名
+    required BYTE   m_isJoinGuild = 6;    ///< 加入军团或者加入申请列表
+ }
+
+// MSGTYPE_DECLARE(MSG_REQUEST_LEAVE_GUILD),                
+// 请求离开军团
+message RequestLeaveGuild {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_LEAVE_GUILD; }
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_LEAVE_GUILD),                 
+// 通知离开军团
+message NotifyLeaveGuild {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_LEAVE_GUILD; }
+
+    required string m_charUuid = 1;         ///< 离开的玩家的Uuid
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_GUILD_KICKOUT),              
+// 请求踢出军团
+message RequestGuildKickout {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_GUILD_KICKOUT; }
+
+    required string m_targetUuid = 1;       ///< 目标Uuid
+    required UINT32 m_nTeamId = 2;          ///< 目标所在战队id
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_TEAM_KICKOUT),               
+// 通知踢出战队
+message NotifyTeamKickout {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TEAM_KICKOUT; }
+
+    required string m_targetUuid = 1;       ///< 目标Uuid
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_CHANGE_POST),             
+// 请求更换队长
+message RequestChangePost {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CHANGE_POST; }
+
+    required string m_targetUuid = 1;       ///< 目标Uuid
+    required int    m_iPost = 2;        ///< enum TEAM_POST_TYPE    
+    required UINT32 m_nTeamId = 3;      ///< 目标的战队id
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_CHANGE_POST),              
+// 通知队长更换
+message NotifyChangePost {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CHANGE_POST; }
+
+    required string m_targetUuid = 1;       ///< 目标Uuid
+    required int    m_iPost = 2;        ///< enum TEAM_POST_TYPE    
+}
+
+// 请求刷新成员信息
+message RequestTeamMember
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_TEAM_MEMBER; }
+    
+    required UINT32 m_nTeamId = 1;  ///< 战队id
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_DESTROY_GUILD),               
+// 通知解散战队
+message NotifyDestroyGuild {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_DESTROY_GUILD; }
+    
+    required UINT32 m_nGuild = 1;   ///< 军团id
+}
+
+// MSGTYPE_DECLARE(MSG_SELECT_MATCH_RACE),                 
+// 战队选择参战赛事
+message SelectMatchRace {
+    enum { THIS_MSG_TYPE = MSG_SELECT_MATCH_RACE; }
+
+    required UINT32 m_matchId = 2;      // 联赛id
+    required string m_raceUuid = 3;     // 比赛uuid
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_SELECT_MATCH),               
+// 通知队长选择参加的联赛
+message NotifySelectMatch {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SELECT_MATCH; }
+
+    required UINT32 m_matchId = 2;      // 联赛id
+    required string m_raceUuid = 3;     // 比赛uuid
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_JOIN_GUILD_APPLY),                
+// 请求发送加入军团申请
+message RequestJoinApply {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_JOIN_GUILD_APPLY; }
+
+    required UINT32 m_nGuildId     = 1;    ///< 军团id
+    required string m_szInviteName = 2;    ///< 邀请者名字
+    required BYTE   m_isFastJoin   = 3;    ///< 是否是快速加入
+}
+
+// MSG_NOTIFY_TEAM_JOIN_APPLY
+// 通知有人申请加入战队
+message NotifyJoinApply
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TEAM_JOIN_APPLY; }
+
+    required BUDDY_BRIEF m_data = 1;    ///< 申请者信息
+}
+
+message NotifyJoinApplyLogin
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TEAM_JOIN_APPLY_LOGIN; }
+
+    required int m_count = 1;    ///< 申请者数量
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_GUILD_APPLY_LIST),           
+// 请求军团申请列表
+message RequestApplyList {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_GUILD_APPLY_LIST; }
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_GUILD_APPLY_LIST),                 
+// 通知军团申请数据
+message NotifyApplyList {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_APPLY_LIST; }
+
+    repeated BUDDY_BRIEF m_charVec             = 1;   ///< 申请加入的角色信息
+    repeated GuildInviteInfo m_inviteVec       = 2;   ///< 推荐人信息
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_APPROVE_APPLY),             
+// 请求同意战队申请
+message RequestApproveApply {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_APPROVE_APPLY; }
+
+    required string     m_charUuid  = 1;    ///< 角色uuid
+    required UINT32     m_nTeamId   = 2;    ///< 战队id
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_REJECT_APPLY),              
+// 请求拒绝战队申请
+message RequestRejectApply {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_REJECT_APPLY; }
+
+    required string     m_charUuid  = 1;    ///< 角色uuid
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_GUILD_UPGRADE),              
+// 请求战队升级
+message RequestGuildUpgrade {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_GUILD_UPGRADE; }
+}
+         
+// 请求领取军团礼包
+message RequestGuildGift {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_GUILD_GIFT; }
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_SET_CHANNEL),             
+// 请求设置YY频道号
+message RequestSetChannel {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SET_CHANNEL; }
+
+    required string m_szChannel = 1;       ///< yy频道号
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_SET_NOTICE),             
+// 请求设置公告
+message RequestSetNotice {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SET_NOTICE; }
+
+    required string m_szNotice = 1;       ///< 公告
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_SET_RECRUIT_NOTICE)
+// 请求设置招募宣言
+message RequestSetRecruitNotice {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SET_RECRUIT_NOTICE; }
+    
+    required string m_szRecruitNotice = 1;    ///< 招募宣言
+}
+
+// 请求约战列表
+message RequestChallengeList
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CHALLENGE_LIST; }
+
+    required UINT32 m_nActivity = 1;    // 活动类型 参见ACTIVITY_TYPE枚举
+    required UINT32 m_nContest = 2;     // 联赛对阵
+}
+
+message TeamBrief
+{
+    required UINT32 m_nTeamId = 1;
+    required string m_szCluster = 2;    // 战队所在区服
+    required string m_szName = 3;
+    required INT32  m_iPlace = 4;
+    required INT32  m_iGlory = 5;
+}
+
+// 请求约战
+message RequestChallengeTeam
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CHALLENGE_TEAM; }
+
+    required UINT32 m_nActivity = 1;    // 活动类型 参见ACTIVITY_TYPE枚举
+    required UINT32 m_nTeamId  = 2;     // 挑战的对方战队    
+    required UINT32 m_nContest  = 3;    // 联赛对阵标识    
+}
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_LEAGUE_CHALLENGE_TEAM),
+// 联赛请求约战Track->Global
+message GlobalChallengeTeam
+{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_LEAGUE_CHALLENGE_TEAM; }
+
+    required UINT32 m_nTeamId = 2;          // 挑战的对方战队
+    required UINT32 m_nContest = 3;         // 联赛对阵标识
+    required TeamBrief m_selfBrief = 4;     // 本方战队信息
+}
+
+// 请求开始排位赛
+message RequestTeamMatchStart
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_TEAM_MATCH_START; }
+
+    required UINT32 m_nActivity = 1;    // 活动类型 参见ACTIVITY_TYPE枚举
+}
+
+// 通知约战失败UINT32 
+message NotifyChallengeFail
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CHALLENGE_FAIL; }
+    
+    required UINT32 m_nErr = 1; ///< CHALLENGE_LIST_STATE
+    required UINT32 m_nParam = 2; ///< 1：m_nErr = CLST_ARMISTICE时 指定休战冷却时间    
+}
+
+message ChallengeInfo
+{
+    required TeamBrief m_teamBrief = 1;
+    required UINT32 m_nState = 2;       ///< CHALLENGE_LIST_STATE  
+    required INT32 m_iCount = 3;        ///< 剩余被挑战次数
+    required INT32 m_iPlace = 4;        ///< 挑战列表的排名
+    required UINT32 m_nScores = 5;      ///< 当前积分
+    required UINT32 m_nContest = 6;     ///< 分配到的对阵ID    
+    required UINT32 m_nTurn = 7;        ///< 被挑战的轮次
+    required UINT32 m_nStart = 8;       ///< 轮次开始的时间
+    required UINT32 m_nCluster = 9;     ///< 所在区服
+}
+
+// 通知约战列表
+message NotifyChallengeList
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CHALLENGE_LIST; }
+    
+    repeated ChallengeInfo m_list = 1;
+}
+
+// 通知约战成功
+message NotifyChallengeOk
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CHALLENGE_OK; }
+    
+    required TeamBrief  m_teamBrief     = 1;    ///< 敌方战队信息
+    required UINT32     m_nStartTime    = 2;    ///< 战斗开始时间戳
+    required UINT32     m_nRoomType     = 3;    ///< ROOM_TYPE的排位赛和联赛的枚举
+}
+
+// 通知被挑战
+message NotifyBeChallenge
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_BE_CHALLENGE; }
+    
+    required UINT32 m_nTeamId= 1;           ///< 战队id
+    required TeamBrief  m_teamBrief = 2;    ///< 敌方战队信息
+    required UINT32 m_nStartTime = 3;       ///< 战斗开始时间戳
+    required UINT32 m_nType = 4;            ///< ROOM_TYPE
+}
+
+enum MATCH_INFO_TYPE
+{
+    MIT_NONE        = 0;    ///< 无
+    MIT_BAT_END     = 1;    ///< 战斗结束
+    MIT_MATCH_END   = 2;    ///< 比赛结束
+    MIT_JOIN_ROOM   = 3;    ///< 进入房间
+    MIT_BAT_ACCEPT  = 4;    ///< 接受挑战
+    MIT_BAT_START   = 5;    ///< 开始战斗
+    MIT_PAIR_START  = 6;    ///< 开始配对
+}
+
+// 通知战队赛信息
+message NotifyTeamMatchInfo
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TEAM_MATCH_INFO; }
+    
+    required TeamBrief  m_cgTeamBrief   = 1;    ///< 挑战方战队信息
+    required TeamBrief  m_beCgTeamBrief = 2;    ///< 被挑战方战队信息
+    required BYTE       m_bCgStart      = 3;    ///< 挑战方是否开始
+    required BYTE       m_bBeCgStart    = 4;    ///< 被挑战方是否开始
+    required BYTE       m_cgWin         = 5;    ///< 挑战方胜利次数
+    required BYTE       m_beCgWin       = 6;    ///< 被挑战方胜利次数
+    required BYTE       m_nState        = 7;    ///< 状态 enum TEAM_MATCH_MATCH_STATE
+    required UINT32     m_nStartTime    = 8;    ///< 下一场战斗开始时间
+    required BYTE       m_roomType      = 9;    ///< 房间类型 enum ROOM_TYPE
+    required BYTE       m_notifyType    = 10;   ///< 通知类型 enum MATCH_INFO_TYPE
+    required BYTE       m_isPariPolicy  = 11;   ///< 是否是匹配模式
+}
+
+// 通知战队赛结果
+message NotifyTeamMatchResult
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TEAM_MATCH_RESULT; }
+    
+    required TeamBrief  m_cgTeamBrief   = 1;    ///< 挑战方战队信息
+    required TeamBrief  m_beCgTeamBrief = 2;    ///< 被挑战方战队信息
+    required UINT32     m_nWinTeamId    = 3;    ///< 胜利战队id
+    required UINT32     m_nRoomType     = 4;    ///< ROOM_TYPE的排位赛和联赛的枚举
+}
+
+// 通知平台赛事接口比赛结果
+message NotifyRemotePlatformMatchResult
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_REMOTE_PLATFORM_MATCH_RESULT; }
+    
+    required BYTE       m_nWin        = 1;      ///< 是否获胜
+    required UINT32     m_nRoomType = 2;        ///< 房间类型
+    required UINT32     m_nTeamId = 3;          ///< 战队ID
+    required UINT32     m_nSessionId    = 5;    ///< 联赛需要传递sessionID
+    required string     m_strLeagueName = 6;    ///< 赛事名称
+    required string     m_strMatchName  = 7;    ///< 赛事轮次名称
+    required UINT32     m_nPolicy       = 8;    ///< 赛事策略
+    required UINT32     m_nAnnounceType = 9;    ///< 赛事公告类型 enum LEAGUE_ANNOUNCE_TYPE
+    required string     m_strEnemyName = 10;    ///< 对手名称
+    required INT32      m_iPlace       = 11;    ///< 队伍名次
+}
+
+// 请求修改战队名
+message RequestChangeTeamName
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CHANGE_TEAM_NAME; }
+    
+    required string m_newName = 1;  ///< 新的名称
+    required UINT32 m_nTeamId = 2;  ///< 战队id
+}
+
+// 请求修改军团名
+message RequestChangeGuildName
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CHANGE_GUILD_NAME; }
+    
+    required string m_newName = 1;  ///< 新的名称
+}
+
+
+/// 请求开启或者关闭战队副本
+message RequestChangeTeamPveFlag {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CHANGE_TEAM_PVE_FLAG; }    
+    
+    required BYTE m_isOpen = 1; ///< 1:代表开启 0:代表关闭
+}
+
+/// 请求转移战队的资金到军团
+message RequestTransferTeamCoin {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_TRANSFER_TEAM_COIN; }    
+    
+    required INT32 m_nCoins = 1; ///< 转出的战队资金数量
+    required INT32 m_nDirection = 2; ///< 1：战队转军团， 2 ： 军团转战队，
+}
+
+/// 请求进行军团技能的研究
+message RequestResearchGuildSkill {
+		enum { THIS_MSG_TYPE = MSG_REQUEST_RESEARCH_GUILD_SKILL; } 
+		required UINT32 m_nGuildSkillId = 1;  ///< 军团技能ID
+}
+
+// 军团技能信息
+message GuildSkillInfo {
+		required UINT32 m_nGuildSkillId = 1;  ///< 军团技能ID
+		required UINT32 m_nSkillLevel = 2;    ///< 技能等级
+}
+
+/// 通知军团技能信息
+message NotifyGuildSkillInfo {
+		enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_SKILL_INFO; }
+		repeated GuildSkillInfo m_skillList = 1;   ///< 技能信息
+		required UINT32 m_nOpType = 2;						 ///< 操作类型 INFO_OP_TYPE
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_GUILD_OP),
+// 请求军团操作
+message RequestGuildOp {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_GUILD_OP; }
+
+    enum {
+        GUILD_OP_SETTING_BIT    = 1;        ///< 军团设置统一按位标志字段（GUILD_SETTING_BIT）
+        GUILD_OP_LEVEL_LIMIT    = 2;        ///< 军团设置最低准入等级
+        GUILD_OP_LADDER_LIMIT   = 3;        ///< 军团设置最低准入段位
+    }
+    required int m_type          = 1;        
+    required int m_iparam        = 2;         // 参数值
+}
+
+message TeamCache {
+    required TeamBrief m_teamBrief = 1; // 战队数据
+    required UINT32 m_nLevel = 2;       // 战队等级
+    required UINT32 m_nExtFlag = 3;     // TEAM_EXT_FLAG_BIT
+    required string m_leaderUuid = 4;   // 战队队长Uuid
+    repeated string m_memberVec = 5;    // 成员列表
+}
+
+message GuildBrief
+{
+    required UINT32 m_nGuildId = 1;     // 军团id
+    required UINT32 m_nLevel = 2;       // 军团等级
+    required string m_strName = 3;      // 军团名称
+    required string m_strLeaderUuid = 4; // 军团长UUID
+    required string m_strViceLeaderUuid = 5; // 副军团长UUID
+    repeated TeamCache m_teamVec = 6;   // 战队列表
+}
+
+// MSGTYPE_DECLARE(MSG_SYNC_GUILD_DATA),
+// 同步军团数据给track
+message SyncGuildData
+{
+    enum { THIS_MSG_TYPE = MSG_SYNC_GUILD_DATA; }
+    
+    required GuildBrief m_guild = 1;     // 军团数据
+}
+
+message CharMerit
+{
+    required string m_charUuid = 1;     // 角色Uuid
+    required UINT32 m_nMerit = 2;       // 军团贡献
+}
+
+// MSGTYPE_DECLARE(MSG_CHAR_ADD_TEAM_MERIT),
+// track->guild,增加玩家军团贡献
+message CharAddTeamMerit {
+    enum { THIS_MSG_TYPE = MSG_CHAR_ADD_TEAM_MERIT; }
+    
+    repeated CharMerit m_charVec = 5;    // 玩家列表
+}
+
+// MSGTYPE_DECLARE(MSG_CHAR_ADD_GUILD_ACTIVE),
+// gate->guild 玩家增加军团活跃度
+message CharAddGuildActive {
+    
+    enum { THIS_MSG_TYPE = MSG_CHAR_ADD_GUILD_ACTIVE; }
+    required UINT32 m_nCharId = 1;      // 角色ID
+    required UINT32 m_nActive = 2;      // 活跃度
+    required BYTE   m_isLogin = 3;      // 是否是登录活跃
+}
+
+// track->guild,通知战队通关地图
+message TeamPveBattleWin{
+    enum { THIS_MSG_TYPE = MSG_TEAM_PVE_BATTLE_WIN; }
+    
+    required UINT32 m_nTeamId = 1;    // 战队ID
+    required UINT32 m_nMapId = 2;     // 地图ID
+}
+
+// MSGTYPE_DECLARE(MSG_TEAM_MATCH_START_PAIR),
+// 请求开始战队赛匹配
+message TeamMatchStartPair {
+    enum { THIS_MSG_TYPE = MSG_TEAM_MATCH_START_PAIR; }
+}
+
+// MSGTYPE_DECLARE(MSG_TEAM_MATCH_STOP_PAIR),
+// 请求停止战队赛匹配
+message TeamMatchStopPair {
+    enum { THIS_MSG_TYPE = MSG_TEAM_MATCH_STOP_PAIR; }
+}
+
+// guild->track 通知清空所有战队的名次
+message NotifyClearAllTeamPlace{
+    enum { THIS_MSG_TYPE = MSG_CLEAR_ALL_TEAM_PLACE;}
+    
+}
+
+// track->guild 
+message QueryGuildCreateRoom{
+    enum { THIS_MSG_TYPE = MSG_QUERY_GUILD_CREATE_ROOM;}
+    
+    required UINT32 m_nRoomType = 1;    // 房间类型 enum ROOM_TYPE
+    required UINT32 m_nSvrUid = 2;      // track的sid
+    required UINT32 m_nId = 4;      // 根据房间类型的自定义ID
+}
+
+// track->guild
+message NotifyGuildDestroyRoom{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_DESTROY_ROOM;}
+    
+    required UINT32 m_nRoomType = 1;    // 房间类型 enum ROOM_TYPE
+    required UINT32 m_nSvrUid = 2;      // track的sid
+    required UINT32 m_nId = 3;      // 根据房间类型的自定义ID
+}
+
+// track->guild
+message NotifyGuildPlayerEnterRoom{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_PLAYER_ENTER_ROOM; }
+    
+    required UINT32 m_nRoomType = 1;    // 房间类型
+    required UINT32 m_nGuildId = 2;
+    required UINT32 m_nTrackSid = 3;
+    required UINT32 m_nRoomId = 4;
+}
+
+// guild->track
+message GuildRequestCreateRoom{
+    enum { THIS_MSG_TYPE = MSG_GUILD_REQUEST_CREATE_ROOM;}
+    
+    required UINT32 m_nRoomType = 1;    // 房间类型 enum ROOM_TYPE
+    required UINT32 m_nTeamId = 3;      // 战队ID
+}
+
+// guild->global
+message GuildRequestCreateScene{
+    enum { THIS_MSG_TYPE = MSG_GUILD_REQUEST_CREATE_SCENE; }
+    
+    required UINT32 m_nRoomType = 1;        // 房间类型
+    required UINT32 m_nMapId = 2;           // 地图ID
+    required UINT32 m_nRedTeamId = 3;       // 红方战队ID
+    required UINT32 m_nRedTeamTrackId = 4;  // 红方战队所在的track
+    required UINT32 m_nRedRoomId = 5;       // 红方房间ID
+    required UINT32 m_nBlueTeamId = 6;      // 蓝方战队ID
+    required UINT32 m_nBlueTeamTrackId = 7; // 蓝方战队所在的track
+    required UINT32 m_nBlueRoomId = 8;      // 蓝方房间ID
+    required string m_strSceneName = 9;     // 战场名称
+    required UINT32 m_nDefaultWinCamp = 10;  // 平局的胜利阵营
+    required UINT32 m_nGuildSvrId = 11;      // GUILDSVR的SID
+    required UINT32 m_nActSvrId = 12;        // ActSvr的SID
+}
+
+// global->guild
+message NotifyTeamMatchEnd{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TEAM_MATCH_END; }
+    
+    required UINT32 m_nSceneId = 1;        // 战场ID
+    required UINT32 m_nRoomType = 2;       // 房间类型 enum ROOM_TYPE
+    required UINT32 m_nWinTeam = 3;        // 胜利的队伍
+    required UINT32 m_nRedTeamId = 4; 
+    required UINT32 m_nRedTrackSid = 5;
+    required UINT32 m_nRedRoomId = 6;  
+    repeated string m_strRedUuid = 7;      // 红队玩家
+    repeated string m_strBlueUuid = 8;     // 蓝队玩家
+}
+
+message GuildMatchStartPair{
+    enum { THIS_MSG_TYPE = MSG_GUILD_MATCH_START_PAIR; }
+    
+    required UINT32 m_nGuildId = 1;      
+    required UINT32 m_nTrackSvrId = 2;     // trackSid
+    required UINT32 m_nRoomId = 3;         // 房间ID
+}
+
+message GuildMatchStopPair{
+    enum { THIS_MSG_TYPE = MSG_GUILD_MATCH_STOP_PAIR; }
+    
+    required UINT32 m_nGuildId = 1;        // 
+    required UINT32 m_nTrackSvrId = 2;     // trackSid
+    required UINT32 m_nRoomId = 3;         // 房间ID
+}
+
+message NotifyAddTankSelected{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ADD_SELECTED_TANK; }
+    
+    required string m_strUuid = 1;         // 角色UUID
+    required UINT32 m_nTankId = 2;
+}
+
+enum REQ_MEMBER_REASON{
+    RM_REASON_GUILD_PASS = 1;   // 军团赛轮空
+    RM_REASON_CONTEST_NO_ENEMY = 2;  // 军团赛对方没有队伍迎战
+}
+
+message RequestRoundPassRoomMemberUuid{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_ROUNDPASS_ROOM_MEMBER_UUID; }
+    
+    required UINT32 m_nGuildId = 1;
+    repeated UINT32 m_vecRoomId = 2;
+    required UINT32 m_nReason = 3;   // enum REQ_MEMBER_REASON
+    required UINT64 m_nId = 4;  // 军团对阵ID（军团轮空为0）
+}
+
+message NotifyRoundPassRoomMember{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ROUNDPASS_ROOM_MEMBER_UUID; }
+    
+    required UINT32 m_nGuildId = 1;
+    repeated string m_vecUuid = 2;
+    required UINT32 m_nReason = 3; // enum REQ_MEMBER_REASON
+    required UINT64 m_nId = 4; // 军团对阵ID（军团轮空为0）
+}
+
+message NotifyGuildMatchRankToGate{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_MATCH_RANK_TO_GATE; }
+    
+    required UINT32 m_nRank = 1;   // 军团赛排名
+    required UINT32 m_nRankTime = 2; // 排名刷新时间
+    required UINT32 m_nJoinTime = 3; // 加入军团时间
+}
+
+message NotifyResetGuildMatchRankQuest{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_RESET_GUILD_MATCH_RANK_QUEST; }
+    
+    required UINT32 m_nResetTime = 1;
+}
+
+message NotifyConquerCastle{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CONQUER_CASTLE; }
+    
+    required UINT32 m_nRank = 1;    // 军团赛排名
+}
+
+message GuildMatchTeamBrief{
+    required string m_strName = 1;
+    required UINT32 m_nAvatarId = 2;
+}
+
+enum GUILD_MATCH_BATTLE_RESULT
+{
+    GBMR_NONE = 0;    ///< 未开始
+    GBMR_RED_WIN = 1; ///< 红方获胜
+    GBMR_BLUE_WIN = 2;///< 蓝方获胜
+    GBMR_TIE = 3;     ///< 平局
+    GBMR_MAX = 4;     ///< 
+}
+
+message GuildMatchTeamContest
+{
+    required GuildMatchTeamBrief m_teamRed = 1;
+    required GuildMatchTeamBrief m_teamBlue = 2;
+    required UINT32 m_nResult = 3; // enum GUILD_MATCH_BATTLE_RESULT
+}
+
+// 通知客户端军团赛对阵开始
+message NotifyGuildMatchPairGroup{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_MATCH_PAIR_GROUP; }
+    
+    required UINT32 m_nScore = 1;     // 增加的积分
+    required UINT32 m_nGuildIdRed = 2;  // 军团1的ID
+    required string m_strGuildNameRed = 3; // 军团1的名称
+    required UINT32 m_nGuildIdBlue = 4;  // 军团2的ID
+    required string m_strGuildNameBlue = 5; // 军团2的名称
+    required UINT32 m_nResult = 6;   // enum GUILD_MATCH_BATTLE_RESULT
+    repeated GuildMatchTeamContest m_vecContest = 7;
+    required UINT32 m_nTurn = 8;   // 匹配轮次
+}
+
+
+// MSGTYPE_DECLARE(MSG_REQUEST_START_GUILD_BOSS),                 
+// 请求参加军团BOSS战斗
+message RequestStartGuildBossMessage {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_START_GUILD_BOSS; }
+
+    required UINT32 m_bossId = 1;      // BOSS模板ID
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_GUILD_BOSS_BATTLE_START),                 
+// 通知军团BOSS战斗开始
+message NotifyGuildBossBattleStartMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_BOSS_BATTLE_START; }
+
+		required string m_charUuid = 1;		 // 玩家UUID
+    required UINT32 m_bossId = 2;      // BOSS模板ID
+    required INT32 m_bossDmgHp = 3;    // BOSS损失血量
+    required UINT32 m_mapId  = 4;      // 地图ID
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_GUILD_BOSS_BATTLE_END),                 
+// 通知军团BOSS战斗结束
+message NotifyGuildBossBattleEndMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_BOSS_BATTLE_END; }
+
+		required string m_charUuid = 1;		 // 玩家UUID
+    required UINT32 m_bossId = 2;      // BOSS模板ID
+    required INT32  m_bossDmgHp = 3;   // BOSS本次损失血量
+    required UINT32 m_isDead = 4;      // BOSS是否已死亡
+}
+
+message GuildBossAwardInfo {
+		required UINT32 m_bossId = 1;      			// BOSS模板ID
+    required UINT32  m_awardBaseItem = 2;   // 基本宝箱奖励
+    required UINT32 m_awardRandItem = 3;    // 随机宝箱奖励
+    required UINT32 m_battleTime = 4;       // 战斗时间
+}
+
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_PLAYER_GET_GUILD_BOSS_AWARD),                 
+// 通知获得军团BOSS奖励
+message NotifyPlayerGetGuildBossAwardMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_PLAYER_GET_GUILD_BOSS_AWARD; }
+    
+    required GuildBossAwardInfo m_awardInfo = 1;    // 奖励信息
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_GUILD_BOSS_AWARD),                 
+// 通知军团BOSS奖励信息
+message NotifyGuildBossAwardMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_BOSS_AWARD; }
+    
+    repeated GuildBossAwardInfo m_awardInfoVec = 1;    // 奖励信息
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_DRAW_GUILD_BOSS_AWARD),                 
+// 请求领取军团BOSS奖励
+message RequestDrawGuildBossAwardMessage {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_DRAW_GUILD_BOSS_AWARD; }
+    
+    enum DRAW_TYPE {
+    	GBDT_BASE = 0;   //基本奖励
+    	GBDT_RAND = 1;   //随机奖励
+    }
+
+    required UINT32 m_bossId = 1;      // BOSS模板ID
+    required UINT32 m_darwType = 2;    // 领取类型 
+}
+
+message GuildBossDamageInfo {
+	required string m_charUuid = 1;     //角色UUID
+	required string m_charName = 2;			//角色名
+	required INT32  m_dmgHp = 3;        //伤害值
+	required UINT32 m_infoOverTime = 4; //信息超期时间
+}
+
+message GuildBossInfo {
+	required UINT32 m_bossId = 1;       // BOSS id
+	required UINT32 m_deadTime = 2;     // 死亡时间
+	required UINT32 m_battleTime = 3;   // 战斗开始时间
+	required string m_battleUuid = 4;   // 正在战斗的玩家UUID
+	required string m_randAwardName = 5; // 获得随机奖励的玩家名
+	repeated GuildBossDamageInfo m_damInfoVec = 6;  //伤害信息
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_GUILD_BOSS_INFO),                 
+// 通知军团BOSS信息
+message NotifyGuildBossInfoMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_BOSS_INFO; }
+    
+    repeated GuildBossInfo m_bossInfoVec = 1;    // 奖励信息
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_CLEAR_GUILD_BOSS_BATTLE_TIME),                 
+// 通知清除军团BOSS战斗时间
+message NotifyClearGuildBossBattleTimeMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CLEAR_GUILD_BOSS_BATTLE_TIME; }
+    
+    required UINT32 m_bossId = 1;    // BOSS id
+}
+
+
+message KillGuildBossInfo {
+	required string m_bossName = 1;      // BOSS名称
+	required string m_killName = 2;     // 击杀玩家名
+	required UINT32 m_deadTime = 3;   	// 死亡时间
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_GUILD_BOSS_KILL_INFO),                 
+// 通知军团BOSS被击杀信息
+message NotifyGuildBossKillInfoMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_BOSS_KILL_INFO; }
+    
+    repeated KillGuildBossInfo m_infoVec = 1;    // 击杀信息
+}

@@ -1,0 +1,23 @@
+// ----------------------------------------------------------------------
+/// @file           protocol/EchoRequest.h
+/// @brief
+/// @author         Linyixiong
+/// @copyright      Sixcube Information Technology Co,. Ltd. (2012)
+/// @date           2011-5-27 16:27:00
+// -----------------------------------------------------------------------
+
+/// MSGTYPE_DECLARE(MSG_ECHO_REQUEST)
+message EchoRequest{
+    enum { THIS_MSG_TYPE = MSG_ECHO_REQUEST; }
+
+    required UINT32     m_nObjId = 1;     // 对象id
+    required string     m_szText = 2;
+}
+
+/// MSGTYPE_DECLARE(MSG_ECHO_RESPONSE)
+message EchoResponse{
+    enum { THIS_MSG_TYPE = MSG_ECHO_RESPONSE; }
+
+    required UINT32     m_nObjId = 1;     // 对象id
+    required string     m_szText = 2;
+}

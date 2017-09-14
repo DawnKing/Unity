@@ -1,0 +1,384 @@
+// ----------------------------------------------------------------------
+/// @file			protocol/CurrencyMessage.h
+/// @brief
+/// @author         Bob Lee (bob@onwind.cn)
+/// @copyright		Sixcube Information Technology Co,. Ltd. (2012)
+/// @date			2007-08-22 13:42:03
+// -----------------------------------------------------------------------
+
+import ShareTypes;
+import BulkDataType;
+import TeamMessage;
+
+/*
+ * 赛事报名返回的错误代码
+ */
+enum	LEAGUE_ENROLL_ERROR {
+	LEAGUE_ENROLL_NOERROR = 0;			
+	LEAGUE_ENROLL_NOSUCHSESSION = 1;	// 无此赛事阶段
+	LEAGUE_ENROLL_NOSUTEAM = 2;		// 无此战队
+	LEAGUE_ENROLL_ENROLLNOTSTART = 3;	// 赛事报名未开放
+	LEAGUE_ENROLL_ENROLLCLOSED = 4;		// 赛事报名已关闭
+	LEAGUE_ENROLL_ENROLLEXCEEDED = 5;	// 赛事报名已达上限
+	LEAGUE_ENROLL_CONDITION_LEVEL = 6;	// 战队达不到报名条件-等级不足
+	LEAGUE_ENROLL_CONDITION_GLORY = 7;	// 战队达不到报名条件-荣耀不足
+	LEAGUE_ENROLL_CONDITION_PLACE = 8;	// 战队达不到报名条件-排位赛名次不足
+	LEAGUE_ENROLL_CONDITION_MEMBER = 9;	// 战队达不到报名条件-成员数量不足
+	LEAGUE_ENROLL_CONDITION_CREATE = 10;	// 战队达不到报名条件-创建时间过晚
+	LEAGUE_ENROLL_CONDITION_FUND = 11;	// 战队达不到报名条件-战队资金不足
+	LEAGUE_ENROLL_ALREADYSIGNEDUP = 12;	// 战队已经报过名了	
+	LEAGUE_ENROLL_NOSUCHSQUARE = 13;	// 没有找到对应的阵区
+}
+
+message LeagueChallenge
+{
+    required UINT32        nOrder = 1;            ///< 队伍名词
+    required UINT32        nContest = 2;          ///< 对阵ID
+    required UINT32        nTeamId = 3;           ///<队伍ID
+    required UINT32        nTurn = 4;             ///< 队伍ID
+    required UINT32        nStartTime = 5;        ///< 小组名次
+    required UINT32        nTodayLeft = 6;        ///< 今日剩余战队次数
+    required UINT32        nTodayTimes = 7;       ///< 今日已经战斗次数
+    required UINT32        nDayMax = 8;           ///< 今日最大战斗次数
+    required UINT32        nScores = 9;           ///< 当前分数
+    required UINT32        nCluster = 10;          ///< 所在区服
+    required fixstr37      szTeamName = 11;        ///< 战队名称
+    required UINT32        nPlace = 12;            ///< 战队赛名次
+    required UINT32        nGlory = 13;            ///< 荣耀值
+    required UINT32        nState = 14;            ///< 挑战状态(4-已经挑战过；6-次数已满；8-自身战队)
+}
+
+//MSGTYPE_DECLARE_ASSIGN(MSG_LEAGUE_REQUEST_ENROLL, 190),	
+//请求报名到某个赛事
+message LeagueRequestEnroll {
+    enum { THIS_MSG_TYPE = MSG_LEAGUE_REQUEST_ENROLL; }
+    
+    required UINT32 m_team_id = 1;    ///< 报名的队伍编号    
+    required UINT32 m_session = 2;    ///< 要报名的赛事实例
+    required UINT32 m_zone_id = 3;    ///< 要报名到的分区  
+}
+
+/// MSGTYPE_DECLARE_ASSIGN(MSG_LEAGUE_ENROLL_RESULT, 1720), 
+/// 通知客户端，联赛报名结果
+message LeagueEnrollResult{
+    enum { THIS_MSG_TYPE = MSG_LEAGUE_ENROLL_RESULT; }
+
+    required UINT32 m_team_id = 1;    ///< 报名的队伍编号 
+    required UINT32 m_session = 2;    ///< 要报名的赛事实例    
+    required UINT32 m_zone_id = 3;    ///< 要报名的赛区实例    
+    required UINT32 m_result = 4;     ///< 参见LEAGUE_ENROLL_ERROR 
+}
+
+///MSGTYPE_DECLARE(MSG_LEAGUE_NOTIFY_BATTLE_RESULT),          	
+/// 联赛通知成绩信息
+message LeagueNotifyBattleResult{
+    enum { THIS_MSG_TYPE = MSG_LEAGUE_NOTIFY_BATTLE_RESULT; }
+
+    required UINT32 m_contest = 1;    ///< 赛事ID
+    required UINT32 m_red_team = 2;    ///< 红队ID
+    required UINT32 m_blue_team = 3;    ///< 蓝队ID
+    required UINT32 m_win_team = 4;     ///< 胜队ID
+}
+
+// MSGTYPE_DECLARE(MSG_LEAGUE_REQUEST_AWARD),
+// 请求领取某个阶段的奖励
+
+// 成员信息
+message AWARD_REQUEST {
+    required UINT32 m_square  = 1;    	///< 要报名的赛事实例    
+    required UINT32 m_team_id = 2;    	///< 报名的队伍编号    
+    required fixstr37 m_charUuid  = 3;  ///< 角色id
+}
+
+message LeagueRequestAward {
+    enum { THIS_MSG_TYPE = MSG_LEAGUE_REQUEST_AWARD; }
+    
+    required UINT32 m_awardId = 1;     ///< 奖励的ID
+}
+
+/*
+ * 赛事报名返回的错误代码
+ */
+enum	LEAGUE_AWARD_ERROR {
+	LEAGUE_AWARD_NOERROR = 0;			
+	LEAGUE_AWARD_NOSUCHAWARD = 1;		// 无此奖励		
+	LEAGUE_AWARD_ALREADY_REAPED = 2;	// 已被领取
+	LEAGUE_AWARD_CURRENCY_EXCEEDED = 3;	// 货币溢出
+	LEAGUE_AWARD_ILLEAGAL = 4;		// 非法调用
+	LEAGUE_AWARD_OTHER_REASON = 5;		// 其他错误（含数据库失败）
+}
+
+// MSGTYPE_DECLARE(MSG_LEAGUE_AWARD_RESULT), 				
+// 通知客户端，联赛领奖结果
+message LeagueAwardResult{
+    enum { THIS_MSG_TYPE = MSG_LEAGUE_AWARD_RESULT; }
+    required UINT32 m_result = 1;     ///< 参见LEAGUE_AWARD_ERROR 
+    required UINT32 m_awardId = 2;    ///< 领奖的ID
+    required UINT32 m_belongs = 3;    ///< 奖励所属：0-个人，1-战队
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_LEAGUE_TEAM_AWARD),              
+// 通知TrackServer发放联赛的战队奖励
+message LeagueNotifyTeamAward {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_LEAGUE_TEAM_AWARD; }
+    
+    required UINT32 m_awardId = 1;     ///< 奖励的ID
+    required UINT32 m_team_id = 2;     ///< 战队ID(获奖当时)
+    required UINT32 m_glory = 3;     ///< 战队威望
+    required UINT32 m_teamcoin = 4;     ///< 战队资金
+    required UINT32 m_honor = 5;     ///< 战队荣誉
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_LEAGUE_MEMBER_AWARD),		
+// 通知发放联赛的战队个人奖励
+message LeagueNotifyMemberAward {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_LEAGUE_MEMBER_AWARD; }    
+    required UINT32 m_team_id = 1;     ///< 战队ID(获奖当时)
+    required UINT32 m_merit = 2;     ///< 战队贡献        
+}
+
+
+// MSGTYPE_DECLARE(MSG_LEAGUE_NOTIFY_CONFIG),		
+// 通知客户端联赛WEBSVC的地址
+message LeagueNotifyConfig {
+    enum { THIS_MSG_TYPE = MSG_LEAGUE_NOTIFY_CONFIG; }        
+    required string m_websvc = 1;     ///< websvc的地址       
+}
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_SYNC_TEAM),		
+// 通知发放联赛的战队个人奖励
+message LeagueGlobalSyncTeamData{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_SYNC_TEAM; }        
+    required UINT32	m_nCluster = 1;     ///< 所在区服
+    required TeamInfo	m_teamInfo = 2;     ///< 战队信息
+}
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_LEAGUE_ENROLL_RESULT),       
+// 联赛报名结果Global->Track
+message LeagueGlobalEnrollResult{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_LEAGUE_ENROLL_RESULT; }        
+
+    required UINT32 m_team_id = 1;    ///< 报名的队伍编号 
+    required UINT32 m_session = 2;    ///< 要报名的赛事实例    
+    required UINT32 m_zone_id = 3;    ///< 要报名的赛区实例    
+    required UINT32 m_result = 4;     ///< 参见LEAGUE_ENROLL_ERROR 
+    required UINT32 m_cost = 5;       ///< 需要扣除的战队资金 
+}
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_LEAGUE_CHALLENGE_REQ),       
+// 联赛请求挑战列表Track->Global
+message LeagueGlobalRequestChallengeList{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_LEAGUE_CHALLENGE_REQ; }
+
+    required UINT32 m_nContest = 1;	// 联赛对阵
+    required UINT32 m_nCluster = 2;	// 请求的大区
+    required UINT32 m_nTeam = 3;	// 所在的队伍
+    required UINT32 m_nAcctOid = 4;	// 请求的玩家
+}
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_LEAGUE_CHALLENGE_LIST),      
+// 联赛返回挑战列表Global->Track
+message LeagueGlobalChallengeList{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_LEAGUE_CHALLENGE_LIST; }
+    
+    required UINT32 m_nContest = 1;		// 联赛对阵
+    required UINT32 m_nCluster = 2;		// 请求的大区
+    required UINT32 m_nTeam = 3;		// 所在的队伍
+    required UINT32 m_nAcctOid = 4;		// 请求的玩家
+    repeated LeagueChallenge m_challenges = 5;	// 挑战列表
+    
+}
+
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_LEAGUE_ACT_PREPARE),
+// 联赛活动开始前的准备Track->Global
+message GlobalLeagueActivityPrepare {
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_LEAGUE_ACT_PREPARE; }
+
+    required UINT32 m_nCluster = 1;     // 所在区服
+    required UINT32 m_nStartTime = 2;   // 活动开始时间
+    required UINT32 m_nActTplId = 3;    // 活动模板id
+}
+
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_LEAGUE_REQUEST_AWARD),
+// 联赛请求领奖Track->Global
+message GlobalLeagueRequestAward {
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_LEAGUE_REQUEST_AWARD; }
+
+    required UINT32 m_nAwardId = 1;         // 领取到的奖励
+    required UINT32 m_nTrackUid = 2;        // 所在的区服的Track
+    required UINT32 m_nTeamId = 3;          // 所在的战队
+    required UINT32 m_nAcctOid = 4;         // 角色的唯一ID
+}
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_LEAGUE_MEMEBER_AWARD),
+// 联赛奖励领取Global->Track
+message GlobalLeagueMemberAward {
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_LEAGUE_MEMEBER_AWARD; }
+
+    required INT32 m_nRet = 1;          // 奖励结果（<0 数据库错误；0：成功；1-奖励不存在；2-奖励已经领取）
+    required UINT32 m_nAwardId = 2;     // 领取到的奖励
+    required UINT32 m_nTeamId = 3;      // 所在的战队
+    required UINT32 m_nAcctOid = 4;     // 角色的唯一ID
+    required LEAGUE_PRIZE m_prize = 5;  // 奖励细节
+}
+
+//MSGTYPE_DECLARE(MSG_GLOBAL_LEAGUE_PLAYER_LOGIN),
+// 玩家登录
+message GlobalLeaguePlayerLogin {
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_LEAGUE_PLAYER_LOGIN; }
+    
+    required UINT32 m_nTeamId = 1;          // 战队id
+    required UINT32 m_nCharId = 2;          // 进入房间的角色id
+}
+
+// MSGTYPE_DECLARE(MSG_LEAGUE_START_PAIR),
+// 请求开始联赛匹配
+message LeagueStartPair {
+    enum { THIS_MSG_TYPE = MSG_LEAGUE_START_PAIR; }
+    
+    required UINT32 m_nContest  = 1;        // 联赛对阵标识
+}
+
+// MSGTYPE_DECLARE(MSG_LEAGUE_STOP_PAIR),
+// 请求停止联赛匹配
+message LeagueStopPair {
+    enum { THIS_MSG_TYPE = MSG_LEAGUE_STOP_PAIR; }
+    
+    required UINT32 m_nTeamId = 1;          // 战队id
+}
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_LEAGUE_GET_TO_WAR),
+// 获取出战玩家列表Global->Track
+message LeagueGetToWar {
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_LEAGUE_GET_TO_WAR; }
+    
+    required UINT32 m_nContestId = 1;           // 对阵id
+    required UINT32 m_nTeamId = 2;              // 战队id
+}
+
+/// 通知联赛自动报名信息
+message NotifyLeagueAutoEnroll
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_LEAGUE_AUTO_ENROLL; }
+    
+    required UINT32 m_session = 1;   ///< 赛事实例
+    required UINT32 m_zone_id = 2;   ///< 分区
+    required UINT32 m_team_place = 3;///< 自动报名的战队名次
+}
+
+/// 请求批量报名联赛
+message RequestLeagueBatchEnroll
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_LEAGUE_BATCH_ENROLL; }
+    
+    required UINT32 m_session = 1;  ///< 赛事实例
+    required UINT32 m_zone_id = 2;  ///< 分区
+    repeated UINT32 m_vecTeamId = 3;///< 要报名的战队ID
+}
+
+/// 请求同步战队成员信息 global->track
+message GlobalRequestSyncTeamData
+{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_REQUEST_SYNC_TEAM_MEMBER; }
+    
+    required UINT32 m_nTeamId = 1;   ///< 需要同步的战队ID
+    required UINT32 m_nContestId = 2;///< 对阵ID
+}
+
+/// 请求加入联赛房间track->global
+message GlobalRequestJoinLeagueRoom
+{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_REQUEST_JOIN_LEAGUE_ROOM; }
+    
+    required TeamBrief m_nTeamBrief = 1;                  ///< 战队信息
+    required CHAR_BRIEF m_charBrief = 2;                  ///< 角色基本信息
+    required CHAR_TANK_BRIEF_CONT m_tankContVec = 3;      ///< 角色坦克容器列表
+    required UINT32    m_nIsTeamLeader = 4;               ///< 是否是战队长
+    required BYTE   m_nRoomType = 5;                      ///< 房间类型
+    required UINT32 m_nContestId = 6;                     ///< 邀请赛需要指定对阵ID
+}
+
+/// 通知联赛房间创建结果
+message GlobalJoinLeagueRoomOK
+{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_NOTIFY_JOIN_LEAGUE_ROOM_OK;}
+    
+    required UINT32 m_nRoomId = 1; ///< 房间ID
+}
+
+/// 通知玩家离开房间
+message GlobalLeaveLeagueRoom
+{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_LEAVE_LEAGUE_ROOM; }
+    
+    required UINT32 m_nCharOid = 1;  ///< 玩家ID
+}
+
+/// 请求联赛房间操作
+message GlobalReqRoomOp
+{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_REQ_ROOM_OP; }
+    
+    required BYTE   m_roomOp = 1;    ///< 操作类型 enum ROOM_OP_TYPE
+    required UINT32 m_nCharOid = 2;  ///< 角色OID
+    required UINT32 m_nTeamId = 3;   ///< 战队ID
+    required UINT32 m_nRoomId = 4;   ///< 房间ID
+    required UINT32 m_nTarget = 5;   ///< 目标角色
+}
+
+/// 请求为邀请赛的队伍投票
+message RequestLeagueTeamQuiz
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_LEAGUE_TEAM_QUIZ; }
+
+    required UINT32 m_nSessionId = 1; ///联赛届次ID
+    required UINT32 m_nRoundId = 2;   ///轮次ID
+    required UINT32 m_nContestId = 3; ///对阵ID
+    required UINT32 m_nVoteTeam = 4; ///< 支持的战队ID
+    required UINT32 m_nCharOid = 5;  ///< 角色oid
+    required string m_strUuid = 6;   ///< 玩家UUID
+}
+
+/// 通知邀请赛投票结果
+message NotifyLeagueQuizResponse
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_LEAGUE_QUIZ_RESPONSE; }
+
+    enum {
+        VOTE_OK = 0;
+        VOTE_ERROR_VOTED = 1;   /// 已经投过票
+        VOTE_ERROR_NO_CONTEST = 2; /// 找不到对阵信息
+        VOTE_ERROR_TIME_OUT = 3;  /// 投票已截止
+        ///备注：修改该枚举值需要对应修改 sp_league_team_quiz 中的定义
+    }
+
+    required UINT32 m_nResult = 1;    ///< 投票结果
+    required UINT32 m_nContestId = 4; ///< 对阵ID
+    required UINT32 m_nVoteTeam = 5;  ///< 支持的战队
+}
+
+/// 加入房间成为观察者
+message GlobalRequestLookRoom
+{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_REQ_LOOK_ROOM; }
+
+    required BYTE   m_bType     = 1;    ///< 房间类型 enum ROOM_TYPE
+    required UINT32 m_nRoomId = 2;      ///< 房间ID
+    required UINT32 m_nContestId = 3;   ///< 邀请赛需要指定对阵ID
+    required CHAR_BRIEF m_charBrief = 4;     ///< 角色基本信息
+}
+
+/// 请求设定邀请赛比赛结果
+message RequestDecideMatchWinner
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_DECIDE_MATCH_WINNER; }
+
+    required UINT32 m_nCharOid = 1;       ///< 角色ID
+    required UINT32 m_nContestId = 2;     ///< 对阵ID
+    required UINT32 m_nRoomId = 3;        ///< 房间ID
+    required UINT32 m_nWinTeamId = 4;     ///< 获胜队伍ID
+    required UINT32 m_nRedTeamScore = 5;  ///< 红队得分
+    required UINT32 m_nBlueTeamScore = 6; ///< 蓝队得分
+}

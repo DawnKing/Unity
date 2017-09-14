@@ -1,0 +1,6 @@
+xlua.private_accessible(CS.BattleEvent)
+xlua.hotfix(CS.BattleEvent, 'AddEvent', 
+function(self, type, param)
+	print('AddEvent---   -1-', self._events, '   -2-   ', type, '   -3-   ',param)
+    self._events:Add(type, param);
+end)

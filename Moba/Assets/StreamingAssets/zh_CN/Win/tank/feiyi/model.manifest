@@ -1,0 +1,42 @@
+ManifestFileVersion: 0
+CRC: 2772447588
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d23b094bb263939f86ae07515eec6f37
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 0aad00daab59c798a0cb4c476f52838d
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+Assets:
+- Assets/LocalAssets/zh_CN/tank/feiyi/model/feiyi.prefab
+- Assets/LocalAssets/zh_CN/tank/feiyi/model/feiyi_body.jpg
+- Assets/LocalAssets/zh_CN/tank/feiyi/model/feiyi_head.jpg
+- Assets/LocalAssets/zh_CN/tank/feiyi/model/feiyi_head.mat
+- Assets/LocalAssets/zh_CN/tank/feiyi/model/feiyi.FBX
+- Assets/LocalAssets/zh_CN/tank/feiyi/model/feiyi.controller
+- Assets/LocalAssets/zh_CN/tank/feiyi/model/feiyi_body.mat
+Dependencies: []

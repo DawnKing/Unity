@@ -1,0 +1,37 @@
+ManifestFileVersion: 0
+CRC: 1983677527
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: battle
+      Dependencies: {}
+    Info_1:
+      Name: hotfix
+      Dependencies: {}
+    Info_2:
+      Name: map/map001
+      Dependencies: {}
+    Info_3:
+      Name: tank/feiyi/attack
+      Dependencies: {}
+    Info_4:
+      Name: tank/feiyi/model
+      Dependencies: {}
+    Info_5:
+      Name: tank/feiyi/skill1
+      Dependencies: {}
+    Info_6:
+      Name: ui/battle
+      Dependencies: {}
+    Info_7:
+      Name: ui/common
+      Dependencies: {}
+    Info_8:
+      Name: ui/login
+      Dependencies: {}
+    Info_9:
+      Name: ui/match
+      Dependencies: {}
+    Info_10:
+      Name: xml
+      Dependencies: {}

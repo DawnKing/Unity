@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="tmnh7azc" jpegQuality="80" compressPNG="true">
+  <resources>
+    <image id="v38d0" name="1.png" path="/Images/"/>
+    <image id="v38d1" name="0.png" path="/Images/"/>
+    <image id="v38d2" name="image 6.png" path="/Images/"/>
+    <image id="v38d3" name="image 4.jpg" path="/Images/"/>
+    <image id="v38d4" name="image 1.jpg" path="/Images/"/>
+    <component id="v38d5" name="Joystick.xml" path="/Components/"/>
+    <component id="v38d6" name="JoystickCircle.xml" path="/Components/"/>
+    <component id="v38d7" name="Button1.xml" path="/Components/"/>
+    <component id="v38d8" name="Battle.xml" path="/" exported="true"/>
+    <component id="v38d9" name="EntityInfo.xml" path="/" exported="true"/>
+    <component id="v38da" name="HpBar.xml" path="/"/>
+  </resources>
+  <publish name="Battle" genCode="true"/>
+</packageDescription>

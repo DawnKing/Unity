@@ -1,0 +1,278 @@
+// ----------------------------------------------------------------------
+///    @file            protocol/FriendMessage.h
+///    @brief           
+///    @author          yuhaixiao
+///    @copyright       Sixcube Information Technology Co,. Ltd. (2012)
+///    @date            
+// ----------------------------------------------------------------------
+
+import BulkDataType;
+import ShareTypes;
+
+/// 人数限制
+enum RELATION_COUNT_LIMIT
+{
+    RELATION_FRIEND_MAX = 100;  ///< 好友最大人数
+    RELATION_BLACK_MAX  = 100;   ///< 黑名单最大人数
+}
+
+/// 关系类型
+enum RELATION_TYPE
+{
+    RELATION_TYPE_NONE      = 0;
+    RELATION_TYPE_FRIEND    = 1<<0; ///< 好友
+    RELATION_TYPE_BLACK     = 1<<1; ///< 黑名单
+    RELATION_TYPE_FACEBOOK  = 1<<3; ///< Facebook好友
+}
+
+/// 好友信息
+message RelationFriendInfo
+{
+    required string m_friendUuid = 1;
+    required UINT32 m_friendFlag = 2;
+}
+
+/// 玩家登陆，初始化关系信息，分包发送
+message NotifyRelationInit
+{    
+    enum { THIS_MSG_TYPE = MSG_RELATION_INIT_NOTIFY; }
+    
+    repeated RelationFriendInfo m_friendVec = 1;    ///< 好友uuid列表
+    repeated string m_blackVec = 2;     ///< 黑名单uuid列表
+}
+
+/// 通知添加关系信息
+message NotifyAddRelationInfo
+{
+    enum { THIS_MSG_TYPE = MSG_RELATION_ADD; }
+    
+    required RELATION_TYPE m_type = 1;  ///< 关系类型 
+    required BUDDY_BRIEF m_info = 2;    ///< 目标数据
+    required UINT32 m_killCount = 3;    ///< 仇敌击杀数量
+}
+
+/// 请求建立关系
+message RequestAddRelation
+{
+    enum { THIS_MSG_TYPE = MSG_RELATION_REQUEST_ADD; }
+    
+    required string m_strName = 1;  ///< 对方的名称
+    required RELATION_TYPE m_type = 2;  ///< 关系类型 
+}
+
+/// 请求移除关系
+message RequestDeleteRelation
+{
+    enum { THIS_MSG_TYPE = MSG_RELATION_REQUEST_DELETE; }
+    
+    required string m_charUuid      = 1;  ///< 对方的uuid
+    required RELATION_TYPE m_type   = 2;  ///< 移除的关系类型    
+}
+
+/// 通知删除关系
+message NotifyDeleteRelation
+{
+    enum { THIS_MSG_TYPE = MSG_RELATION_DELETE; }
+    
+    required string m_charUuid    = 1;  ///< 对方的uuid
+    required RELATION_TYPE m_type = 2;  ///< 类型
+}
+
+// MSGTYPE_DECLARE(MSG_SYNC_BUDDY_DATA),
+// 同步好友数据
+message SyncBuddyData
+{
+    enum { THIS_MSG_TYPE = MSG_SYNC_BUDDY_DATA; }
+    
+    required string m_charUuid = 1;     ///< 玩家的uuid
+    repeated string m_friendVec = 2;    ///< 好友uuid列表
+}
+
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_INVITE_ITEM_DROP_INFO),
+// 通知邀请卡掉落信息
+message NotifyInviteItemDropInfoMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_INVITE_ITEM_DROP_INFO; }
+    
+    required UINT32 m_dropCnt = 1;     ///< 掉落数量
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_FORBID_DROP_INVITE_ITEM),
+// 通知禁止掉落邀请卡
+message NotifyForbidDropInviteItemMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_FORBID_DROP_INVITE_ITEM; }
+}
+
+/// 请求邀请好礼玩家
+message RequestInviteGiftPlayerInviteMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_INVITE_GIFT_PLAYER_INVITE; }
+    
+    required string m_strName   = 1;  ///< 目标的名称
+    required UINT32 m_charOid   = 2;  ///< 帐号Id
+    required BYTE   m_isCharOid = 3;  ///< 1:选择帐号Id   0: 选择目标名称
+}
+
+/// 通知邀请好礼玩家
+message NotifyInviteGiftPlayerInviteMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_INVITE_GIFT_PLAYER_INVITE; }
+    
+    required string m_strUuid = 1;  ///< 邀请者的uuid
+    required string m_strName = 2;  ///< 邀请者的角色名
+}
+
+/// 回复邀请好礼邀请
+message ResponseInviteGiftPlayerInviteMessage
+{
+    enum { THIS_MSG_TYPE = MSG_RESPONSE_INVITE_GIFT_PLAYER_INVITE; }
+    
+    enum RESPONSE_TYPE{
+    	RT_CONFIRM   = 1;				//确认
+    	RT_CANCEL    = 2;				//取消
+    }
+    
+    required string m_strUuid = 1;  ///< 邀请者的uuid
+    required UINT32 m_responseType = 2; ///< 回复类型
+}
+
+//通知邀请好礼玩家信息
+message NotifyInviteGiftPlayerInfoMessage
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_INVITE_GIFT_PLAYER_INFO; }
+	
+	repeated InviteGiftPlayerInfo  m_charInfoVec = 1;  //玩家信息
+}
+
+/// 请求解除邀请好礼玩家关系
+message RequestRemoveInviteGiftPlayerMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_REMOVE_INVITE_GIFT_PLAYER; }
+    
+    required string m_strUuid = 1;  ///< 目标的uuid
+}
+
+//通知解除邀请好礼玩家
+message NotifyRemoveInviteGiftPlayerMessage
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_REMOVE_INVITE_GIFT_PLAYER; }
+	
+	required string  m_strUuid = 1;  //目标的uuid
+}
+
+/// 请求领取邀请好礼奖励
+message RequestDrawInviteGiftAwardMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_DRAW_INVITE_GIFT_AWARD; }
+    
+    enum DRAW_TYPE{
+    	DT_DAY 		= 1;  //每日
+    	DT_TOTAL 	= 2;	//累计
+    }
+    
+    required string m_strUuid  = 1;  ///< 目标的uuid
+    required UINT32 m_drawType = 2; ///< 领取类型 
+}
+
+//通知领取邀请好礼奖励
+message NotifyDrawInviteGiftAwardMessage
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_DRAW_INVITE_GIFT_AWARD; }
+	
+	required UINT32  m_awardItemId 	= 1;  ///< 奖励ID
+	required string	 m_strUuid  		= 2;  ///< 目标的uuid
+}
+
+//通知隔天计算累计在线天数
+message NotifyInviteGiftCrossDayMessage
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_INVITE_GIFT_CROSS_DAY; }
+
+}
+
+//通知删除邀请道具
+message NotifyRemoveInviteGiftItemMessage
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_REMOVE_INVITE_GIFT_ITEM; }
+	
+	required string	 m_strUuid  		= 2;  ///< 目标uuid
+}
+
+//通知邀请道具过期
+message NotifyInviteGiftItemOverTimeMessage
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_INVITE_GIFT_ITEM_OVER_TIME; }
+
+}
+
+
+//邀请好礼邀请信息
+message InviteGiftInviteInfo
+{
+		required string char_name = 1;  	//玩家名
+		required UINT32 invite_time = 2;  //邀请时间
+}
+
+//通知邀请道具过期
+message NotifyInviteGiftInviteInfoMessage
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_INVITE_GIFT_INVITE_INFO; }
+
+	repeated InviteGiftInviteInfo m_infoVec = 1; //邀请信息
+}
+
+/// 请求绑定邀请推广玩家
+message RequestBindInviteSpreadPlayerMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_BIND_INVITE_SPREAD_PLAYER; }
+    
+    required UINT32 m_spreadId   = 1;  ///< 邀请推广Id
+}
+
+
+/// 通知绑定邀请推广玩家
+message NotifyBindInviteSpreadPlayerMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_BIND_INVITE_SPREAD_PLAYER; }
+    
+    required UINT32 m_bindAcctId   = 1;  ///< 绑定邀请推广Id
+}
+
+/// 请求领取绑定邀请推广奖励
+message RequestDrawBindInviteSpreadAwardMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_DRAW_BIND_INVITE_SPREAD_AWARD; }
+    
+}
+
+/// 通知绑定邀请推广玩家信息
+message NotifyInviteSpreadPlayerInfoMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_INVITE_SPREAD_PLAYER_INFO; }
+    
+    required UINT32 m_bindAcctId   = 1;  ///< 邀请推广Id
+    required UINT32 m_drawTime     = 2;  ///< 领奖时间
+    
+}
+
+/// 通知邀请推广绑定等级人数
+message NotifyInviteSpreadBindLevelInfoMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_INVITE_SPREAD_BIND_LEVEL_INFO; }
+    
+    required UINT32 m_level10Cnt     = 1;  ///< 大于等于十级人数
+    required UINT32 m_level15Cnt     = 2;  ///< 大于等于十五级人数  
+    required UINT32 m_level0Cnt      = 3;  ///< 大于等于0级人数
+}
+
+/// 通知邀请推广绑定玩家等级变化
+message NotifyInviteSpreadBindLevelChangeMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_INVITE_SPREAD_BIND_LEVEL_CHANGE; }
+    	
+    required UINT32 m_bindAcctId    = 1;  ///< 绑定玩家UUID
+}
+
+

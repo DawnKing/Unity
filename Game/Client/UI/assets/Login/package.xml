@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="4ujos3wp" jpegQuality="80" compressPNG="true">
+  <resources>
+    <component id="ef430" name="Login.xml" path="/" exported="true"/>
+    <component id="ef431" name="Button1.xml" path="/"/>
+    <component id="ef432" name="Register.xml" path="/" exported="true"/>
+  </resources>
+  <publish name="Login" genCode="true"/>
+</packageDescription>

@@ -1,0 +1,47 @@
+ManifestFileVersion: 0
+CRC: 3937779074
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 8c48ae99b8bc1de3922bf68f4bca63aa
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 005dcd57abdd6395b5a2a3afdcf69792
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+Assets:
+- Assets/LocalAssets/zh_CN/tank/feiyi/skill1/paota_wuqi.mat
+- Assets/LocalAssets/zh_CN/tank/feiyi/skill1/projectile07_anim.png
+- Assets/LocalAssets/zh_CN/tank/feiyi/skill1/feiyi_daodan.FBX
+- Assets/LocalAssets/zh_CN/tank/feiyi/skill1/projectile07_anim.mat
+- Assets/LocalAssets/zh_CN/tank/feiyi/skill1/yanhuo_00052.png
+- Assets/LocalAssets/zh_CN/tank/feiyi/skill1/yanhuo_00052.mat
+- Assets/LocalAssets/zh_CN/tank/feiyi/skill1/skill1.prefab
+- Assets/LocalAssets/zh_CN/tank/feiyi/skill1/paota_wuqi.jpg
+Dependencies: []

@@ -1,0 +1,276 @@
+// ----------------------------------------------------------------------
+
+import BulkDataType;
+import TeamMessage;
+import RoomMessage;
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_START_PAIR),                 
+// 开始跨服配对
+message RequestGlobalPair {
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_START_PAIR; }
+
+    required BYTE m_bType = 1;      ///< 配对类型 enum PVP_PAIR_ROLE
+    required UINT32 m_nRoomType = 2;///< 匹配的房间类型 enum ROOM_TYPE
+    required UINT32 m_nPairId = 3;  ///< 配对的id
+    required int  m_iElo = 4;       ///< 配对的战力
+    required UINT32 m_nPairTime = 5; ///< 开始匹配的时间戳（用于日志的匹配时长记录）
+    required UINT32 m_nBattleMode = 6;      ///< 匹配模式
+    repeated CHAR_BRIEF m_charVec = 7;      ///< 配对的角色列表
+    repeated CHAR_TANK_BRIEF_CONT m_charTankVec = 8;   ///< 角色的坦克信息列表
+}
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_STOP_PAIR),                  
+// 停止跨服配对
+message NotifyStopGlobalPair {
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_STOP_PAIR; }
+
+    required BYTE m_bType = 1;      ///< 配对类型
+    required UINT32 m_nRoomType = 2;///< 匹配的房间类型 enum ROOM_TYPE
+    required UINT32 m_nPairId = 3;  ///< 配对的id
+}
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_ASSIGN_GAMESVR),
+// 通知gate战斗分配的gamesvr
+message GlobalAssignGame {
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_ASSIGN_GAMESVR; }
+
+    required UINT32 m_gameSvrId = 1;    ///< 服务器id
+    required string m_gameIp = 2;       ///< gamesvr ip
+    required string m_gamePort = 3;     ///< gamesvr port
+}
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_MIDWAY_JOIN),
+// 请求中途加入
+message GlobalMidwayJoin{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_MIDWAY_JOIN; }
+
+    required UINT32 m_nSceneId = 1;     ///< 战场id
+    required CHAR_BRIEF m_charData = 2; ///< 加入的角色
+    required TeamBrief m_teamBrief = 3; ///< 玩家战队信息
+    required CHAR_TANK_BRIEF_CONT m_tankContVec = 4;///< 角色坦克容器列表
+    required UINT32 m_nRoomId = 5;      ///< tracksvr的房间ID，用于加入战场成功后回传
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_GLOBAL_MIDWAY_JOIN_OK),
+// 请求中途加入
+message NotifyGlobalMidwayJoinOK{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GLOBAL_MIDWAY_JOIN_OK; }
+
+    required string m_charUuid = 1;     ///< 加入的角色id
+    required UINT32 m_nRoomId = 2;      ///< tracksvr的房间ID，用于加入战场成功后回传
+}
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_ROBOT_PAIR),
+// 通知开始进行机器人配对
+message GlobalRobotPair{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_ROBOT_PAIR; }
+
+    repeated UINT32 m_nRoomId = 1;      ///< 要配对的房间
+    repeated UINT32 m_nCharId = 2;      ///< 要配对的玩家
+}
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_LOOK_SCENE),
+// 通知跨服观战
+message GlobalLookScene{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_LOOK_SCENE; }
+
+    required UINT32 m_nSceneId = 1;     ///< 战场id
+    required UINT32 m_charId = 2;       ///< 加入的角色id
+    required BYTE m_isGM = 3;           ///< 是否是gm
+}
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_REQUEST_SET_MAP),
+// 请求设置地图
+message GlobalRequestSetMap{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_REQUEST_SET_MAP; }
+
+    required UINT32 m_nCharOid = 1;    ///< 角色OID
+    required UINT32 m_nRoomId = 2;     ///< 房间id
+    required UINT32 m_nMapId = 3;      ///< 地图id
+}
+
+// MSGTYPE_DECLARE()
+// 通知跨服服务器玩家登出
+message GlobalPlayerLogout{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_PLAYER_LOGOUT; }
+    
+    required UINT32 m_nOid = 1;        ///< 角色OID
+    required UINT32 m_nSceneId = 2;    ///< 战场ID
+    required UINT32 m_nRoomId = 3;     ///< 房间ID
+}
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_PAIR_OK),
+// 通知跨服配对成功
+message GlobalPairOk{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_PAIR_OK; }
+
+    required UINT32 m_nSceneId = 1;     ///< 战场id
+    required UINT32 m_pairId = 2;       ///< 配对id
+    required BYTE m_bType = 3;          ///< 配对类型
+}
+
+// 通知跨服同步坦克信息
+message GlobalSyncTankBrief{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_SYNC_TANK_BRIEF; }
+    
+    required UINT32 m_nOid = 1;        ///< 角色OID
+    required UINT32 m_nSceneId = 2;    ///< 战场ID
+    required BYTE m_bPairType = 3;         ///< 配对类型 enum PVP_PAIR_ROLE
+    required UINT32 m_nRoomType = 4;   ///< 匹配的房间类型 enum ROOM_TYPE
+    required UINT32 m_nPairId = 5;     ///< 匹配ID
+    required UINT32 m_nSyncType = 6;             ///< 同步类型
+    required TANK_BRIEF m_tankBrief = 7;     ///< 坦克简要信息
+    
+}
+
+// MSGTYPE_DECLARE(MSG_GLOBAL_LEAGUE_RESULT),
+// 通知跨服联赛战斗结果
+message GlobalLeagueResult{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_LEAGUE_RESULT; }
+    
+    required UINT32 m_nSceneId = 1;         ///< 战场id
+    required UINT32 m_nRoomType  = 2;       ///< 房间类型
+    required UINT32 m_nContestId = 3;       ///< 联赛对阵ID
+    required UINT32 m_nRedTeamId = 4;       ///< 红方战队id
+    required UINT32 m_nBlueTeamId = 5;      ///< 蓝方战队id
+    required UINT32 m_winTeamId = 6;        ///< 获胜战队id
+}
+
+// MSGTYPE_DECLARE(MSG_ADD_GLOBAL_ROULETTE_GIFT)
+// 通知增加跨服转盘奖池的礼券
+message GlobalAddRouletteGift{
+    enum { THIS_MSG_TYPE = MSG_ADD_GLOBAL_ROULETTE_GIFT; }
+    
+    required UINT32 m_nGiftNum = 1;
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_DRAW_GLOBAL_ROULETTE_GIFT)
+// 领取跨服转盘奖池的礼券
+message GlobalRequestDrawRouletteGift{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_DRAW_GLOBAL_ROULETTE_GIFT; }
+    
+    required UINT32 m_nOid = 1;  ///< 角色OID
+    required UINT32 m_nRate = 2; ///< 领取的奖池比例 100代表100%
+    required string m_strName = 3;   ///< 角色名称
+    required UINT32 m_rollId = 4; ///< 轮盘ID
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_GET_GLOBAL_ROULETTE_GIFT)
+// 通知获得跨服转盘奖池的礼券
+message NotifyGetGlobalRouletteGift{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GET_GLOBAL_ROULETTE_GIFT; }
+    
+    required UINT32 m_nOid = 1;   ///< 角色OID
+    required UINT32 m_nGift = 2;  ///< 礼券数量
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_GLOBAL_ROULETTE_GIFT_NUM)
+// 通知当前转盘奖池的礼券数
+message NotifyGlobalRouletteGiftNum{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GLOBAL_ROULETTE_GIFT_NUM; }
+    
+    required UINT32 m_nGift = 1;    ///< 奖池礼券数
+}
+
+/// 请求global检验掉落物品
+message RequestCheckRouletteDropLimit
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CHECK_ROULETTE_DROP_LIMIT; }
+    
+    required UINT32 m_nOid = 1;   ///< 角色OID
+    required UINT32 m_nType = 2;  // ROULETTE_TYPE
+    repeated UINT32 m_vecRollId = 3;  // ROLL到的轮盘ID（包含限制掉落和非限制掉落的）
+    required BYTE   m_bBatch = 4; ///< 是否十连
+}
+
+/// 同步本次roll到的物品给gate
+message SyncRouletteCheckedDropItem
+{
+    enum { THIS_MSG_TYPE = MSG_SYNC_ROULETTE_CHECKED_DROP_ITEM; }
+    
+    required UINT32 m_nOid = 1;   ///< 角色OID
+    required UINT32 m_nType = 2;  ///< ROULETTE_TYPE
+    repeated UINT32 m_vecRollId = 3;  // ROLL到轮盘ID（包含限制掉落和非限制掉落的）
+    required BYTE   m_bBatch = 4; ///< 是否十连
+}
+
+/// global->track
+message GlobalStatCharData
+{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_STAT_CHAR_DATA; }
+    
+    required string m_strUuid = 1;   ///< 角色UUID;
+    required UINT32 m_nType = 2;     ///< 统计类型 enum CHAR_STAT_TYPE
+    required UINT32 m_nCount = 3;    ///< 
+}
+
+/// 通知global使用物品
+message GlobalNotifyUseItem
+{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_NOTIFY_USE_ITEM; }
+    
+    required string m_nCharUuid     = 1;    ///< 使用者uuid
+    required string m_targetUuid    = 2;    ///< 目标者uuid
+    required string m_targetName    = 3;		///< 目标名
+    required UINT32 m_nItemId       = 4;    ///< 物品id
+    required UINT32 m_nCount 				= 5;    ///< 物品个数
+}
+
+/// 通知global同步玩家数据
+message SyncCharInfoToGlobal
+{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_SYNC_CHAR_INFO; }
+    
+    required UINT32 m_nRoomId = 1;          ///< 房间ID
+    required UINT32 m_nSceneId = 2;         ///< 战场ID
+    required PLAYER_BRIEF m_charData = 3;   ///< 角色信息
+    required OTHER_BRIEF m_otherData = 4;   ///< 其他简要信息
+}
+
+/// global->track
+message GlobalPunishLadderEscapeOnWait
+{
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_PUNISH_LADDER_ESCAPE_ON_WAIT; }
+    
+    required UINT32 m_nSceneId = 1;         ///< 战场ID
+    required UINT32 m_mapId = 2;            ///< 所在地图ID
+    required UINT32 m_nOid = 3;             ///< 玩家OID
+    required string m_strUuid = 4;          ///< 玩家UUID
+    required string m_sceneUuid = 5;        ///< 战场UUID
+}
+
+/// global->client
+message NotifyPlayerGuildMatchSelectedTank
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_PLAYER_GUILD_MATCH_SELECTED_TANK; }
+    
+    repeated SelTankCount m_vecSelTank = 1;
+}
+
+/// gate->global
+message RequestQueryGlobalLimitAwardInfoMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_QUERY_GLOBAL_LIMIT_AWARD_INFO; }
+    
+    required UINT32 m_acctId            = 1;
+    required UINT32 m_propItemId 				= 2;
+    required UINT32 m_awardId 					= 3;
+}
+
+/// global->gate
+message NotifyQueryGlobalLimitAwardInfoMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_QUERY_GLOBAL_LIMIT_AWARD_INFO; }
+    
+    required UINT32 m_propItemId 				= 1;
+    required UINT32 m_awardId 			    = 2;
+    required UINT32 m_queryResult   		= 3;
+}
+
+/// gate -> global
+message RequestGloablLoadPurchaseAwardMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_GLOBAL_LOAD_PURCHASE_AWARD; }
+    
+    required UINT32 m_awardTime = 1;
+}

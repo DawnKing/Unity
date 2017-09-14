@@ -1,0 +1,59 @@
+// ----------------------------------------------------------------------
+import BulkDataType;
+
+///< 坦克部件ID
+enum TANK_PART_ID
+{
+    TPI_ENGINE				= 0;    ///< 引擎
+    TPI_MAIN_CANNON			= 1;    ///< 主炮
+	TPI_ARMOR				= 2;    ///< 装甲
+	TPI_SUB_CANNON			= 3;    ///< 副炮
+	TPI_CHAIN				= 4;    ///< 连锁
+}
+
+///< 坦克部件品质
+enum TANK_PART_QUA
+{
+    TPQ_WHILE				= 0;    ///< 白
+    TPQ_GREEN				= 1;    ///< 绿
+	TPQ_BLUE				= 2;    ///< 蓝
+	TPQ_PURPLE				= 3;    ///< 紫
+	TPQ_ORANGE				= 4;    ///< 橙
+}
+
+///< 坦克部件操作类型
+enum TANK_PART_OPE_TYPE
+{
+	TPOT_CHARGE				= 0;    ///< 充能
+    TPOT_LV_UP				= 1;    ///< 升级
+	TPOT_CONSUME			= 2;    ///< 消耗
+	TPOT_LV_DOWN			= 3;    ///< 降级
+	TPOT_LOGIN				= 4;    ///< 登录通知
+}
+
+// 请求操作坦克部件    
+message RequestOperateTankPart 
+{
+	enum { THIS_MSG_TYPE = MSG_REQUEST_OPERATE_TANKPART; }
+
+	required UINT32 nPartId    = 1;    ///< 部件ID enum TANK_PART_ID
+	required BYTE bOpeType		= 2;		///< 操作类型 enum TANK_PART_OPE_TYPE
+}
+
+// 通知坦克部件信息    
+message NotifyTankPartInfo 
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_TANKPART_INFO; }
+
+	repeated TankPartInfo partInfo		= 1;    ///< 所有部件信息
+	required BYTE bOpeType		= 2;		///< 操作类型 enum TANK_PART_OPE_TYPE
+}
+
+// 通知坦克部件总评分    
+message NotifyTankPartScore 
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_TANKPART_SCORE; }
+
+	required UINT32 nScore		= 1;    ///< 部件总评分
+}
+

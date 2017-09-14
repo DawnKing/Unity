@@ -1,0 +1,502 @@
+// ----------------------------------------------------------------------
+///    @file            protocol/RoomMessage.h
+///    @brief           
+///    @author          linyixiong
+///    @copyright       Sixcube Information Technology Co,. Ltd. (2012)
+///    @date            
+// ----------------------------------------------------------------------
+
+import BulkDataType;
+import TradeMessage;
+
+// MSGTYPE_DECLARE_ASSIGN(MSG_REQUEST_SWAP_ITEM, 650),     
+// 移动物品
+message RequestSwapItem {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SWAP_ITEM; }
+    
+    required UINT32 m_contType = 1;     ///< enum CONTAINER_TYPE 
+    required INT16 m_iOriginSlot = 2;     ///< 物品起始格
+    required INT16 m_iDestSlot   = 3;     ///< 物品目标格
+    required int m_count       = 4;     ///< 移动的数量
+}
+
+// MSGTYPE_DECLARE_ASSIGN(MSG_NOTIFY_ITEM_LIST, 2000),         // 通知物品信息
+message NotifyItemList {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ITEM_LIST; }
+    
+    enum {
+        PLAYER_LOGIN_ITEM = 1;       ///< 玩家登录
+        ADD_ITEM     = 2;       ///< 获得新物品
+        REFRESH_ITEM = 3;       ///< 刷新整个包裹
+        TEMP_POP = 4;           ///< 从临时包裹中取出
+    }
+    
+    required UINT32         m_contType  = 1;    ///< enum CONTAINER_TYPE 
+    repeated ITEM_INSTANCE  m_itemVec   = 2;    ///< 物品信息
+    required BYTE m_notifyType  		= 3;    ///< 物品信息通知类型
+}
+
+// MSGTYPE_DECLARE(MSG_ITEM_SWAP_OK),                          // 物品移动成功
+message ItemSwapOk {
+    enum { THIS_MSG_TYPE = MSG_ITEM_SWAP_OK; }
+    
+    required UINT32 m_contType = 1; ///< enum CONTAINER_TYPE 
+    required string m_itemA = 2;    // 物品A
+    required INT16  m_slotA = 3;    // 物品A，位置
+    required string m_itemB = 4;    // 物品B
+    required INT16  m_slotB = 5;    // 物品B, 位置
+}
+
+/// 更新单个物品信息
+message UpdateItemInstance
+{
+    enum { THIS_MSG_TYPE = MSG_UPDATE_ITEM_INSTANCE; }
+    
+    required UINT32     m_contType = 1; ///< enum CONTAINER_TYPE 
+    required ITEM_INSTANCE  m_item	 = 2;	///< 物品信息	
+}
+
+/// 通知删除物品
+message NotifyDeleteItem
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ITEM_DELETE; }
+
+    required UINT32 m_contType = 1; ///< enum CONTAINER_TYPE 
+    repeated INT16	m_slotVec		= 2;	///< 需要清空的格子索引
+    repeated string	m_itemUuidVec 	= 3;	///< 删除的物品uuid信息
+}
+
+/// 请求删除物品
+message RequestSaleItem
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SALE_ITEM; }
+
+    required UINT32 m_contType = 1; ///< enum CONTAINER_TYPE 
+    required INT16 m_slotNo = 2;	///< 该物品所在的格子	 
+}
+
+/// 请求拆解物品
+message RequestSplitItem
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SPLIT_ITEM; }
+
+    required UINT32 m_contType = 1;     ///< enum CONTAINER_TYPE 
+    repeated INT16 m_slotVec = 2;         ///< 该物品所在的格子
+}
+
+// 续费信息
+message RenewItemInfo
+{
+    required INT16 m_iSlotNo = 1;  ///< 续费物品的格子
+    required UINT32 m_nCoinType = 2; ///< enum COIN_TYPE
+    required int m_iPrice = 3;  ///< 选择的价格
+}
+
+/// 请求使用物品
+message RequestUseItem
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_USE_ITEM; }
+    
+    required UINT32 m_contType = 1; ///< 物品所在的容器，enum CONTAINER_TYPE
+    required INT16 m_iSlotNo = 2;     ///< 物品的格子    
+    required string m_targetUuid = 3;   ///< 使用目标uuid
+    required int m_iCount   = 4;    ///< 使用的数量，限定类型
+    required BYTE m_bAuto = 5;      ///< 是否是客户端自动使用
+}
+
+
+/// 请求包裹整理
+message RequestCleanUpCont
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CONT_CLEANUP; }
+    
+	required UINT32 m_contType = 1; ///< enum CONTAINER_TYPE     
+}
+
+/// 兑换信息
+message ConvertInfo
+{
+    required UINT32 m_nConvertId = 1;   ///< 兑换的ID
+    required UINT32 m_nConvertCnt = 2;  ///< 要兑换的数量
+}
+
+/// 请求物品兑换
+message RequestConvertItem
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CONVERT_ITEM; }
+    
+    repeated ConvertInfo  m_convertVec = 1; ///< 兑换序列（一键兑换需要按兑换树从底向上排序）
+    repeated GoodsCoinVal m_coinVec = 2;    ///< 使用的货币
+}
+
+/// 请求物品兑换
+message RequestGlobalConvertItemMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_GLOBAL_CONVERT_ITEM; }
+    
+    required UINT32 			m_acctOid     	= 1;    ///< 玩家账号ID
+    required UINT32       m_actType       = 2;		///< 活动类型
+    repeated ConvertInfo  m_convertVec 		= 3; 		///< 兑换序列（一键兑换需要按兑换树从底向上排序）
+    repeated GoodsCoinVal m_coinVec 			= 4;    ///< 使用的货币
+}
+
+/// 请求物品兑换
+message NotifyGlobalConvertItemMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GLOBAL_CONVERT_ITEM; }
+    
+    repeated ConvertInfo  m_convertVec 		= 1; 		///< 兑换序列（一键兑换需要按兑换树从底向上排序）
+    repeated GoodsCoinVal m_coinVec 			= 2;    ///< 使用的货币
+}
+
+message NotifySettleAward
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SETTLE_AWARD; }
+    
+    required UINT32 m_opType    = 1;    ///< 物品操作类型 enum SETTLE_TYPE
+    required SettleAwardInfo m_info = 2;  
+    required BYTE m_isShow      = 3;    ///< 是否展示
+    required UINT32 m_nExtInfo = 5;      ///< 附加信息
+}
+
+/// GATESVR->tracksvr->client通知使用物品成功
+message NotifyUseItem
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_USE_ITEM; }
+    
+    required string m_nCharUuid     = 1;    ///< 使用者uuid
+    required string m_targetUuid    = 2;    ///< 目标者uuid
+    required string m_targetName    = 3;    ///< 目标玩家名
+    required UINT32 m_nItemId       = 4;    ///< 物品id
+    required UINT32 m_nCount 				= 5;    ///< 物品个数
+}
+
+/// 通知使用月票的返回结果
+message NotifyTicketResult
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TICKET_ITEM_RET; }
+    
+    required BYTE   m_bOk       = 1;    ///< 1 代表成功
+    required UINT32 m_itemId    = 2;    ///< 月票码 
+    required string m_szCode    = 3;    ///< 月票码 
+    required string m_szPass    = 4;    ///< 激活密码 
+}
+
+/// 请求培养助手
+message RequestPlantBooster
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_BOOSTER_PLANT; }    
+    
+    required INT16 m_slot    = 1;    ///< 助手格子
+    required INT32 m_expSlot = 2;    ///< 饲料格子
+}
+
+/// 请求强化助手
+message RequestStrengthenBooster
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_BOOSTER_STTH; }     
+    
+    required INT16 m_slot   = 1;    ///< 目标助手格子
+}
+
+/// 请求合成助手
+message RequestComposeBooster
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_BOOSTER_COMPOSE; }    
+    
+    required INT16 m_slot       = 1;    ///< 助手格子
+    repeated INT16 m_mtlSlotVec = 2;    ///< 材料格子(同一个放多个，则数组中有多个相同)
+}
+
+/// 请求助手转换
+message RequestTransBooster
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_BOOSTER_TRANS; }    
+    
+    required INT16 m_ASlot      = 1;    ///< 目标助手格子
+    required INT16 m_BSlot      = 2;    ///< 其他助手格子
+}
+
+/// 通知助手操作结果
+message NotifyBoosterResult
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_BOOSTER_OP_RET; }
+    
+    required UINT32 m_type  = 1;    ///< 类型 enum ITEM_ACTION_TYPE
+    required BYTE   m_isOk  = 2;    ///< 是否成功
+    required UINT32 m_errNo = 3;    ///< 提示id
+    required string m_uuid  = 4;    ///< 操作的助手uuid
+    required int    m_oldParam = 5; ///< 操作的就的参数
+    required int    m_nowParam = 6; ///< 操作的新的参数
+}
+
+/// 请求查看物品
+message RequestReadItem
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_READ_ITEM; }    
+    
+    
+    required UINT32 m_contType  = 1;    ///< enum CONTAINER_TYPE 
+    required INT16  m_slot      = 2;    ///< 目标格子
+}
+
+/// 请求轮盘赌
+message RequestRoulette
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_ROULETTE; }   
+    required UINT32 m_rollType = 1;    ///< 请求的转盘类型ROULETTE_TYPE 
+    required BYTE   m_bBatch = 2;      ///< 是否十连抽
+}
+
+/// 通知轮盘赌结果
+message NotifyRouletteRet
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ROULETTE_RET; }    
+    
+    required UINT32 m_nOutId    = 1;    ///< 外圈id    
+    required UINT32 m_nInId     = 2;    ///< 内圈id
+}
+
+/// 请求轮盘赌的近期获奖列表
+message RequestRouletteAwardList
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_RLTE_AWARD_LIST; }    
+    
+    required UINT32 m_nType = 1;    ///< ROULETTE_TYPE
+}
+
+/// 通知轮盘赌的近期获奖列表
+message NotifyRouletteAwardList
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_RLTE_AWARD_LIST; }  
+    
+    required UINT32 m_nType = 1;     ///< ROULETTE_TYPE
+    repeated OneSvrAward m_list = 2;
+}
+
+/// 同步轮盘获奖信息给tracksvr
+message SyncRouletteAward
+{
+    enum { THIS_MSG_TYPE = MSG_SYNC_ROULETTE_AWARD; }  
+    
+    required UINT32           m_nType = 1; // ROULETTE_TYPE
+    required OneSvrAward m_info = 2;
+}
+
+/// 请求扩展杂货格
+message RequestExpandContainer
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_EXPAND_CONTAINER; }
+    
+    required UINT32 m_nType = 1;      /// 容器类型CONTAINER_TYPE
+}
+
+/// 请求获取容器物品
+message RequestContainerItemMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CONTAINER_ITEM; }
+    
+    required UINT32 m_contType = 1;      /// 容器类型CONTAINER_TYPE
+}
+
+/// 通知晶片组合方案名
+message NotifyCrystalSchemeNameMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CRYSTAL_SCHEME_NAME; }
+    
+    repeated CharCrystalSchemeName m_charSchemeNameVec = 1;      /// 组合方案名
+}
+
+/// 通知晶片组合方案信息
+message NotifyCrystalSchemeInfoMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CRYSTAL_SCHEME_INFO; }
+    
+    repeated CharCrystalSchemeInfo m_charSchemeInfoVec = 1;      /// 组合方案信息
+}
+
+/// 请求获取晶片组合方案信息
+message RequestCrystalSchemeInfoMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CRYSTAL_SCHEME_INFO; }
+}
+
+/// 请求保存晶片组合方案信息
+message RequestSaveCrystalSchemeInfoMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SAVE_CRYSTAL_SCHEME_INFO; }
+    
+    required CharCrystalSchemeInfo m_charSchemeInfo = 1;      /// 组合方案信息
+}
+
+//保存晶片方案结果
+message NotifySaveCrystalSchemeInfoResultMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SAVE_CRYSTAL_SCHEME_INFO_RESULT; }
+    
+    enum SAVE_RESULT 
+    {
+        SR_SUCCESS = 0;   //成功
+        SR_FAIL    = 1;   //失败
+    }
+    
+    required UINT32 m_result = 1;      /// 保存结果
+}
+
+/// 请求改变晶片组合方案名
+message RequestChangeCrystalSchemeNameMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CHANGE_CRYSTAL_SCHEME_NAME; }
+    
+    required CharCrystalSchemeName m_charSchemeName = 1;      /// 组合方案信息
+}
+
+//改变晶片方案名结果
+message NotifyChangeCrystalSchemeNameResultMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CHANGE_CRYSTAL_SCHEME_NAME_RESULT; }
+    
+    enum CHANGE_RESULT 
+    {
+        CR_SUCCESS = 0;   //成功
+        CR_FAIL    = 1;   //失败
+    }
+    
+    required UINT32 m_result = 1;      /// 保存结果
+}
+
+/// 请求升阶晶片
+message RequestUpgradeCrystalMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_UPGRADE_CRYSTAL; }
+    
+    enum REQ_UPGRADE_TYPE
+    {
+        EUT_UPGRADE = 0;   //熔炉
+        EUT_SELL    = 1;   //出售
+    }
+    
+    required UINT32 m_reqType   = 1;      /// 请求类型
+    repeated UINT32 m_itemIdVec = 2;      /// 晶片ID
+}
+
+/// 通知升阶晶片结果
+message NotifyUpgradeCrystalResultMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_UPGRADE_CRYSTAL_RESULT; }
+    
+    required UINT32 m_itemId = 1;      /// 生成晶片ID
+}
+
+/// 请求设置当前使用晶片方案
+message RequestSetCurCrystalSchemeIdMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SET_CUR_CRYSTAL_SCHEME_ID; }
+    
+    required UINT32 m_schemeId = 1;      /// 晶片方案ID
+    required string m_tankUuid = 2;      /// 对应的坦克UUID
+}
+
+message NotifyCurCrystalSchemeIdMessage
+{
+		enum { THIS_MSG_TYPE = MSG_NOTIFY_CUR_CRYSTAL_SCHEME_ID; }
+    
+    required UINT32 m_schemeId = 1;      /// 晶片方案ID
+}
+
+/// 请求绑定物品地址
+message RequestBindItemAddress
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_BIND_ITEM_ADDRESS; }
+    
+    required string m_strItemUuid = 1;    /// 物品UUID
+    required string m_nRealName = 2;      /// 玩家真实名字
+    required string m_nRealAddress = 3;   /// 玩家真实地址
+    required string m_nPhoneNumber = 4;   /// 玩家联系电话
+    required string m_nQQ = 5;            /// 玩家的QQ号
+}
+
+/// 请求道具开启轮盘赌
+message RequestItemRouletteMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_ITEM_ROULETTE; }   
+    required string m_itemUuid = 1;    ///< 请求的转盘道具物品UUID
+    required BYTE   m_bBatch = 2;      ///< 是否十连抽
+}
+
+/// 请求冒险夺宝
+message RequestRandStepMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_RAND_STEP; }   
+
+    required BYTE   m_bBatch = 1;      ///< 是否十连抽
+}
+
+/// 通知冒险夺宝
+message NotifyRandStepMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_RAND_STEP; }   
+    
+    enum NOTIFY_TYPE {
+    	NT_LOGIN = 1;  //登陆通知
+    	NT_RAND  = 2;  //夺宝通知
+    }
+
+		required UINT32   m_notifyType = 1;    ///< enum NOTIFY_TYPE
+    required UINT32   m_passStep = 2;      ///< 本次走过的步数
+}
+
+/// 请求svr_award的近期获奖列表
+message RequestSvrAwardList
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SVR_AWARD_LIST; }    
+    
+    required UINT32 m_nType = 1;    ///< SVR_AWARD_TYPE
+}
+
+/// 通知svr_award的近期获奖列表
+message NotifySvrAwardList
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SVR_AWARD_LIST; }  
+    
+    required UINT32 m_nType = 1;     ///< SVR_AWARD_TYPE
+    repeated OneSvrAward m_list = 2;
+}
+
+/// 同步svr_award获奖信息给tracksvr
+message SyncSvrAward
+{
+    enum { THIS_MSG_TYPE = MSG_SYNC_SVR_AWARD; }  
+    
+    required UINT32      m_nType = 1; // SVR_AWARD_TYPE
+    required OneSvrAward m_info = 2;
+}
+
+/// 请求使用物品获取选择奖励
+message RequestSelAwardUseItemMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SEL_AWARD_USE_ITEM; }
+    
+    enum SEL_PARAM_TYPE {
+    	SPT_PARAM_1 = 1;			//参数1
+    	SPT_PARAM_2 = 2;			//参数2
+    	SPT_PARAM_3 = 3;			//参数3
+    	SPT_PARAM_4 = 4;			//参数4
+    	SPT_PARAM_5 = 5;			//参数5
+    }
+    
+    required UINT32 m_contType = 1; 	///< 物品所在的容器，enum CONTAINER_TYPE
+    required INT16 m_slotNo   = 2;      ///< 物品的格子    
+    required int m_count    = 3;     	///< 使用的数量
+    required int m_selParam = 4;			///< 选择参数  enum SEL_PARAM_TYPE
+}
+
+
+/// 通知客户端使用物品失败
+message NotifyClientUseItemFailedMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CLIENT_USE_ITEM_FAILED; }
+    
+    required UINT32 m_contType = 1; 	///< 物品所在的容器，enum CONTAINER_TYPE
+    required INT16 m_slotNo   = 2;      ///< 物品的格子  
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<LocalDatas xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<LocalData>
+		<g_TankTemplate>
+			<entry>
+				<Id>1</Id>
+				<Res>feiyi</Res>
+			</entry>
+			<entry>
+				<Id>2</Id>
+				<Res>huangfeng</Res>
+			</entry>
+		</g_TankTemplate>
+	</LocalData>
+</LocalDatas>

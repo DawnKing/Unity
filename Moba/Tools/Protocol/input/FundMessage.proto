@@ -1,0 +1,33 @@
+// ----------------------------------------------------------------------
+
+////< 基金类型
+enum FUND_TYPE
+{
+    FT_GROWTH = 0;		///< 成长基金
+    FT_FINANCE = 1;  	///< 理财基金
+}
+
+// 请求购买成长基金
+message RequestBuyFund
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_BUY_FUND; }
+}
+
+// 请求领取基金
+message RequestDrawFund
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_DRAW_FUND; }
+
+	required UINT32 nType = 1;    ///基金类型(FUND_TYPE)
+	required UINT32 nDay = 2;    ///领取第N天的基金
+}
+
+// 通知基金信息
+message NotifyFundInfo
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_FUND_INFO; }
+    
+	required UINT32 nType = 1;    ///基金类型(FUND_TYPE)
+    required UINT32 nStartTime = 2;   //基金起始时间戳（未购买则为0）
+    required UINT32 nBits = 3;    ///领取序列
+}

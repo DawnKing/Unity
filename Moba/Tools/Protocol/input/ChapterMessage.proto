@@ -1,0 +1,161 @@
+// ----------------------------------------------------------------------
+///    @file            protocol/ChapterMessage.h
+///    @brief           
+///    @author          libo
+///    @copyright       Sixcube Information Technology Co,. Ltd. (2012)
+///    @date            
+// ----------------------------------------------------------------------
+
+import ShareTypes;
+import BulkDataType;
+import BulkDataEnum;
+
+// MSGTYPE_DECLARE(MSG_PVE_SELECT_SCENE),			
+// 请求选择开始某个章节内的关卡
+message RequestSelectChapterScene{
+    enum { THIS_MSG_TYPE = MSG_PVE_SELECT_SCENE; }
+    
+    required UINT32 m_nMapId  	= 1;      	 ///< 关卡编号
+}
+
+// MSGTYPE_DECLARE(MSG_PVE_REQUEST_TUTOR_MAP)
+// 请求选择开始某个训练副本
+message RequestSelectTutorMap{
+    enum { THIS_MSG_TYPE = MSG_PVE_REQUEST_TUTOR_MAP; }
+    
+    required UINT32 m_nMapId  	= 1;      	 ///< 关卡编号
+}
+
+// MSGTYPE_DECLARE(MSG_PVE_REQUEST_TANK_TRIAL_MAP)
+// 请求选择坦克开始试玩副本
+message RequestSelectTankTrialMap{
+    enum { THIS_MSG_TYPE = MSG_PVE_REQUEST_TANK_TRIAL_MAP; }
+    
+    required UINT32 m_nMapId  	= 1;      	 ///< 关卡编号
+    required UINT32 m_nTankId   = 2;             ///< 坦克模板ID
+}
+
+enum CHAPTER_REJECT_REASON
+{
+	CRR_NO_ERROR		= 0;	///<  无错误
+	CRR_LEVEL_NOT_MATCH	= 1;	///<  等级不符	
+	CRR_OUT_OF_ATTEMPTS	= 2;	///<  超过每日可通关次数
+	CRR_NO_SUCH_CHAPTER	= 3;	///<  无此章节	
+	CRR_NO_SUCH_SCENE	= 4;	///<  无此关卡
+	CRR_NEED_PRECEDDING	= 5;	///<  前序通关
+}
+
+// MSGTYPE_DECLARE(MSG_PVE_CHAPTER_SCENES),            	
+// 通知客户端，返回玩家章节中所有关卡的信息
+message NotifyChapterScenes{
+    enum { THIS_MSG_TYPE = MSG_PVE_CHAPTER_SCENES; }
+
+    required UINT32 m_nChapterId	= 1;		///< 章节ID
+    repeated CHAPTER_SCENE m_scenes	= 2;		///< 场景内关卡信息
+}
+
+// MSGTYPE_DECLARE(MSG_REJECT_SELECT_SCENE),            	
+// 通知客户端，拒绝玩家打开某个关卡
+message RejectSelectScene{
+    enum { THIS_MSG_TYPE = MSG_REJECT_SELECT_SCENE; }
+
+    required BYTE   m_nReason  	= 1;      	 	///< 拒绝理由
+    required UINT32 m_nInfo 	= 2;			///< 进一步的信息（如需要的每日可通关次数等）
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_SCENE_SCORES),            	
+// 通知客户端，通关评价的成绩
+message NotifyChapterSceneScores{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SCENE_SCORES; }
+    
+    required CHAPTER_SCENE	m_scene = 1;			///< 本场得分
+    required CHAPTER_SCENE	m_best = 2;			///< 历史最好成绩
+    repeated INT32		m_stat = 3;			///< 坦克统计信息，参见DATA_STAT_TYPE枚举
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_ENTER_SOLO_SCENE),       	
+//网关->位置 请求创建单人场景
+message RequestEnterSoloScene{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_ENTER_SOLO_SCENE; }
+
+    required UINT32		m_sceneId = 1;			///< 要进入的地图ID
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_ENTER_TANK_TRIAL_SCENE),       	
+//网关->位置 请求进入坦克试玩场景
+message RequestEnterTankTrialScene{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_ENTER_TANK_TRIAL_SCENE; }
+
+    required UINT32		m_sceneId = 1;			///< 要进入的地图ID
+    required UINT32             m_nTankId = 2;                  ///< 坦克模板ID
+}
+
+//MSGTYPE_DECLARE_ASSIGN(MSG_PVE_REQUEST_REFRESH_REWARD),		
+//请求刷新PVE副本的结算信息
+message RequestRefreshReward{
+    enum { THIS_MSG_TYPE = MSG_PVE_REQUEST_REFRESH_REWARD; }
+    
+    required UINT32 	m_nChapterId = 1;			///< 请求刷新的章节的奖励
+}
+
+
+//MSGTYPE_DECLARE_ASSIGN(MSG_PVE_REQUEST_GATHER_REWARD),			
+//请求收获某个PVE副本的产出
+message RequestGatherReward{
+    enum { THIS_MSG_TYPE = MSG_PVE_REQUEST_GATHER_REWARD; }
+    
+    required UINT32 	m_sceneId = 1;				///< 请求收获的关卡编号
+    required UINT32 	m_starId = 2;				///< 请求收获的关卡星级奖励
+}
+
+//MSGTYPE_DECLARE(MSG_PVE_REQUEST_SMASH_EGG),			
+//请求收获章节的彩蛋
+message RequestSmashEgg{
+    enum { THIS_MSG_TYPE = MSG_PVE_REQUEST_SMASH_EGG;	}
+
+   required UINT32 m_sceneId = 1;				///< 请求收获的章节最后一个关卡的ID
+}
+
+// 通知客户端，城市初始值
+message NotifyCityInfoInit
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CITY_INIT; }
+    
+    repeated CITY_INFO m_infoVec = 1;
+}
+
+// 通知客户端，更新城市信息
+message UpdateCityInfo
+{
+    enum { THIS_MSG_TYPE = MSG_UPDATE_CITY_INFO; }
+    
+    repeated CITY_INFO m_infoVec = 1;
+}
+
+// MSGTYPE_DECLARE(MSG_SOLO_REQUEST_SWEEP_MAP),
+// 请求地图扫荡
+message RequestSweepSoloMap
+{
+    enum { THIS_MSG_TYPE = MSG_SOLO_REQUEST_SWEEP_MAP; }
+    
+    required UINT32 m_nCityId = 1;           ///< 扫荡的副本id
+    required UINT32 m_nCount = 2;            ///< 扫荡次数
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_SOLO_SWEEP_AWARD),
+// 通知客户端，扫荡结果
+message NotifySweepSoloAward
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SOLO_SWEEP_AWARD; }
+
+    repeated SettleAwardInfo m_awards = 1;      ///< 扫荡奖励
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_SOLO_PVE_INFO)
+// 请求副本数据信息
+message RequestSoloPveInfoMessage{
+
+	enum { THIS_MSG_TYPE = MSG_REQUEST_SOLO_PVE_INFO; }
+}
+
+

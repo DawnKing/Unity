@@ -1,0 +1,98 @@
+// ----------------------------------------------------------------------
+
+///< 战场任务类型
+enum BATTLE_QUEST_TYPE
+{
+	BQT_SINGLE				= 0;    ///< 单人
+    BQT_TEAM				= 1;    ///< 团队
+}
+
+///< 战场任务状态
+enum BATTLE_QUEST_STATE_TYPE
+{
+	BQST_NONE = 0;
+	BQST_NEW_QUEST = 1;  ///< 新任务
+    BQST_GOING = 2;  ///< 进行中
+    BQST_COMPLETE = 3;      ///< 完成
+	BQST_FAILED = 4;      ///< 失败
+}
+
+////< 战场任务检查点类型
+enum BATTLE_CHECK_TYPE
+{
+    BCT_NONE = 0;
+    BCT_BATTLE_WIN = 1;     ///< 获得胜利
+    BCT_DEAD_COUNT = 2;  ///< 死亡次数小于X次
+    BCT_KILL_NPC_CNT = 3;     ///< 击杀X个指定NPC
+    BCT_KILL_TANK_HIGH_LV = 4;          ///< 击杀高于自身战场等级的坦克
+    BCT_SAMETIME_OCCUPY_CNT = 5;    ///< 同时占领X个据点
+    BCT_KILL_AINPC_CNT= 6;      ///< 击杀X个指定AINPC
+    BCT_USE_SKILL_CNT = 7; ///< 使用技能次数
+    BCT_ACCUM_HARM = 8;     ///< 累计造成伤害
+    BCT_ACCUM_CURE = 9; ///< 累计治疗量
+	BCT_ACCUM_SUFFER_HARM = 10;   ///< 承受伤害量
+    BCT_ASSIST_CNT = 11; ///< 完成X次助攻
+    BCT_KILL_CNT = 12;          ///< 消灭X个以上坦克
+    BCT_SKILL_HITCNT_ATONCE = 13;     ///< 技能同时命中X个坦克
+    BCT_STUN_CNT = 14;      ///< 眩晕/击飞坦克X次
+	BCT_CURE_CNT_HPLIMIT = 15; ///< 治疗X个生命小于X%的坦克
+    BCT_KILL_BY_SKILL_CNT = 16;     ///< 使用X技能消灭X个坦克
+    BCT_DOUBLE_KILL_CNT = 17; ///< 完成X次连续杀
+	BCT_OCCUPY_CNT = 18;     ///< 占领X个据点
+	BCT_SINGLE_END = 30;	///< 单人任务最大值
+
+    BCT_TEAM_SCORE = 31;          ///< 全队积分达到X分
+    BCT_TEAM_FIRST_BLOOD = 32;     ///< 团队获得全场第一个击杀
+	BCT_TEAM_PROT_AINPC_DEADCNT = 33; ///< 团队保证指定AINPC死亡小于X次
+    BCT_TEAM_OCCUPY_CNT = 34;     ///< 团队占领X个据点
+    BCT_TEAM_SCORE_FIRST_REACH = 35; ///< 全队积分抢先达到X分
+	BCT_TEAM_OCCUPY_FIRST_FLAG = 36;   ///< 团队抢先占领第一个据点
+    BCT_TEAM_PROT_NPC_DEADCNT = 37; ///< 团队保证指定NPC死亡小于X次
+	BCT_TEAM_KILL_NPC_CNT = 38;     ///< 团队击杀X个指定NPC
+	BCT_TEAM_SAMETIME_OCCUPY_CNT = 39;    ///< 团队同时占领X个据点
+    BCT_TEAM_KILL_AINPC_CNT= 40;      ///< 团队击杀X个指定AINPC
+   	
+    BCT_MAX = 50;
+}
+
+///< 战场任务奖励类型
+enum BATTLE_AWARD_TYPE
+{
+	BAT_GIVE_ITEM				= 0;    ///< 给物品
+    BAT_GIVE_BUFF				= 1;    ///< 加Buff
+	BAT_TRIGGER_SCRIPT			= 2;    ///< 触发地图脚本
+	BAT_GIVE_SCORE				= 3;    ///< 得分
+	BAT_DMG_BASE				= 4;    ///< 对基地造成伤害
+}
+
+message BattleQuestInfo
+{
+    required UINT32 nQusetId = 1;     ///< 任务id
+    required UINT32 nState = 2;       ///< 任务状态 enum BATTLE_QUEST_STATE_TYPE
+    required UINT32 nCheckCount = 3;  ///< 检查点数量
+}
+
+// 通知玩家战场任务信息
+message NotifyBattleQuestInfo
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_BATTLE_QUEST_INFO; }
+    
+    required BattleQuestInfo questInfo = 1;
+}
+
+///< 战场任务公告类型
+enum BATTLE_BULLETIN_TYPE
+{
+	BBT_75_BULLETIN				= 0;    ///< 75%完成度公告
+    BBT_100_BULLETIN			= 1;    ///< 100%完成度公告
+}
+
+// 通知战场任务公告
+message NotifyBattleQuestBulletin
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_BATTLE_QUEST_BULLETIN; }
+    
+	required UINT32 nType = 1;       ///< 公告类型 enum BATTLE_BULLETIN_TYPE
+    required UINT32 nQusetId = 2;     ///< 任务id
+    required UINT32 nCamp = 3;  ///< 阵营
+}

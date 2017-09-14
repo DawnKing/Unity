@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option csharp_namespace = "GameProtocol";
+
+// 通知客户端创建一个实体
+message NotifyCreateEntity {
+    uint32 id = 1;
+    float X = 2;
+    float Z = 3;
+}
+
+// 客户端请求实体移动
+message RequestEntityMove {
+    float X = 1;
+    float Y = 2;
+}
+
+// 通知客户端实体移动
+message NotifyEntityMove {
+    uint32 id = 1;
+    float X = 2;
+    float Y = 3;
+}

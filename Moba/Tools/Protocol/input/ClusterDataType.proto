@@ -1,0 +1,72 @@
+// ----------------------------------------------------------------------
+///	@file			protocol/ClusterDataType.h
+///	@brief
+///	@author			Bob Lee (bob@onwind.cn)
+///	@copyright		Sixcube Information Technology Co,. Ltd. (2012)
+///	@date			2006-4-16 15:23:14
+// ----------------------------------------------------------------------
+
+import LoginProtocol;
+import ClusterDataType;
+
+/// @addtogroup dt_ClusterMessage
+/// @{
+/**
+ * 认证事件 
+ */
+enum AUTH_EVENT {
+    AE_SESSION_START = 1<<0;    ///< 角色登入
+    AE_SESSION_FINISH = 1<<1;    ///< 角色登出
+    AE_REGION_SVRLIST = 1<<2;    ///< 服务器列表更新
+    AE_SESSION_REQUEST = 1<<3;    ///< 认证会话请求(Gate用)
+    AE_SESSION_CLOSE = 1<<4;    ///< 认证关闭请求(Gate用)
+    AE_LINEUP_STATE = 1<<5;    ///< 排队信息更新
+}
+
+
+/**
+ * 认证注册结果 
+ */
+enum AUTH_REG_RESULT {
+    ARR_UNKNOWN = 0;    //位置状态
+    ARR_CONFIRM = 1;    //注册成功
+    ARR_UIDREGGED = 2;    //UID已经注册过
+    ARR_NOREGION = 3;    //REGION不存在
+    ARR_NOTINPLAN = 4;    //REGION存在，但节点不在REGION计划中
+}
+
+
+/**
+ * 服务节点内型 
+ */
+enum NODE_TYPE {
+    RN_UNKN = 0;    //未知类型
+    RN_GATE = 1;    //网关服务器
+    RN_CHAT = 2;    //聊天服务器
+    RN_AUTH = 3;    //认证前端服务器
+    RN_ACTR = 4;    //认证中心服务器
+    RN_MGMT = 5;    //管理用客户端
+}
+
+
+/**
+ * 世界状态 
+ */
+enum REALM_STATE {
+    REALM_CREATED = 0;    //Realm刚被创建，绑定到SESSION
+    REALM_REQUESTED = 1;    //已经发送SESSION请求
+    REALM_QUEUED = 2;    //SESSION请求在排队中
+    REALM_STARTED = 3;    //已经登陆到对应的游戏世界
+}
+
+
+/// 表示登陆到系统中的一个用户登陆信息
+message GAME_SESSION {
+    required UINT32 nAcctId = 1;    // 账号id
+    required int session = 2;       // Session
+    required UINT32 client_id = 3;  // 在Gate上的连接号
+}
+
+/// 认证Cluster使用0号的区服
+/// 认证中心CID
+/// @}

@@ -1,0 +1,1135 @@
+// ----------------------------------------------------------------------
+///    @file            protocol/CharMessage.h
+///    @brief           角色相关协议
+///    @author          Bob Lee (bob@onwind.cn)
+///    @copyright       Sixcube Information Technology Co,. Ltd. (2012)
+///    @date            2005-3-10 15:34:02
+// ----------------------------------------------------------------------
+
+import ShareTypes;
+import BulkDataType;
+import TradeMessage;
+import TeamMessage;
+
+// ----------------------------------------------------------------------/
+/* 游戏服务器角色创建消息                                                */
+// ----------------------------------------------------------------------/
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_CHAR_CREATE),                
+//角色不存在，通知创建新角色
+message NotifyCreateNewChar {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CHAR_CREATE; }
+}
+
+/*
+ * Client->Server：请求创建角色，服务端将返回创建选项列表
+ */
+message RequestCharCreate {
+    enum { THIS_MSG_TYPE = MSG_CHARCREATE_REQUEST; }
+
+    required int m_sexes = 1;           ///< 角色性别 enum SEX_TYPE
+    required string m_name = 2;         ///< 角色名
+    required string m_token = 4;        ///< 市场推广活动来源
+    required string m_inviterUuid = 5;  ///< 邀请者id
+}
+
+message RequestCheckNameUnique {
+    enum { THIS_MSG_TYPE = MSG_CHAR_NAME_UNIQUE_REQUEST; }
+
+    required string m_name = 1;         ///< 角色名
+}
+
+message CharCreateOk {
+    enum { THIS_MSG_TYPE = MSG_CHARCREATE_APPROVED; }
+
+    required string     m_charUuid = 1; ///< 角色的uuid
+}
+
+message CharPickInfo
+{
+    required CHAR_BASIC m_basic = 1;    ///< 角色的基本信息
+    required string     m_charUuid = 2; ///< 角色的uuid
+}
+
+message NotifyCharList
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CHAR_LIST; }
+    
+    repeated CharPickInfo m_list = 1;   ///< 角色列表
+}
+
+
+message CharCreateFail {
+    enum { THIS_MSG_TYPE = MSG_CHARCREATE_REJECTED; }
+
+    enum CVC_REASON {	
+        ERR_CHARNAME_INVALID = 0;   // 无效的角色名字
+        ERR_CHARNAME_EXIST = 1;     // 角色名存在
+        ERR_WRONG_POSITION = 2;     // 无效的位置号
+        ERR_CHARNAME_SENSE = 3;     // 含有敏感(非法的字符串)
+        ERR_CHARNAME_LENGTH = 4;    // 角色名长度非法
+        ERR_TEMP_SVR_ERROR = 5;     // 服务器临时错误
+        ERROR_NO_ERROR = 6;         // 检查通过没有错误
+        ERR_INIT_OK = 7;            // 初始化名称成功
+        ERR_SYS_DISABLE = 8;        // 服务器禁止创建角色
+    }
+
+    required UINT32 m_reason = 1;    //参见上面的枚举
+}
+
+message CheckNameUniqueResult
+{
+    enum { THIS_MSG_TYPE = MSG_CHAR_NAME_UNIQUE_RESULT; }
+    
+    enum CNU_RESULT
+    {
+        CNU_UNIQUE = 1;
+        CNU_EXIST = 2;
+        CNU_SVR_ERROR = 3; ///< 服务器临时错误
+    }
+    
+    required UINT32 m_result = 1;    //CNU_RESULT    
+}
+
+/*
+ * Server->Client：允许选择角色进入游戏
+ */
+message CharPickApprovedMessage {
+    enum { THIS_MSG_TYPE = MSG_CHAR_PICKAPPROVED; }
+
+    required string m_charUuid = 1;
+}
+
+
+/*
+ * Server->Client：拒绝角色进入游戏。
+ */
+message CharPickRejectedMessage {
+    enum { THIS_MSG_TYPE = MSG_CHAR_PICKREJECTED; }
+
+    enum PICK_REJECT_REASON {
+        PRR_DOLOAD_FAILED = 1;  ///< 加载角色数据失败
+    }
+
+
+    required BYTE m_nReason = 1;
+}
+
+/// MSGTYPE_DECLARE(MSG_NOTIFY_CHAR_DATA)
+///< 返回角色基本信息
+message NotifyCharData {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CHAR_DATA; }
+
+    required CHAR_BASIC m_charData  = 1;    ///< 自身数据
+    required CHAR_CURRENCY m_currency = 2;  ///< 货币数据
+    required string m_queryUrl  = 3;        ///< 数据查询url
+    repeated int    m_technoVec = 4;        ///< 技术信息(胜利场次等enum GAME_COUNT_TYPE)
+}
+
+//MSGTYPE_DECLARE(MSG_NOTIFY_PLAYER_LOGIN),                   
+// gate->track,通知有玩家登录游戏
+message NotifyPlayerLogin {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_PLAYER_LOGIN; }
+
+    required CHAR_BASIC m_charData      = 1;
+    required UINT32     m_session       = 2;
+    required UINT32     m_gateSvrId     = 3;    ///< 所在的gatesvrid
+    required string     m_loginId       = 4;    ///< 登录id
+    required string     m_token         = 5;    ///< 客户端token
+    required UINT32     m_ip            = 6;    ///< ip地址
+    required BYTE       m_gmLevel       = 7;    ///< gm等级
+    required UINT32     m_avatar        = 8;    ///< 角色Avatar的模板ID
+    required UINT32     m_vipLevel      = 9;    ///< 角色VIP等级
+    required UINT32     m_nLadderElo    = 10;   ///< 天梯ELO
+    required UINT32     m_nLeisureElo   = 11;   ///< 休闲匹配赛ELO
+    repeated CITY_INFO  m_cityVec       = 12;   ///< 城市信息
+    required UINT32     m_robotType     = 13;   ///< 是否是机器人（0表示不是，1为1级机器人，2为2级，类推）
+    required UINT32     m_nDecorateId   = 14;   ///< 角色（主题）装饰ID
+    required UINT32     m_nSetting      = 18;   ///< 玩家设定
+    repeated TANK_BRIEF m_tankVec       = 19;   ///< 拥有的坦克列表
+    repeated TANK_BRIEF m_hireTankVec   = 20;   ///< 租用的坦克列表
+    repeated TANK_BRIEF m_freeWeekTankVec = 21; ///< 周免的坦克列表
+    repeated TANK_BRIEF m_tryTankVec = 22;      ///< 试用的坦克列表
+    required OTHER_BRIEF  otherData     = 23;   ///< 教师其他简要信息
+    repeated UINT32     m_bstCompTec    = 24;   ///< 助手竞技赛信息 enum BST_COMP_TEC_TYPE
+    required UINT32     m_eloSectionId = 25; 		///< 本赛季天梯段位
+    required UINT32     m_preEloSectionId = 26; ///< 上赛季天梯段位
+    required UINT32     m_bltId = 27;           ///< 上线公告ID
+    required UINT32     m_nCompetition3V3Elo = 28; ///< 3v3争霸赛elo
+}
+
+// gate->track 同步角色信息给tracksvr
+message SyncCharInfoToTrack
+{
+    enum { THIS_MSG_TYPE = MSG_SYNC_CHAR_INFO_TOTRACK; }
+    
+    required UINT32 m_charOid       = 1;
+    required BYTE   m_vipLevel      = 2;    ///< vip等级
+    required INT32  m_thew          = 3;    ///< 体力值
+    required UINT32	m_avatar	    = 4;	///< 角色Avatar的模板ID
+    
+    required OTHER_BRIEF  otherData = 20;   ///< 其他简要信息
+}
+
+// gate->game 同步角色信息给gamesvr
+message SyncInfoToGame
+{
+    enum { THIS_MSG_TYPE = MSG_SYNC_CHAR_INFO_TOGAME; }
+    
+    required UINT32 m_nSceneId      = 1;
+    required UINT32 m_charOid       = 2;
+    required BYTE   m_vipLevel      = 3;    ///< vip等级
+}
+
+// MSGTYPE_DECLARE(MSG_SYNC_CHAR_NAME),  
+// gate->track 同步角色改名信息给tracksvr
+message SyncCharChangeName
+{
+    enum { THIS_MSG_TYPE = MSG_SYNC_CHAR_NAME ;}
+
+    required UINT32 m_acctOid 		= 1;  ///< 帐号OID
+    required string m_charUuid		= 2;  ///< 角色的UID
+    required string m_newName		= 3;  ///< 修改后的名字
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_ADD_LEVEL),                  
+// 通知升级
+message NotifyAddLevel {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ADD_LEVEL; }
+    
+    required UINT32 m_nChar = 1;            ///< 角色id
+    required UINT32 m_nLevel = 2;           ///< 升级后的等级
+    required BYTE   m_type = 3;             ///< enum LEVEL_TYPE 
+}
+
+// 更新角色经验 gatesvr->client
+message NotifyCharExp
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CHAR_EXP; }
+    
+    required UINT32 m_nExp = 1;     ///< 经验值
+    required INT32  m_iAddExp = 2;  ///< 获得的经验值    
+    required BYTE   m_type = 3;     ///< enum LEVEL_TYPE 
+}
+
+
+// 更新角色vip时间戳
+message NotifyCharOptionTime
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_OPTION_TIME; }
+    
+    required UINT32 m_nTime = 1;    ///< 到期时间戳
+    required UINT32 m_nAddTime = 2; ///< 时间增加的秒数
+    required BYTE   m_type = 3;   ///< 功能类型 enum CHAR_OPTION_TYPE
+}
+
+/// 同步玩家的限制信息 gatesvr -> 其他svr
+message SyncLimitInfoByGate
+{
+    enum { THIS_MSG_TYPE = MSG_SYNC_LIMIT_INFO_BYGATE; }
+    
+    required UINT32 m_nCharId = 1;      // 角色id
+    repeated LimitInfo m_infos = 2;     // 限制信息
+    
+}
+
+/// 通知初始化、更新限制信息
+message NotifyLimitInfo
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_LIMIT_INFO; }
+    
+    repeated LimitInfo m_infos = 1;
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_BUDDY_BRIEF),               
+// 主动请求brief信息
+message RequestBuddyBrief {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_BUDDY_BRIEF; }
+
+    repeated UINT32 m_charIdVec = 1;          ///< 需要查找的brief信息的角色
+}
+
+/// MSGTYPE_DECLARE(MSG_NOTIFY_BUDDY_BRIEF),                
+/// 通知相关的brief信息
+message NotifyBuddyBrief {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_BUDDY_BRIEF; }
+
+    repeated BUDDY_BRIEF m_briefVec = 1;   ///< 好友、战队成员等其他玩家信息列表
+}
+
+/// MSGTYPE_DECLARE(MSG_UPDATE_BUDDY_BRIEF),                
+/// 通知更新buddy_brief
+message UpdateBuddyBrief {
+    enum { THIS_MSG_TYPE = MSG_UPDATE_BUDDY_BRIEF; }
+
+    required BUDDY_BRIEF m_data = 1;    ///< 更新信息
+}
+
+/// 发送sns的请求key
+message SendSNSRequestKey
+{
+    enum { THIS_MSG_TYPE = MSG_SEND_SNS_REQUEST_KEY; }
+    
+    required string m_strReqKey = 1;
+}
+
+/// 请求邀请facebook好友
+message RequestFacebookInvite 
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_FACEBOOK_INVITE; }
+    
+    required string m_strInviteId       = 1;    ///< 邀请id
+    repeated string m_strReceiverVec    = 2;    ///< 邀请接受者facebook id列表
+}
+
+/// 接受facebook邀请进入游戏
+message AcceptFacebookInvite
+{
+    enum { THIS_MSG_TYPE = MSG_ACCEPT_FACEBOOK_INVITE; }
+    
+    required string m_strInviteId   = 1;    ///< 邀请id,多个则为一串id
+    required string m_strFbUid      = 2;    ///< 自己的facebook id
+    required string m_strFbName     = 3;    ///< 自己的facebook 名字
+}
+
+/// 请求快捷添加好友列表
+message RequestQuickAddFriend
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_QUICK_ADD_FRIEND; }
+    
+    required UINT32 m_nPlayerInfoCount   = 1;    ///< 请求的随机玩家数量
+}
+
+enum CLIENT_STAT_TYPE
+{
+    CSTAT_SCREEN    = 1;    ///< 采集屏幕分辨率
+    CSTAT_LOADED    = 2;    ///< 加载时间
+    CSTAT_FRMRATE   = 4;    ///< 掉帧统计
+    CSTAT_SELMODE   = 5;    ///< 自主模式选择
+}
+
+// MSGTYPE_DECLARE(MSG_CLIENT_DATA_STAT),                      
+// 客户端数据采集
+message ClientDataStat {
+    enum { THIS_MSG_TYPE = MSG_CLIENT_DATA_STAT; }
+
+    required BYTE   m_type      = 1;    ///< 采集类型 enum CLIENT_STAT_TYPE
+    required BYTE   m_funcType  = 2;    ///< 功能类型。有客户端根据采集类型定义
+    required int    m_param1    = 3;    ///< 参数
+    required int    m_param2    = 4;    ///< 参数
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_CHAR_STATE),                   
+// 客户端查看玩家状态
+message RequestCharState {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CHAR_STATE; }
+
+    required string m_targetUuid = 1;       ///< 查询目标玩家Uuid
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_CHAR_STATE),                 
+// 客户端通知玩家房间状态
+message NotifyCharState {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CHAR_STATE; }
+
+    required string m_szTargetUuid  = 2;       ///< 目标uuid 
+    required BYTE   m_nState        = 3;       ///< 玩家状态enum PLAYER_STATE 
+    required UINT32 m_nRoomId       = 4;       ///< 房间id
+    required BYTE   m_nRoomType     = 5;       ///< 房间类型enum ROOM_TYPE
+    required UINT32 m_nSceneId      = 6;       ///< 战场id
+    required UINT32 m_nGuildId      = 7;        ///< 军团id
+    required BYTE   m_nGuildLevel   = 8;        ///< 军团等级
+    required string m_szGuildName   = 9;        ///< 军团名称
+    required UINT32 m_nTeamId       = 10;        ///< 战队id
+    required BYTE   m_nTeamLevel    = 11;        ///< 战队等级
+    required string m_szTeamName    = 12;       ///< 战队名称
+}
+
+// 请求更换喷图
+message RequestChangeSpray
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_USE_SPRAY; }
+    
+    required UINT32 m_sprayId = 1;
+}
+
+// 通知更换喷图成功
+message NotifyChangeSpray
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_USE_SPRAY; }
+    
+    required UINT32 m_sprayId = 1;
+}
+
+// 通知活跃度
+message NotifyFizz
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_FIZZ; }
+    
+    required INT16 m_iFizz = 1;
+    required INT16 m_iWeekFizz = 2;
+}
+
+// 请求购买体力
+message RequestBuyThew
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_BUY_THEW; }
+    
+    repeated GoodsCoinVal m_coinVec = 1;    ///< 使用的货币
+}
+
+// 通知体力值
+message NotifyThew
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_THEW; }
+    
+    required INT32 m_thew       = 1;    // 体力值
+    required INT32 m_thewBuy    = 2;    // 体力值购买次数
+    required INT32 m_thewVip    = 3;    // VIP获得的额外体力值
+}
+
+// 通知荣誉列表
+message NotifyHonorList
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_HONOR_LIST; }
+    
+    repeated UINT32 m_honorList    = 1;    // 荣誉id列表
+    required UINT32 m_nOpType 		= 2;    // INFO_OP_TYPE
+}
+
+// 通知角色显示的荣誉
+message NotifyHonor
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_HONOR; }
+    
+    required UINT32 m_honorID    = 1;    // 荣誉id
+}
+
+// 通知使用avatar
+message NotifyUseAvatar
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_USE_AVATAR; }
+    
+    required UINT32 m_avatarId = 1;
+}
+
+// 通知玩家已经通过新手
+message NotifyNotTyro
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_NOT_TYRO; }  
+}
+
+// 租用坦克参数信息
+message HireTankParam 
+{   	
+    enum { 
+    RESET_NONE = 0;  ///< 没有重置周期
+    RESET_DAY  = 1;  ///< 每日重置(0点) 
+    RESET_WEEK = 2;  ///< 每周重置(周一0点)
+    RESET_MONTH =3;  ///< 每月重置
+    }
+    
+    required UINT32 m_nId       = 1;    ///< ID
+    required INT32  m_iLevel    = 2;    ///< 等级
+    required UINT32 m_coinType  = 3;    ///< coin_type 货币类型
+    required INT32  m_countMax  = 4;    ///< 租用次数上限 0：无限 通常用于银币租用
+    required INT32  m_iHour     = 5;    ///< 租用时间 小时计算
+    required INT32  m_iFee      = 6;    ///< 租用坦克的初始费用  费用=fee * feerate ^ 次数
+    required float  m_fFeeRate  = 7;    ///< 租用坦克的费用增长率
+    required INT32  m_iFeeMax   = 8;    ///< 坦克租用的费用上限 为0表示免费
+    required UINT32 m_nResetType= 9;    ///< 重置类型（刷新租用次数的周期）
+}
+
+// 客户端运营活动信息
+message ClientOpAct
+{
+    required UINT32 m_nId = 1;
+    required UINT32 m_nStartTime = 2;
+    required UINT32 m_nEndTime = 3;
+}
+
+// 通知动态配置信息
+message NotifyDynamicConfig
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_DYNAMIC_CONFIG; }  
+    
+    repeated UINT32 m_hideTankVec   = 1;    ///< 禁用坦克列表 
+    required INT32  m_escapeCoin    = 2;    ///< 逃跑扣除银币数(限 匹配赛ROOM_PVP、战队排位赛ROOM_TEAM_MATCH)
+    repeated UINT32 m_closedActVec  = 3;    ///< 关闭的活动列表
+    repeated UINT32 m_banActiveGuildSkillVec = 4;  ///< 禁用主动军团技能的房间类型
+    repeated UINT32 m_banPassiveGuildSkillVec = 5;  ///< 禁用被动军团技能的房间类型
+    repeated ClientOpAct m_closeOpAct = 6;       ///< 关闭的客户端运营活动列表
+    required INT32  m_diffZoneTime = 7;          ///< 服务端和标准时间差
+    required float m_presentPointRate = 8;  ///< 赠送点数比率（小于0表示关闭赠送扣除点数功能）
+}
+
+/// 更新技术信息
+message UpdateBattleTechno
+{
+    enum { THIS_MSG_TYPE = MSG_UPDATE_BATTLE_TECHNO; }  
+    
+    required string m_szUuid = 1;   ///< 玩家uuid
+    repeated int m_technoVec = 2;   ///< 技术信息 enum GAME_COUNT_TYPE
+    required int m_enemyElo = 5;    ///< 对手的ELO
+    required int m_battleResult = 6;///< 战斗结果BATTLE_RESULT
+    required int m_eloUpType = 7;   ///< enum ELO_UPDATE_TYPE
+}
+
+/// 请求改名，首次改名是带性别的
+message RequestChangeName
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CHANGE_NAME; }
+
+    required string m_newName = 1;  ///< 新的名称
+    required int m_sexes = 2;       ///< 角色性别 enum SEX_TYPE SEX_NONE表示使用物品改名
+}
+
+/// 通知改名工具的结果
+message NotifyRenameResult
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_RENAME_RET; }
+    
+    required BYTE m_result = 1;   ///< 改名结果：参见CharCreateFail::CVC_REASON枚举
+    required string m_uuid = 2;   ///< 角色的UUID
+    required string m_name = 3;   ///< 新的名称	
+    required int    m_sexes = 4;  ///< 角色性别 enum SEX_TYPE
+}
+
+/// 举报玩家
+message ImpeachBadPlayer
+{
+    enum { THIS_MSG_TYPE = MSG_IMPEACH_BAD_PLAYER; }
+    
+    required BYTE m_type        = 1;    ///< enum IMPEACH_TYPE
+    required UINT32 m_nActId    = 2;    ///< 举被报的玩家id
+    required string m_uuid      = 3;    ///< 举被报的角色UUID
+}
+
+/// 通知玩家举报结果
+message NotifyImpeachResult
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_IMPEACH_RET; }
+    
+    required UINT32 m_ret = 1;    ///< enum IMPEACH_RET_TYPE
+}
+
+/// 通知被举报了，需要验证
+message NotifyImpeachCheck
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_IMPEACH_CHECK; }
+}
+
+/// 同步举报结果 global <-> track
+message SyncImpeachInfo 
+{
+    enum { THIS_MSG_TYPE = MSG_SYNC_IMPEACH_INFO; }
+
+    required UINT32 m_nSceneId      = 0;
+    required BYTE m_type            = 1;
+    required BYTE m_roomType        = 2;
+    required INT32 m_iPlace         = 3;
+    required UINT32 m_nSenderOid    = 4;
+    required UINT32 m_nReceiverOid  = 5;
+    required UINT32 m_nReceiverLvl  = 6;
+    required string m_sReceiverName = 7;
+
+    required BYTE m_nResult         = 8; //IMPEACH_RET_TYPE
+}
+
+/// 通知举报结果 global <-> track
+message NotifyImpeachResultBetweenSvr
+{
+    enum {THIS_MSG_TYPE = MSG_NOTIFY_IMPEACH_RESULT_IN_SERVER; }
+
+    required BYTE m_nResult       = 1;
+    required BYTE m_roomType      = 2;
+    required UINT32 m_nSenderId   = 3;
+    required UINT32 m_nReceiverId = 4;
+}
+
+/// 通知其他服务器有新邮件 now : track -> global ->>> tracks
+message NotifyServerNewMail
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SERVER_NEW_MAIL; }
+
+    repeated UINT32 m_vOidVec = 1;
+    required UINT32 m_nNewCnt = 2;
+}
+
+/// 通知track有玩家触发挂机  game -> track, game->global->track
+message NotifyAfkTrigger
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_AFK_TRIGGER; }
+
+    required UINT32 m_acctId    = 1;
+    required UINT32 m_sceneId 	= 2;
+    required UINT32 m_roomType 	= 3;
+}
+
+/// 通过global转发给track重新加载被举报人的封禁信息
+message NotifyReloadBanInfo
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_RELOAD_BAN_INFO; }
+
+    required UINT32 m_nCheckerOid = 1;
+    required BYTE   m_nType = 2; //0 表示重新加载, 1表示踢下线
+}
+
+/// 通知玩家行为开启
+message NotifyActionFlag
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ACTION_FLAG; }
+
+    required UINT32 m_nActionFlag = 1;  ///< enum CHAR_ACTION_FLAG_BIT    
+}
+
+/// 通知转轮盘的数量
+message NotifyRouletteCount
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ROULETTE_COUNT; }
+
+    required UINT32 m_nRlteType = 1;        ///< 转盘类型 ROULETTE_TYPE
+    required UINT32 m_nRlteCount = 2;       ///< 总数量
+    required UINT32 m_nRlteStageCount = 3;  ///< 保底数量
+}
+
+message SlotMachineChar
+{
+    required string m_strName = 1;  ///< 玩家名称
+    required UINT32 m_nRlteCount = 2;    ///< 转球次数
+    required UINT32 m_nRank = 3;    ///< 排名
+    required string m_strUuid = 4;  ///< 玩家UUID
+}
+
+/// 请求保存系统设置
+message RequestChangeSetting
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CHANGE_SETTING; }
+
+    required UINT32 m_setting = 1;  ///< enum CHAR_SETTING_FLAG_BIT
+}
+
+/// 通知客户端同步设置
+message NotifySyncSetting
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SYNC_SETTING; }
+
+    required UINT32 m_setting = 1;  ///< enum CHAR_SETTING_FLAG_BIT
+}
+
+// 通知客户端elo赛季刷新时间戳
+message NotifyRenewEloTime
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_RENEW_ELO_TIME; }  
+    
+    required UINT32  m_sessionStartTime  = 1;    ///< 本赛季开始时间
+    required UINT32  m_sessionEndTime    = 2;    ///< 本赛季结束时间
+}
+
+// 通知ELO刷新
+message NotifyRenewElo
+{
+    enum { THIS_MSG_TYPE = MSG_GATE_RENEW_ELO; }  
+    
+    required INT32  m_type    = 1;    ///< enum ELO_RENEW_TYPE
+    required UINT32 m_sessionNum = 2;
+    required UINT32 m_sessionTime = 3;
+}
+
+/// 通知是否已经进行首充
+message NotifyFirstCharge
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_FIRST_CHARGE; }
+    
+    required UINT32 m_nChargeCount = 1;  ///< 1:标识首充数额
+    required UINT32 m_nRate = 2;				 ///< 2:返礼券的倍率（100代表1倍）
+    required UINT32 m_nMin = 3;					 ///< 3:最低的返还礼券额度
+    required UINT32 m_nMax = 4;					 ///< 4:最高的返还礼券额度
+}
+
+/// gm后台改变玩家的荣誉
+message ChangeHonorInfo
+{
+    repeated UINT32 m_giveVec = 1;
+    repeated UINT32 m_lostVec = 2;
+}
+
+message GmopChangeCharHonor
+{
+    enum { THIS_MSG_TYPE = MSG_GATE_CHANGE_CHAR_HONOR; }
+    
+    required ChangeHonorInfo m_info = 1;
+}
+
+/// 通知副本记录
+message OnePveRecord
+{
+    required UINT32 m_mapId = 1;            ///< 地图id
+    required UINT32 m_nPassTime = 2;        ///< 通关时间点
+    required UINT32 m_nUseTime = 3;         ///< 通关所用的时间(秒)
+    repeated RECORD_BRIEF m_charVec = 4;    ///< 玩家列表
+}
+
+message NotifyPveRecord
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_PVE_RECORD; }
+    
+    enum {
+        NORMAL_NOTIFY   = 1;    ///< 普通的通知
+        NEW_RECORD      = 2;    ///< 新记录
+    }
+    
+    required OnePveRecord m_record = 1; ///< 副本记录信息 
+    required BYTE m_nByte = 2;          ///< 
+}
+
+message RequestPveRecord
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_PVE_RECORD; }
+    
+    required UINT32 m_nMapId = 1;
+}
+
+
+message NotifyPvePass
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_PASS_PVE; }
+    
+    required UINT32 m_nMapId        = 1;    ///< 地图id
+    required UINT32 m_nUseTime      = 2;    ///< 通关时间
+    required UINT32 m_nRecordTime   = 3;    ///< 第一名的通关时间
+}
+
+/// 通知领取军团礼包的最后时间
+message NotifyGuildGiftTime
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_GIFT_TIME; }
+    
+    required UINT32 m_nTime = 1;       ///< 时间
+}
+
+message NotifyHeroEnterCount
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_HERO_ENTER_COUNT; }
+    
+    required BYTE m_bFreeCount    = 1;    ///< 英雄副本剩余的免费进入次数
+    required BYTE m_bDayCount     = 2;    ///< 英雄副本剩余的进入次数
+    required UINT32 m_bBuyCount     = 3;    ///< 英雄副本额外购买的进入次数
+    required BYTE m_bDayBuyLimit = 4;     ///< 英雄副本每日购买的上限
+}
+
+/// MSGTYPE_DECLARE(MSG_REQUEST_PICK_CASHBACK),              // 请求领取礼券月卡的返点
+message RequestPickCachback
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_PICK_CASHBACK; }
+}
+
+/// MSGTYPE_DECLARE(MSG_NOTIFY_CASHBACK_INFO),              // 返回礼券月卡的更新信息
+message NotifyCashbackInfo
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CASHBACK_INFO; }
+    required UINT32 m_cashback_times     = 1;    ///< 领取的截止时间戳
+    required UINT32 m_cashback_picked  = 2;    ///< 最后一次的领取时间（非今日则当日可领）
+}
+
+/// MSGTYPE_DECLARE(MSG_REQUEST_LEARN_GUILD_SKILL)		     // 角色请求学习军团技能
+message RequestLearnGuildSkill {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_LEARN_GUILD_SKILL; }
+    required UINT32 m_nGuildSkillId = 1;  ///< 军团技能ID
+}
+
+/// MSGTYPE_DECLARE(MSG_REQUEST_UNLOCK_SKILL_SLOT)		     // 角色请求解锁军团技能格
+message RequestUnlockSkillSlot {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_UNLOCK_SKILL_SLOT; }
+    required UINT32 m_nSkillSlot = 1;  ///< 开启的军团技能格位置 GUILD_SKILL_SLOT
+}
+
+/// 通知角色军团技能槽信息
+message GuildSkillSlotInfo
+{
+    required UINT32 m_nSkillSlot = 1;   ///< 军团技能格位置 GUILD_SKILL_SLOT
+    required UINT32 m_nSkillId = 2;     ///< 军团技能Id
+    required UINT32 m_nSkillLevel = 3;   ///< 技能等级
+}
+
+/// MSGTYPE_DECLARE(MSG_NOTIFY_GUILD_SKIL_SLOT_INFO)       //通知角色军团技能槽信息
+message NotifyGuildSkillSlotInfo {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_SKIL_SLOT_INFO; }
+    repeated GuildSkillSlotInfo m_skillSlotList = 1;        ///< 角色军团技能槽列表
+    required UINT32 m_nSlotFlag = 2;                        ///< 技能槽开启标志位 GUILD_SKILL_OPEN_FLAG
+}
+
+/// MSGTYPE_DECLARE(MSG_REQUEST_SET_GUILD_SKILL)       //请求设定角色军团技能
+message RequestSetGuildSkill {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SET_GUILD_SKILL; }
+    required GuildSkillSlotInfo m_skillSlotInfo = 1;        ///< 角色军团技能槽
+}
+
+/// MSGTYPE_DECLARE(MSG_NOTIFY_CHAR_GUILD_SKILL_INFO)       //通知角色的军团技能信息
+message NotifyCharGuildSkillInfo {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CHAR_GUILD_SKILL_INFO; }
+    repeated GuildSkillInfo m_skillList = 1;    ///< 技能信息
+    required UINT32 m_nOpType = 2;              ///< 操作类型 INFO_OP_TYPE
+}
+
+///tracksvr->gatesvr
+message SyncGuildSkillToGate {
+    enum { THIS_MSG_TYPE = MSG_SYNC_GUILD_SKILL_INFO_TOGATE; }
+    repeated GuildSkillInfo m_skillList = 1;    ///< 技能信息
+    required UINT32 m_nOpType = 2;              ///< 操作类型 INFO_OP_TYPE
+}
+
+///tracksvr->gatesvr
+message SyncCharGuildToGate {
+    enum { THIS_MSG_TYPE = MSG_SYNC_CHAR_GUILD_TOGATE; }
+
+    required string m_charUuid = 1;         ///< 角色uuid
+    required UINT32 m_nGuildId = 2;         // 军团ID
+    required UINT32 m_nTeamId = 3;          // 战队id
+    required UINT32 m_nTeamMerit = 4;       // 战队贡献
+    required string m_guildName = 5;        // 军团名称
+    required string m_teamName = 6;         // 战队名称
+}
+
+/// 通知角色的2级密保信息
+message NotifyCharProtectInfo {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CHAR_PROTECT_PWD; }
+    required BYTE m_bHasPwd = 1;	///是否设定了2级密保
+    required UINT32 m_nDelPwdTicket = 2;  ///密保失效的时间点 （0表示一直有效，该值若非0则一定是指向未来的时间点）
+}
+
+/// 通知客户端需要验证2级密保
+message NotifyNeedCheckProtectPwd {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_NEED_CHECK_PROTECT_PWD; }
+}
+
+/// 通知2级密保操作结果
+message NotifyProtectPwdOpResult {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_PROTECT_PWD_OP_RESULT; }
+
+    required UINT32 m_nOpType = 1;     ///操作类型 PROTECT_PASSWORD_OP_TYPE
+    required BYTE m_bResult = 2;       ///操作结果 0：失败  1：成功
+}
+
+/// 请求2级密保相关操作
+message RequestProtectPwdOp {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_PROTECT_PWD_OP; }
+    required UINT32 m_nOpType = 1;    ///操作类型 PROTECT_PASSWORD_OP_TYPE
+    required string m_strPwd = 2;     ///密保信息
+    required string m_strPwdChange = 3; ///修改2级密保时，用于指定变更的密码
+}
+
+/// 请求更换荣誉
+message RequestChangeHonor {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CHANGE_HONOR; }
+    required UINT32 m_nHonorId = 1;    /// 请求更换的荣誉ID
+}
+
+/// 请求领取徒弟充值返利
+message RequestPickPrenticeCashback {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_PICK_PRENTICE_CASHBACK; }
+}
+
+/// 通知徒弟充值返利信息
+message NotifyPrenticeCashbackInfo {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_PRENTICE_CASHBACK_INFO; }
+    required UINT32 m_nPrenticeCashback = 1;  ///徒弟充值返利数额
+}
+
+/// 请求重置副本过关次数
+message RequestRestMapEnterCount {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_RESET_MAP_ENTER_COUNT; }
+    required UINT32 m_nMapId = 1;    ///请求重置的地图ID
+}
+
+/// 更新杂货栏额外格子数
+message UpdateGroceryAdd {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_UPDATE_GROCERY_ADD; }
+    required UINT32 m_nAdd = 1;     /// 更新的额外格子数
+}
+
+/// 通知同步角色数据
+message NotifyUpdateCharData {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_UPDATE_CHAR_DATA; }
+
+    enum {
+        CHAR_UPDATE_DECORATE = 1;   //更新角色主题信息
+        CHAR_SETTING = 3;           // 玩家设置
+        CHAR_NAME = 4;              // 角色名称
+        CHAR_LEVEL = 5;             // 角色等级
+        CHAR_ELO = 6;               // 角色天梯elo
+        CHAR_LEISURE_ELO = 7;       // 角色（休闲）匹配赛ELO
+        CHAR_ELO_SECTION_ID = 8;    // 天梯阶段ID
+        CHAR_GOLDEN_POOL_COUNT = 9; // 更新金币池数量
+        CHAR_UPDATE_3V3_ELO = 10;   // 更新3v3争霸赛elo
+    }
+
+    required BYTE m_bType = 1;      // 更新类型
+    required UINT32 m_upUint = 2;   // 更新的数值
+    required string m_upStr = 3;    // 更新字符串,需要根据字段类型转型
+}
+
+/// 通知角色签到信息
+message NotifySignIn {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SIGN_IN_INFO; }
+
+    required UINT32 m_nSignInFlag = 1;   //签到标志
+    required UINT32 m_nVipDoubleFlag = 2;//VIP双倍签到标志
+    required UINT32 m_nYear = 3;         //
+    required UINT32 m_nMonth = 4;        //
+    required UINT32 m_nDay = 5;          //
+    required UINT32 m_nSignInCount = 6;  //本月签到次数
+    required UINT32 m_nSignInStage = 7;  //累计签到的阶段
+}
+
+/// 通知新版角色签到信息
+message NotifyNewSignIn {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_NEW_SIGN_IN_INFO; }
+
+    required UINT32 m_nSignInFlag = 1;   //签到标志
+    required UINT32 m_nSignInCount = 2;  //本月签到次数
+    required UINT32 m_nSignInStage = 3;  //累计签到的阶段
+}
+
+/// 请求签到
+message RequestSignIn {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SIGN_IN;}
+}
+
+/// 请求新版签到
+message RequestNewSignIn {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_NEW_SIGN_IN;}
+}
+
+/// 请求vip双倍签到的另一份奖励(已签到,但新成为vip可领取一份)
+message RequestGetVipDoubleAward {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_VIP_DOUBLE_AWARD;}
+}
+
+/// 请求领取累计签到奖励
+message RequestSignInStageAward {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_STAGE_SIGN_IN_AWARD;}
+
+    required UINT32 m_nStage = 1;    // 请求领取的阶段
+}
+
+/// 请求领取新版累计签到奖励
+message RequestNewSignInStageAward {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_NEW_STAGE_SIGN_IN_AWARD;}
+
+    required UINT32 m_nStage = 1;    // 请求领取的阶段
+}
+
+// 礼包信息
+message GiftInfo {
+    required BYTE bType = 1;            // 礼包类型
+    required UINT32 nLevel = 2;         // 礼包等级
+    required UINT32 nAwardCount = 3;    // 可领取个数
+    required UINT32 nDrawCount = 4;     // 已领取个数
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_CHAR_GIFT),
+// 通知玩家礼包信息
+message NotifyCharGift {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CHAR_GIFT;}
+
+    repeated GiftInfo m_giftVec = 1;    // 礼包数据
+}
+
+
+// MSGTYPE_DECLARE(MSG_REQUEST_PRESENT_VALENTINE_FLAUNT),
+// 请求赠送七夕鲜花
+message RequestPresentValentineFlaunt
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_PRESENT_VALENTINE_FLAUNT; }
+
+    required string m_strName = 1;    /// 目标玩家
+    required UINT32 m_nItemId = 2;    /// 物品ID
+    required UINT32 m_nItemCount = 3; /// 物品个数
+}
+
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_CONSUME_VALENTINE_FLAUNT),
+// track->gate 请求消耗七夕鲜花
+message NotifyConsumeValentineFlaunt
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CONSUME_VALENTINE_FLAUNT; }
+
+    required string m_targetUuid = 1;       /// 目标玩家UUID
+    required string m_targetName = 2;       /// 目标玩家名
+    required UINT32 m_nItemId = 3;          /// 物品ID
+    required UINT32 m_nItemCount = 4;       /// 物品个数
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_SHOW_QQ_BLUE_VIP_RENEW)
+message NotifyShowQQBlueVipRenew
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SHOW_QQ_BLUE_VIP_RENEW; }
+
+    required UINT32 m_nBlueEndTime = 1;  ///< 蓝钻结束时间
+    required UINT32 m_nBlueYearEndTime = 2; ///< 年费蓝钻结束时间
+    required UINT32 m_nSuperBlueEndTime = 3; ///< 豪华蓝钻结束时间
+    required UINT32 m_nExpandBlueEndTime = 4;///< 超级蓝钻结束时间
+    required UINT32 m_nSvrTime = 5;       ///< 服务器时间
+}
+
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_AFK_STATUS)
+// game -> gate -> client
+message NotifyAfkStatus
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_AFK_STATUS; }
+
+    required UINT32 m_nState = 0;  // 0 警告, 1 表示挂机成立
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_AFK_WARNING)
+// track -> gate -> client  通知触发不良记录提示玩家
+message NotifyAfkWarning
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_AFK_WARNING; }
+}
+
+// MSGTYPE_DECLARE(MSG_REQ_SERVER_LOGIN_CONFIG)
+// client -> gate
+message RequestServerLoginConfigMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQ_SERVER_LOGIN_CONFIG; }
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_SERVER_LOGIN_CONFIG)
+// gate -> client
+message NotifyServerLoginConfigMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SERVER_LOGIN_CONFIG; }
+
+    required string m_stateUserCnt   = 1;  // 各个状态的玩家数
+}
+
+//MSG_NOTIFY_BATTLE_BOOSTER
+message NotifyBattleBooster
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_BATTLE_BOOSTER; }
+    required string m_boosterUuid = 1;  // 主战助手UUID
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_SET_CHAR_OPTION)
+// client -> gate
+message RequestSetCharOption
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SET_CHAR_OPTION; }
+
+    required string m_strOption = 1;  // 
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_CHAR_OPTION)
+// gate -> client
+message NotifyCharOption
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CHAR_OPTION; }
+
+    required string m_strOption = 1;  // 
+}
+
+//通知附身玩家Gate信息
+message NotifyObserverPlayerGateMessage{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_OBSERVER_PLAYER_GATE; }
+
+    required string gate_realm          = 1;            //网关域名
+    required UINT32 gate_port           = 2;            //网关端口
+    required UINT32 target_client_id    = 3;            //附身目标ClientID
+}
+
+//请求玩家附身（玩家在不同gate）
+message RequestObserverOtherGatePlayerMessage{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_OBSERVER_OTHER_GATE_PLAYER; }
+
+    required UINT32 observer_acct_id  = 1;          //附身玩家账号ID
+    required string target_name       = 2;          //目标玩家名
+}
+
+//通知玩家附身信息（玩家在不同gate）
+message NotifyObserverOtherGatePlayerMessage{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_OBSERVER_OTHER_GATE_PLAYER; }
+
+    required UINT32 observer_acct_id    = 1;          //附身玩家账号ID
+    required string gate_realm          = 2;          //网关域名
+    required UINT32 gate_port           = 3;          //网关端口
+    required UINT32 target_client_id    = 4;          //附身目标ClientID
+}
+
+// 请求设置匹配模式
+message RequestSetBattleMode
+{
+   enum { THIS_MSG_TYPE = MSG_REQUEST_SET_BATTLE_MODE; }
+   
+   required UINT32 m_nBattleMode = 1;      ///< BATTLE_MODE枚举，位标记
+}
+
+// 通知设置匹配模式
+message NotifySetBattleMode
+{
+   enum { THIS_MSG_TYPE = MSG_NOTIFY_SET_BATTLE_MODE; }
+   
+   required UINT32 m_nBattleMode = 1;      ///< BATTLE_MODE枚举，位标记
+}
+
+// 请求领取金币池内的金币
+message RequestDrawGoldenPool
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_DRAW_GOLDEN_POOL; }
+}
+
+// 通知金币领取结果
+message NotifyDrawGoldenPoolResult
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_DRAW_GOLDEN_POOL_RESULT; }
+    
+    enum {
+        DGPR_OK = 0;  /// 领取成功
+        DGPR_ERROR_NONE = 10;            /// 领取失败
+        DGPR_ERROR_NO_GOLDEN = 11;  /// 领取失败，池内没有金币
+        DGPR_ERROR_NOT_VIP = 12;    /// 领取失败，不是VIP
+    }
+    
+    required UINT32 m_nResult = 1;   ///领取结果
+    required UINT32 m_nCount = 2;    ///领取的金币个数
+}
+
+enum FUNC_NOTIFY_UI_TYPE {
+    FNUT_UNKNOW             = 0;    //未知
+    FNUT_TANK_MAKE          = 1;    //坦克制造界面
+    FNUT_ROLL_LUCK          = 2;    //幸运转盘界面
+    FNUT_ROLL_SLOT_MACHINE  = 3;    //神秘球转盘界面
+    FNUT_ROLL_DRAGON_BOAT   = 4;    //龙舟转盘界面
+    FNUT_ROLL_ONLINE_PEAK   = 5;    //峰值在线转盘界面
+    FNUT_ROLL_ANNIVERSARY   = 6;    //周年庆转盘界面
+    FNUT_CLOUD_PURCHASE     = 7;    //云购界面
+    FNUT_BONFIRE            = 8;    //篝火界面
+    FNUT_TREASURE           = 9;    //一元夺宝
+}
+
+/// 打开功能通知界面
+message OpenFuncNotifyUIMessage
+{
+    enum { THIS_MSG_TYPE = MSG_OPEN_FUNC_NOTIFY_UI;}
+    
+    required UINT32 m_uiType = 1;     ///< FUNC_NOTIFY_UI_TYPE
+}
+/// 关闭功能通知界面
+message CloseFuncNotifyUIMessage
+{
+    enum { THIS_MSG_TYPE = MSG_CLOSE_FUNC_NOTIFY_UI;}
+    
+    required UINT32 m_uiType = 1;     ///< FUNC_NOTIFY_UI_TYPE
+}
+
+/// 请求设定指挥官技能      
+message RequestSetCommanderSkill 
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SET_COMMANDER_SKILL; }
+
+    required UINT32 nContType = 1;          ///< 坦克容器
+    required UINT32 nTankId = 2;            ///< 坦克ID
+    required UINT32 nComSkillId = 3;        ///< 指挥官技能ID
+}

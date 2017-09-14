@@ -1,0 +1,101 @@
+// ----------------------------------------------------------------------
+/// @file			protocol/CurrencyMessage.h
+/// @brief
+/// @author         Bob Lee (bob@onwind.cn)
+/// @copyright		Sixcube Information Technology Co,. Ltd. (2012)
+/// @date			2007-08-22 13:42:03
+// -----------------------------------------------------------------------
+
+import BulkDataType;
+
+/// @addtogroup dt_ObjectManage
+/// @{
+//Server->Client 通知角色货币操作以及余额情况
+message CharCurrencyAction {
+    enum { THIS_MSG_TYPE = MSG_CHAR_CURRENCYACTION; }
+
+    required UINT16 m_flow = 1;    ///< 资金流向，参见COIN_FLOW枚举
+    required UINT16 m_reason = 2;    ///< 变化原因，参见COIN_OPERATE枚举
+    required CHAR_CURRENCY m_currency = 3;    ///< 余额信息
+}
+
+/// 请求进行RMB兑换
+/// Client -> Server
+message RequestRmbTranser {
+    enum { THIS_MSG_TYPE = MSG_CHAR_CURRENCY_REQUEST_RMB_TRANSER; }
+
+    required INT32 m_amount = 1;    ///< 额度
+}
+
+/// 请求RMB的数量
+/// Client -> Server
+message RequestQueryRmb {
+    enum { THIS_MSG_TYPE = MSG_CHAR_CURRENCY_REQUEST_RMB; }
+}
+
+/// 通知rmb数量以及汇率
+message NotifyRmbAndRate
+{
+    enum { THIS_MSG_TYPE = MSG_CHAR_CURRENCY_NOTIFY_RMB_RATE; }
+    
+    required INT32 m_rmbCount = 1;      ///< rmb数量
+    required INT32 m_rate = 2;          ///< rmb兑换点券的汇率	
+}
+
+/// 通知充值到帐
+message NotifyChargeDone
+{
+    enum { THIS_MSG_TYPE = MSG_CHARGE_DONE; }
+    required INT32 m_rmbCount = 1;      ///< rmb数量
+    required INT32 m_cashCount = 2;     ///< 充值到帐点券
+    required UINT32 m_giftPack = 3;     ///< 获得的礼包
+    required INT32 m_giftCount = 4;     ///< 赠送的礼券
+    required INT32 m_superVipBack = 5;  ///< 超级VIP返还
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_PAYMENT_RMB),
+// 请求充值
+message RequestPaymentRmb{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_PAYMENT_RMB; }
+    
+    required string m_orderId = 1;          ///< 充值订单号
+}
+
+message ChargeRankInfo
+{
+    required string m_szName = 1;       ///<角色名称
+    required UINT32 m_nRank = 2;        ///<排行
+    required UINT32 m_nCash = 3;        ///<充值金额
+}
+
+message DrawDailyChargeInfo
+{
+    required UINT32 m_nCash = 1;        ///<充值档次
+    required string m_szName = 2;       ///<排名第一的玩家名字
+    required UINT32 m_nDrawCount = 3;   ///<领取奖励人数
+}
+
+/// 请求每日充值信息
+message RequestServerChargeInfo
+{
+    enum {THIS_MSG_TYPE = MSG_REQUEST_SERVER_CHARGE_INFO; }
+}
+
+/// 通知每日充值信息
+message NotifyServerChargeInfo
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SERVER_CHARGE_INFO; }
+    
+    required UINT32 m_nCashAll = 1;                 ///<每日充值数
+    repeated DrawDailyChargeInfo m_nDrawInfo = 2;   ///< 各档次充值信息
+}
+
+/// 同步角色充值数给track(角色有充值行为时发送)
+message SyncCharDayChargeInfo
+{
+    enum { THIS_MSG_TYPE = MSG_SYNC_CHAR_DAY_CHARGE_INFO; }
+    
+    required UINT32 m_nBillCash = 1;                ///<本次充值点券数额
+}
+
+/// @}

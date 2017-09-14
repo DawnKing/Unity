@@ -1,0 +1,52 @@
+ef430.xml|909|<component size="1920,1080">
+  <displayList>
+    <graph id="n9_n4w4" name="n9" xy="0,0" size="1920,1080" type="rect"/>
+    <component id="n1_ef43" name="BtnLogin" src="ef431" xy="833,652" size="124,48">
+      <Button title="登陆" titleFontSize="30"/>
+    </component>
+    <text id="n2_ef43" name="TxtAccount" xy="964,562" size="114,34" input="true" prompt="账号" fontSize="30" autoSize="height" text=""/>
+    <text id="n3_ef43" name="TxtPassword" xy="967,614" size="114,34" input="true" prompt="密码&#xD;" password="true" fontSize="30" autoSize="height" text=""/>
+    <text id="n4_ef43" name="n4" xy="864,561" size="95,34" fontSize="30" text="账号："/>
+    <text id="n5_ef43" name="n5" xy="866,610" size="95,34" fontSize="30" text="密码："/>
+    <component id="n6_ef43" name="BtnRegister" src="ef431" xy="978,652" size="134,50">
+      <Button title="注册" titleFontSize="30"/>
+    </component>
+  </displayList>
+</component>ef431.xml|1070|<component size="100,20" extention="Button">
+  <Button/>
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver"/>
+  <displayList>
+    <graph id="n1" name="n1" xy="0,0" size="100,20" type="rect" lineSize="0" fillColor="#F0F0F0" touchable="false">
+      <gearDisplay controller="button" pages="0"/>
+      <relation target="" sidePair="width,height"/>
+    </graph>
+    <graph id="n2" name="n2" xy="0,0" size="100,20" type="rect" lineSize="0" fillColor="#FAFAFA" touchable="false">
+      <gearDisplay controller="button" pages="2"/>
+      <relation target="" sidePair="width,height"/>
+    </graph>
+    <graph id="n3" name="n3" xy="0,0" size="100,20" type="rect" lineSize="0" fillColor="#CCCCCC" touchable="false">
+      <gearDisplay controller="button" pages="1,3"/>
+      <relation target="" sidePair="width,height"/>
+    </graph>
+    <text id="n4" name="title" xy="0,0" size="100,20" fontSize="12" autoSize="none" align="center" vAlign="middle" singleLine="true">
+      <relation target="" sidePair="width,height"/>
+    </text>
+  </displayList>
+</component>ef432.xml|764|<component size="1920,1080">
+  <displayList>
+    <graph id="n5_n4w4" name="n5" xy="0,0" size="1920,1080" type="rect"/>
+    <text id="n0_q765" name="TxtAccount" xy="1010,444" size="114,34" input="true" prompt="账号" fontSize="30" autoSize="height" text=""/>
+    <text id="n1_q765" name="TxtPassword" xy="1016,491" size="114,34" input="true" prompt="密码&#xD;" password="true" fontSize="30" autoSize="height" text=""/>
+    <text id="n2_q765" name="n2" xy="903,444" size="95,35" fontSize="30" text="账号："/>
+    <text id="n3_q765" name="n3" xy="917,483" size="95,35" fontSize="30" text="密码："/>
+    <component id="n4_q765" name="BtnRegister" src="ef431" xy="912,552" size="152,40">
+      <Button title="注册" titleFontSize="30"/>
+    </component>
+  </displayList>
+</component>package.xml|333|<packageDescription id="4ujos3wp" name="Login">
+  <resources>
+    <component id="ef431" name="Button1" path="/" size="100,20"/>
+    <component id="ef430" name="Login" path="/" size="1920,1080" exported="true"/>
+    <component id="ef432" name="Register" path="/" size="1920,1080" exported="true"/>
+  </resources>
+</packageDescription>

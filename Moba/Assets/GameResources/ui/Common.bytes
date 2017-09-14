@@ -1,0 +1,22 @@
+8tgb4.xml|654|<component size="50,22" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <image id="n1" name="n1" src="8tgb1" xy="0,0">
+      <gearDisplay controller="button" pages="0,2"/>
+    </image>
+    <image id="n2" name="n2" src="8tgb2" xy="0,0">
+      <gearDisplay controller="button" pages="1,3"/>
+    </image>
+    <text id="n3" name="title" xy="24,0" size="22,22" fontSize="16" color="#ffffff" align="center" vAlign="middle" autoSize="none" singleLine="true" text="">
+      <relation target="" sidePair="width-width"/>
+    </text>
+  </displayList>
+  <Button mode="Check"/>
+</component>package.xml|372|<packageDescription id="zd5hl5a9" name="通用">
+  <resources>
+    <image id="8tgb1" name="checkbox_bk" path="/素材/" size="22,22"/>
+    <image id="8tgb2" name="checkbox_checked" path="/素材/" size="22,23"/>
+    <component id="8tgb4" name="Rb1" path="/组件/" size="50,22" exported="true"/>
+    <atlas id="atlas0" size="64,32" file="atlas0.png"/>
+  </resources>
+</packageDescription>

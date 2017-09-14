@@ -1,0 +1,27 @@
+// ----------------------------------------------------------------------
+
+import BulkDataType;
+
+// 请求佣兵卡升级    
+message RequestLevelUpYCard 
+{
+	enum { THIS_MSG_TYPE = MSG_REQUEST_LEVELUP_YCARD; }
+
+	required UINT32 nCardId    = 1;    ///< 卡片Id
+}
+
+// 通知佣兵卡信息
+message NotifyYCardInfo
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_YCARD_INFO; }    
+    
+	repeated YCARD_INFO yCardVec = 1;	// 所有佣兵卡信息 
+}
+
+// 通知播放佣兵卡出场动画
+message NotifyPlayYCardAnimation
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_PLAY_YCARD_ANIMATION; }    
+    
+	repeated YCARD_INFO yCardVec = 1;	// 需要播放动画的佣兵卡信息 
+}

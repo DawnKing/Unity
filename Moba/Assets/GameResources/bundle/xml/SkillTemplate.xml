@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<LocalDatas xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<LocalData>
+		<g_SkillTemplate>
+			<entry>
+				<Id>1</Id>
+        <SkillEffectRes>feiyi</SkillEffectRes>
+			</entry>
+		</g_SkillTemplate>
+	</LocalData>
+</LocalDatas>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,720">
+  <displayList>
+    <component id="n0" name="MoveJoystick" src="v38d5" xy="0,418">
+      <relation target="" sidePair="bottom-bottom,left-left"/>
+    </component>
+    <component id="n1" name="AttackJoystick" src="v38d5" xy="880,420">
+      <relation target="" sidePair="right-right,bottom-bottom"/>
+    </component>
+  </displayList>
+</component>

@@ -1,0 +1,150 @@
+// ----------------------------------------------------------------------
+
+/// MSGTYPE_DECLARE_ASSIGN(MSG_LICENSE_NOTIFY, 7),		
+// License Nitification from License Server
+message LicenseNotification{
+	enum { THIS_MSG_TYPE = MSG_LICENSE_NOTIFY; }
+
+	required UINT32 m_res = 1;		// 0 - 授权拒绝；1 - 授权通过
+	required string m_newkey = 2;		// newkey used to generate next request
+}
+
+/**
+ * 服务端通知客户端的通用错误消息
+ * Server->Client 
+ * 通过消息编号传递，
+ */
+message SystemErrorMessage {
+    enum { THIS_MSG_TYPE = MSG_SYSTEM_ERRORMESSAGE; }
+
+    required UINT32 m_MsgID = 1;            ///< 对应处理的那条消息时出现的提示
+    required INT32 m_ErrNo = 2;             ///< 提示的id
+    repeated string m_errParamVec = 3;      ///< 对应的参数
+}
+
+
+/// 心跳间隔, 单位秒
+message SystemHeartBeat {
+    enum { THIS_MSG_TYPE = MSG_SYSTEM_HEARTBEAT; }
+
+    required UINT64 m_time = 1;
+}
+
+/// 服务器系统时间脉冲
+message SystemTimeImplus {
+    enum { THIS_MSG_TYPE = MSG_SYSTEM_TIME_IMPLUS; }
+
+    required UINT64 m_currentTime = 1;
+}
+
+/// Client -> Server 请求ping值
+message RequestPing {
+		enum { THIS_MSG_TYPE = MSG_REQUEST_PING; }
+}
+
+/// GateSvr - > Client 通知ping值
+message NotifyPingGateSvr {
+		enum { THIS_MSG_TYPE = MSG_GATE_NOTIFY_PING; }
+		
+		required UINT64 m_recvTime = 1;	///< gateSvr收到消息的时间
+        required UINT32 m_time = 2;	    ///< 服务器utc时间
+}
+
+/// GameSvr - > Client 通知ping值
+message NotifyPingGameSvr {
+		enum { THIS_MSG_TYPE = MSG_GAME_NOTIFY_PING; }
+		
+		required UINT32 m_time = 1;	///< gameSvr发送消息的时间
+		repeated UINT32 m_Content = 2;
+}
+
+/// GM Command
+message GmCommand {
+    enum { THIS_MSG_TYPE = MSG_GM_COMMAND; }
+
+    required string m_command = 1;
+    required string m_gmName = 2;    // GM的角色名
+}
+
+/// GM Command
+message GmGameCommand {
+    enum { THIS_MSG_TYPE = MSG_GM_GAME_COMMAND; }
+
+    required string m_command = 1;
+    required string m_gmName = 2;   // GM的角色名
+    required UINT32 m_sceneId = 3;  // GM所在的场景id
+}
+
+/// GM Command
+message GmGlobalGmResult {
+    enum { THIS_MSG_TYPE = MSG_GLOBAL_GM_RESULT; }
+
+    required UINT32 m_player = 1;
+    required string m_result = 2;    // GM命令结果
+    required string m_gmName = 3;    // GM的角色名
+}
+
+
+// MSGTYPE_DECLARE(MSG_CLIENT_BIND_GAME_CONNID),
+///< 客户端连接绑定目标gamesvr的连接id
+message ClientBindGameConnId {
+    enum { THIS_MSG_TYPE = MSG_CLIENT_BIND_GAME_CONNID; }
+
+    required UINT32 m_gameConnId = 1;       // gamesvr连接id
+    required UINT32 m_nAcctId = 2;          // 客户端账号id
+}
+
+// MSGTYPE_DECLARE(MSG_CLIENT_UNBIND_GAME_CONNID),
+///< 客户端连接绑定目标gamesvr的连接id
+message ClientUnbindGameConnId {
+    enum { THIS_MSG_TYPE = MSG_CLIENT_UNBIND_GAME_CONNID; }
+
+    required UINT32 m_gameConnId = 1;       // gamesvr连接id
+    required UINT32 m_nAcctId = 2;          // 客户端账号id
+}
+
+// MSGTYPE_DECLARE(MSG_OBSERVER_BIND_PLAYER_ACCOUNT),
+///< 绑定需要附身的玩家账号
+message ObserverBindPlayerAccountMessage {
+    enum { THIS_MSG_TYPE = MSG_OBSERVER_BIND_PLAYER_ACCOUNT; }
+
+    required UINT32 m_acctId = 1;          // 附身玩家账号id
+    required UINT32 m_clientId = 2;        // 附身玩家client
+}
+
+// MSGTYPE_DECLARE(MSG_OBSERVER_UNBIND_PLAYER_ACCOUNT),
+///< 解除需要附身的玩家账号
+message ObserverUnBindPlayerAccountMessage {
+    enum { THIS_MSG_TYPE = MSG_OBSERVER_UNBIND_PLAYER_ACCOUNT; }
+
+    required UINT32 m_acctId = 1;          // 附身玩家账号id
+}
+
+// MSGTYPE_DECLARE(MSG_MARK_OBSERVER_NET_CONN),
+///< 标记玩家链接附身状态
+message MarkObserverNetConnMessage {
+    enum { THIS_MSG_TYPE = MSG_MARK_OBSERVER_NET_CONN; }
+}
+
+// MSGTYPE_DECLARE(MSG_UNMARK_OBSERVER_NET_CONN),
+///< 解除玩家链接附身状态
+message UnMarkObserverNetConnMessage {
+    enum { THIS_MSG_TYPE = MSG_UNMARK_OBSERVER_NET_CONN; }
+}
+
+/// 聊天服测试协议
+message ChatTestPingMesssage {
+    enum { THIS_MSG_TYPE = MSG_CHAT_TEST_PING; }
+
+    required UINT64 m_time = 1;
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_RELOAD_TEMPLATE),
+///< 通知客户端重新加载模板数据
+message NotifyReloadTemplate {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_RELOAD_TEMPLATE; }
+
+    required string m_tplName = 1;      // 指定模板数据名,all表示重新加载所有模板数据
+}
+
+/// @}

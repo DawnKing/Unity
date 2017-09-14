@@ -1,0 +1,106 @@
+// ----------------------------------------------------------------------
+
+import ShareTypes;
+
+message WorldEnterMessage {
+    enum { THIS_MSG_TYPE = MSG_AUTH_REQUEST_WORLD_ENTER; }
+
+    required string m_char_uuid = 1;
+    required string m_loginId = 2;
+    required UINT32 m_accountId = 3;
+    required string m_strEnterKey = 4;      // 登录参数
+    required INT16  m_bIsFirstLogin = 5;
+    //required INT32 m_isRobot = 10;    ///是否是机器人的号登录的, 0 -- 不是, 1 -- 是
+}
+
+
+message WorldEnterRejected {
+    enum { THIS_MSG_TYPE = MSG_WORLD_ENTER_REJECTED; }
+
+    enum WER_CODE {
+        CHAR_NOTEXISTS = 0; ///< 角色不存在
+        WORLD_NOTEXISTS = 1;    ///< 游戏世界已关闭
+    }
+
+
+    required UINT32 m_accountId = 1;
+    required UINT32 m_reason = 2;
+}
+
+
+message WorldEnterConfirm {
+    enum { THIS_MSG_TYPE = MSG_WORLD_ENTER_CONFIRM; }
+
+    required UINT32 m_account_oid = 1;
+    required UINT32 m_game_token = 2;
+}
+
+message WorldEnterTrackConfirm {
+    enum { THIS_MSG_TYPE = MSG_WORLD_ENTER_TRACK_CONFIRM; }
+
+}
+
+/**
+ *    exit world, client -> server
+ */
+message WorldLogoutMessage {
+    enum { THIS_MSG_TYPE = MSG_AUTH_REQUEST_WORLD_LOGOUT; }
+
+    required UINT32 m_char_oid = 1;
+    //required UINT32 m_game_token = 2;
+}
+
+
+/// 角色退出游戏世界确认
+message WorldLogoutConfirm {
+    enum { THIS_MSG_TYPE = MSG_WORLD_LOGOUT_CONFIRM; }
+
+    required UINT32 m_account_id = 1;
+    required UINT32 m_sector_id = 2;
+    required string m_serialKey = 3;
+}
+
+
+message WorldDisconnetedMessage {
+    enum { THIS_MSG_TYPE = MSG_WORLD_DISCONNECTED; }
+
+    required UINT32 server_uid = 1;
+}
+
+message MapCountInfo
+{
+    required int m_sector = 1;        // 地图id
+    required int m_alllPlayerCount = 2;    // 地图玩家数量
+}
+
+///区域触发器的类型，注意DEdit输出的类型必须与此一致
+enum TRIGGER_TYPE {
+    TT_TRIGGER = 0;    ///< 目标监视触发器 enum TRIGGER_OBJ
+    TT_PVP = 1;    ///< PVP区域
+}
+
+///区域trigger的行为(进入/离开)
+enum TRIGGER_ACTION {
+    TA_ENTER = 1;    ///< 进入
+    TA_LEAVE = 2;    ///< 离开
+}
+
+///触发器监视的目标类型, 只有当trigger的type为TT_TRIGGER时，监视目标对象才有意义
+enum TRIGGER_OBJ {
+    TO_NONE = 0;    ///< 不特定监视某种目标
+    TO_PLAYER = 1;    ///< 仅仅针对玩家
+    TO_NPC = 2;    ///< 仅仅针对NPC
+    TO_NPC_PLAYER = 3;    ///< 针对NPC和玩家
+}
+
+message AreaData {
+    required int    iAreaId = 1;                ///< 编号, 在npc server使用时,此属性不能为空
+    required string strScript = 2;              ///< 调用的脚本文件
+    required int    iType = 3;                  ///< 触发器类型 enum TRIGGER_TYPE
+    required int    iMapId = 4;                 ///< 地图索引
+    required int    iHeight = 5;                ///< 辅助数据，每个点使用同一个高度
+    required int    iObjType = 6;               ///< 监视目标类型 enum TRIGGER_OBJ
+}
+
+/// @}
+

@@ -1,0 +1,391 @@
+Initialize engine version: 5.6.0f3 (497a0f351392)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: Intel(R) HD Graphics 520 (ID=0x1916)
+    Vendor:   Intel
+    VRAM:     2111 MB
+    Driver:   20.19.15.4463
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\Base.dll (this message is harmless)
+Loading C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\Base.dll into Unity Child Domain
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\DOTween.dll (this message is harmless)
+Loading C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\DOTween.dll into Unity Child Domain
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\Protocol.dll (this message is harmless)
+Loading C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\Protocol.dll into Unity Child Domain
+- Completed reload, in  0.047 seconds
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\System.dll (this message is harmless)
+desktop: 2736x1824 60Hz; virtual: 2736x1824 at 0,0
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+Initialize engine version: 5.6.0f3 (497a0f351392)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: Intel(R) HD Graphics 520 (ID=0x1916)
+    Vendor:   Intel
+    VRAM:     2111 MB
+    Driver:   20.19.15.4463
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\Base.dll (this message is harmless)
+Loading C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\Base.dll into Unity Child Domain
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\DOTween.dll (this message is harmless)
+Loading C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\DOTween.dll into Unity Child Domain
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\Protocol.dll (this message is harmless)
+Loading C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\Protocol.dll into Unity Child Domain
+- Completed reload, in  0.024 seconds
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\DawnK\Documents\Study\Game\Client\Bin\Main_Data\Managed\System.dll (this message is harmless)
+desktop: 2736x1824 60Hz; virtual: 2736x1824 at 0,0
+<RI> Initializing input.
+XInput1_3.dll not found. Trying XInput9_1_0.dll instead...
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 2.405744 ms
+连接服务器
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 934c -> priority: 1 
+  Thread -> id: 9c20 -> priority: 1 
+Send 2bytes @ LoginWindow
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 6bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议103, 长度6,  NotifyLogin @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到登陆消息Success @ LoginNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Change scene to Battle
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 6 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.416410 ms
+
+Unloading 7 unused Assets to reduce memory usage. Loaded Objects now: 477.
+Total: 0.782769 ms (FindLiveObjects: 0.055384 ms CreateObjectMapping: 0.024615 ms MarkObjects: 0.690051 ms  DeleteObjects: 0.011487 ms)
+
+Send 3bytes @ Battle (Battle)
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 2bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议11, 长度2,  NotifySelfPlayer @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+GameProtocol.NotifySelfPlayer @ PlayerNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 6bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议1, 长度6,  NotifyCreateEntity @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+通知创建实体1, 0, 0 @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-1, -4.371139E-08) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-1.7, -7.430937E-08) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-2.3, -1.005362E-07) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-2.9, -1.26763E-07) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-2.899999, -1) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-2.899999, -1.6) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-2.899999, -2.2) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+创建一个实体1 @ BattleModel
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Send 14bytes @ InputMoveProcess
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Send 14bytes @ InputMoveProcess
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Send 14bytes @ InputMoveProcess
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Send 14bytes @ InputMoveProcess
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Send 14bytes @ InputMoveProcess
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Send 14bytes @ InputMoveProcess
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-2.899999, -1.2) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-2.899999, -0.6000004) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-2.899999, -2.384186E-07) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-3.899999, -2.523277E-07) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-4.499999, -2.785545E-07) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-5.099998, -3.047814E-07) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-5.699998, -3.310083E-07) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-5.699997, -1) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-5.699997, -1.6) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-5.699997, -2.200001) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-5.699997, -2.800001) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Receive 16bytes @ GameClient.ServerConnection
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+收到协议3, 长度16,  NotifyEntityMove @ GameProtocol.NetMessage
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-6.699997, -2.8) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+1 move (-7.299996, -2.8) @ EntityNet
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+

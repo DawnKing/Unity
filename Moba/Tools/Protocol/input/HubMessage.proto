@@ -1,0 +1,36 @@
+// ----------------------------------------------------------------------
+///	@file			protocol/HubMessage.h
+///	@brief
+///	@author			Bob Lee (libo@sixcube.cn)
+///	@copyright		Sixcube Information Technology Co,. Ltd. (2012)
+///	@date			2004-01-04 14:26:55
+// ----------------------------------------------------------------------
+
+
+/**
+ * HUB请求：HUBSVR使用者根据进程ID注册
+ * MSGTYPE_DECLARE(MSG_HUB_REGISTER_PROCESS)
+ */
+message HubRegisterProcess {
+    enum { THIS_MSG_TYPE = MSG_HUB_SERVICE_REQUEST; }
+    required UINT32 m_procUid = 1;  // 全区唯一进程标识
+    required string m_wanAddr = 2;	// 监听地址
+    required INT32 m_wanPort = 3; // 监听的端口
+}
+
+enum HUB_REGISTER_RESULT {
+    HRR_SUCCESS         = 0;        // 注册成功
+    HRR_INVALID_BUCKETS = 1;        // 无效的BUCKET范围
+}
+
+/**
+ * HUB响应：HUBSVR向服务节点返回注册结果
+ * MSGTYPE_DECLARE(MSG_HUB_SERVICE_RESULT)
+ */
+message HubRegisterResult {
+    enum { THIS_MSG_TYPE = MSG_HUB_SERVICE_RESULT; }
+    required UINT32 m_procUid = 1;  // 全区唯一进程标识
+    required INT32 m_result = 2;	// 结果枚举值：0 成功；-1 失败
+}
+
+/// @}

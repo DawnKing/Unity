@@ -1,0 +1,2591 @@
+///< ----------------------------------------------------------------------
+////< @file           bulkobjects/BulkDataEnum.h
+////< @brief
+///
+////< @author         Bob Lee(bob@onwind.cn)
+////< @copyright      Sixcube Information Technology Co,. Ltd. (2012)
+////< @date           2005-6-18 16:48:24
+///< -----------------------------------------------------------------------
+////< 服务器类别枚举
+enum SEX_TYPE {
+    SEX_NONE = 0;   ///< 无
+    SEX_MAN = 1;    ///< 男
+    SEX_WOMAN = 2;  ///< 女
+}
+
+enum CAMP_TYPE{
+    CAMP_NONE = 0;  ///< 中立
+    CAMP_A = 1;     ///< 红方
+    CAMP_B = 2;     ///< 蓝方
+    CAMP_MAX = 3;
+}
+
+///< 排名类型枚举
+enum RANK_TYPE{
+    RANK_ACT_CHARM          = 1;    ///< 活动倾城值排行
+    RANK_ACT_MERCY          = 2;    ///< 活动情缘值排行
+    RANK_TEAM_LAST_WEEK     = 3;    ///< 战队赛上周排名
+    RANK_ROULETTE_COUNT     = 4;    ///< 神秘球转球数排行
+    RANK_SLOT_MACHINE_COUNT = 5;    ///< 缤纷转转乐转球排行（老虎机）
+    RANK_SEND_REDPKT        = 6;    ///< 发红包排行
+    RANK_YESTERDAY_ELO      = 7;    ///< 昨日elo排行
+    RANK_DRAGON_BOAT        = 8;    ///< 端午转盘排行
+    RANK_RAND_STEP          = 9;    ///< 冒险夺宝排行
+}
+
+///< 道具类型
+enum PROPS_TYPE {
+    PROPS_T_ITEM     = 1;    ///< 物品
+    PROPS_T_TRAP     = 2;    ///< 陷阱
+    PROPS_T_PROPS    = 3;    ///< 道具
+    PROPS_T_DIR_TRAP = 4;    ///< 指定方向陷阱
+	PROPS_T_BOTH_TRAP= 5;    ///< 双向陷阱
+}
+
+///< 技能类型
+enum SKILL_TYPE {
+    SKILL_BULLET  = 1;    ///< 子弹
+    SKILL_COMMON  = 2;    ///< 技能
+    SKILL_PASSIVE = 3;    ///< 被动技能
+
+    SKILL_CLIENT  = 99;   ///< 客户端显示用
+}
+
+///< 技能性质
+enum SKILL_PROPERTY {
+	SKILL_PRO_NONE  = 0;    ///< 无
+    SKILL_PRO_COMMON  = 1;    ///< 普攻
+    SKILL_PRO_HURT  = 2;    ///< 伤害型技能
+    SKILL_PRO_ASSIST = 3;    ///< 辅助型技能
+}
+
+///< 技能位置
+enum SKILL_SLOT {
+    SSLOT_COMMON    = 0;    ///< 标准弹位置
+    SSLOT_TRAIT     = 1;    ///< 特性技能位置
+    SSLOT_STUNT     = 2;    ///< 大招技能位置
+    SSLOT_INNATE    = 3;    ///< 天赋技能位置
+    SSLOT_GS_ACTIVE = 4;    ///< 军团主动技能位置
+    SSLOT_GS_PASSIVE_1 = 5;  ///< 军团被动技能1位置
+    SSLOT_GS_PASSIVE_2 = 6;  ///< 军团被动技能2位置
+    SSLOT_GS_PASSIVE_3 = 7;  ///< 军团被动技能3位置 
+    SSLOT_GS_PASSIVE_4 = 8;  ///< 军团被动技能4位置
+    SSLOT_ENTER_EFFECT = 9;   ///< 进入场景时触发技能位置
+    SSLOT_ACTIVE_INNATE = 10; ///< 主动天赋技能（R）
+    SSLOT_INNATE_TWO    = 11;    ///< 天赋技能2位置
+	SSLOT_HOME		= 12;    ///< 回城技能位置
+	SSLOT_COMMANDER	= 13;    ///< 指挥官技能位置
+    SSLOT_MAX       = 14;
+}
+
+enum SKILL_TRIGGER_TYPE
+{
+    STT_AT_ONCE     = 0;        ///< 立即生效
+    STT_FIRE        = 1;        ///< 开火
+    STT_END         = 2;        ///< 存在时间到
+    STT_STILL       = 3;        ///< 静止
+    STT_TIMING      = 4;        ///< 定时
+    STT_HP_DOWN     = 5;        ///< 生命降至
+    STT_FIRE_NUM    = 6;        ///< 开火次数
+    STT_RELIVE      = 7;        ///< 快速复活
+    STT_GAIN_GOLD   = 8;        ///< 获得金币
+	STT_FRIEND_HPDOWN     = 9;        ///< 友方生命降至
+    STT_NPC_HARM    = 10;       ///< 受到npc伤害
+    STT_OCCUPY      = 11;       ///< 提高抢点速度
+    STT_START       = 12;       ///< 提高战场星级
+    STT_HARM_NPC    = 13;       ///< 提高对AInpc的伤害
+    STT_HARM_TANK   = 14;       ///< 提高对坦克的伤害
+	STT_MP_DOWN     = 15;       ///< 能量降至
+    STT_BE_HARM     = 16;       ///< 受到伤害
+    STT_ENTER       = 17;       ///< 进入战场
+    STT_BESIDE      = 18;       ///< 身边八个方向相邻位置使用技能
+    STT_RANGEFIRE   = 19;       ///< 四周目标对象发射炮弹
+    STT_USE_SKILL_EFFECT   = 20;       ///< 使用技能效果
+    STT_USE_SKILL_ID = 21;			///< 使用技能ID
+    STT_COLLIDE = 22;						///< 碰撞触发
+    STT_KILL_TANK = 23;         ///< 击杀坦克触发
+    STT_DEAD = 24;              ///< 坦克死亡触发
+    STT_AROUND_ENEMYTANK = 25;  ///< 根据周围敌方坦克数触发
+    STT_SELECT_TARGET_TWICE = 26; ///< 服务端二次选择目标的触发类型
+    STT_HARM_ACCUMULATE = 27;   ///< 累积伤害
+	STT_AUTO_RANGEFIRE = 28;   ///< 自动向周围敌人发射子弹
+	STT_USEABLE_IN_HOOK = 29;   ///< 钩子状态下可用
+	STT_PASSIVE_BUFF_TRI = 30;   ///< 被动Buff触发
+}
+
+/// 技能目标类型
+enum SKILL_TARGET_TYPE
+{
+    STARGET_SELF    = 0;        ///< 自身
+    STARGET_POS     = 1;        ///< 指定坐标点
+    STARGET_POS_RANDOM = 2;     ///< 随机坐标点
+    STARGET_SELECTED_OBJ = 3;   ///< 指定目标对象
+    STARGET_OBJ_RANDOM = 4;     ///< 随机对象
+    STARGET_OBJ_MIN_HP = 5;     ///< 血最少的对象
+    STARGET_OBJ_MAX_HP = 6;     ///< 血最多的对象
+    STARGET_OBJ_NEAREST = 7;    ///< 最近的对象
+    STARGET_OBJ_FAREST = 8;     ///< 最远的对象
+    STARGET_OBJ_NEAREST_FLOW = 9;     ///< 最近的击飞对象
+	STARGET_FORWARD_FAREST = 10;     ///< 正向最远的非阻挡点
+	STARGET_PUTTANK_POS = 11;     ///< 能放下坦克的点
+    STARGET_OBJ_MIN_HPPER = 12;     ///< 血量百分比最少的对象
+    STARGET_SELF_BULLET_POS = 13;     ///< 自己发出的子弹坐标点
+}
+
+/// 技能目标选择限制类型
+enum SKILL_SELECT_LIMIT_TYPE
+{
+    SSLTYPE_TEAMMATE = 1 << 0;  ///< 选择己方
+    SSLTYPE_ENEMY = 1 << 1;     ///< 选择敌方
+    SSLTYPE_TANK = 1 << 2;      ///< 选择坦克对象
+    SSLTYPE_NOT_SELF = 1 << 3;  ///< 不选择自身
+    SSLTYPE_NOT_BLOCK = 1 << 4; ///< 目标点不选择阻挡
+    SSLTYPE_CHECK_PUTTANK = 1 << 5; ///< 检查目标点是否能够放置坦克
+    SSLTYPE_CHECK_TARGET_NO_BUFF = 1 << 6;  ///< 检测目标没有指定buff可以释放技能
+    SSLTYPE_CHECK_TARGET_HAS_BUFF = 1 << 7; ///< 检测目标有指定buff可以释放技能
+    SSLTYPE_CHECK_TARGET_TANK_ID = 1 << 8;  ///< 目标点指定具体坦克模板ID
+}
+
+/// 技能效果ID修正类型
+enum SKILL_EFFECT_AMEND_TYPE
+{
+    SEAT_NONE = 0;              ///< 
+    SEAT_AROUND_ENEMYTANK_ADD = 1;  ///< 根据周围的敌方坦克数累加效果值
+}
+
+/// 技能多次类型
+enum SKILL_MULTI_TYPE
+{
+    SKILL_MT_NONE       = 0;    ///< 无
+    SKILL_MT_CONTINUE   = 1;    ///< 子弹连发，技能多次释放
+    SKILL_MT_SCATTER    = 2;    ///< 散射
+    SKILL_MT_CHAIN      = 3;    ///< 链式
+    SKILL_MT_CT_NOTIFY_ONCE = 4;///< 技能多次释放，只在第一次释放时通知客户端播放蓄力动画
+    SKILL_MT_SVR_NOTIFY_STOP = 5; ///< 只在第一次释放时通知客户端，技能释放停止时，服务端会发送停止技能的协议
+	SKILL_MT_CYCLE_BULLET = 6; ///< 来回的子弹
+	SKILL_MT_ROUND_OFFSET = 7; ///< 回旋偏移子弹
+}
+
+///< 道具效果类型
+enum PROPS_EFFECT_TYPE{
+    PET_NONE = 0;           ///< 没有效果，仅爆炸特效表现
+    PET_ADD_HARM    = 1;    ///< 炮弹类道具伤害加成
+    PET_FIXED_HARM  = 2;    ///< 非炮弹类道具造成固定伤害
+    PET_LOSSHP_HARM = 3;    ///< 目标失血伤害(对方上限血-对方当前血)
+    PET_LESSHP_KILL_HARM = 4;///< 剩余血量小于百分比，斩杀
+	PET_SELF_LOSSHP_HARM = 5;    ///< 自身失血伤害(自身上限血-自身当前血)
+	PET_DISTANCE_HARM = 6;    ///< 根据距离计算伤害
+    PET_HARM_MAX    = 10;   ///< 伤害效果最大枚举值
+
+    PET_ADD_HP      = 11;   ///< 恢复生命
+    PET_BUFF        = 12;   ///< 产生buff
+    PET_CLEAN_BUFF  = 13;   ///< 清除buff
+    PET_TRANSFER    = 14;   ///< 传送
+    PET_TANK_LIFE   = 15;   ///< 改变坦克命数
+    PET_TRANSFER_TO = 16;   ///< 传送到目标
+    PET_ADD_SCORE   = 17;   ///< 增加分数
+    PET_BEAT_BACK   = 18;   ///< 击退
+    PET_CHANGE_HP   = 19;   ///< 交换血量
+    PET_THROW       = 20;   ///< 投掷
+    PET_DEC_SKILL_CD= 21;   ///< 减少目标的技能CD
+    PET_COPY_SKILL  = 22;   ///< 拷贝技能
+    PET_ADD_BUFF_PERSIST = 23;   ///< 增加某BUFF的时间
+   	PET_ADD_BATTLE_EXP = 25; ///< 增加战场经验
+	PET_RESET_SKILL = 26;	///< 重置技能
+	PET_ADD_MP      = 27;   ///< 恢复能量
+    PET_DEC_SKILL_CD_TO = 28;   ///< 减少技能CD到某值
+    
+    PET_SCENE_BEGIN = 50;   ///< 场景效果起始
+    PET_DEL_PROPS   = 51;   ///< 清除场景道具
+    PET_ADD_PROPS   = 52;   ///< 创建场景道具
+    PET_CREATE_AI_NPC = 53; ///< 创建AINpc
+    PET_DEL_BULLET  = 54;   ///< 清除子弹
+	PET_CREATE_BULLET = 55;  ///< 创建子弹
+	PET_DEL_SELF_AINPC = 56; ///< 删除自己的AINpc
+	PET_CREATE_NPC = 57;	///< 创建Npc
+	PET_DEL_SELF_NPC = 58;	///< 删除自己创建的Npc
+    
+    PET_SELF_BEGIN  = 70;   ///< 攻击方效果起始
+    PET_GAIN_BUFF   = 71;   ///< 攻击者获得buff(需要上一个效果造成伤害)
+    PET_BLOWUP      = 73;   ///< 自爆
+    PET_SELF_ADD_HP = 74;   ///< 回血
+    PET_CALL_BACK   = 75;   ///< 收回武器
+    PET_SELF_BUFF   = 76;   ///< 攻击者获得buff
+    PET_DASH        = 77;   ///< 冲刺
+	PET_COST_UNDEAD_HP = 78;   ///< 攻击扣除不致死的血量N
+	PET_ADD_HP_BY_EFFCNT = 79; ///< 根据目标个数回血
+	PET_SELF_DEC_SKILLCD = 80; ///< 减少自身的技能CD
+	PET_HOOK        = 81;   ///< 勾爪
+	PET_RELIVE      = 82;   ///< 重生
+	PET_MAX			= 83;   ///< 最大值
+}
+
+///< 子弹标志位
+enum BULLET_FLAG_BIT{
+    BHT_COLLIDE       = 1 << 0;   ///< 碰撞命中
+    BHT_REACH         = 1 << 1;   ///< 到达命中
+    BHT_TRACE         = 1 << 2;   ///< 跟踪目标
+    BHT_PATH          = 1 << 3;   ///< 子弹路径上命中，与BHT_COLLIDE互斥
+    BHT_PATH_COLLIDE  = 1 << 4;   ///< 碰撞爆炸  需要与BIT_PATH一起用（穿越阻挡，遇到首个目标生效）
+	BHT_TIMEOUT_BLOW  = 1 << 5;   ///< 时间结束爆炸
+	BHT_TIMING_REACH  = 1 << 6;   ///< 定时到达命中
+}
+
+enum OBJECT_ATTR_TYPE
+{
+    ATTR_NONE    = 0;
+    ATTR_SPEED   = 1;   ///< 速度
+    ATTR_STAR    = 2;   ///< 坦克星级
+    ATTR_MAXHP   = 3;   ///< 坦克最大血量
+    ATTR_FIRE    = 4;   ///< 射速
+    ATTR_LIFE    = 5;   ///< 剩余命数值
+    ATTR_HARDNESS= 6;   ///< 装备等级
+    ATTR_HP      = 7;   ///< 血量
+}
+
+enum CHAR_CONNECT_STATE
+{
+    CHARCS_NORMAL = 0; 
+    CHARCS_DISCONNECT = 1; ///< 掉线
+}
+
+///< 属性类型
+enum ATTR_TYPE{
+    ATT_NONE				= 0;    ///< 无
+	ATT_ATK					= 1;    ///< 攻击
+    ATT_ARM					= 2;	///< 护甲
+    ATT_CTSIS_ARM			= 3;    ///< 穿甲
+    ATT_PHY_ATK				= 4;    ///< 物理攻击
+	ATT_ENG_ATK				= 5;    ///< 能量攻击
+    ATT_PHY_ARM				= 6;	///< 物理护甲
+	ATT_ENG_ARM				= 7;	///< 能量护甲
+    ATT_CTSIS_PHY_ARM		= 8;    ///< 物理穿甲
+    ATT_CTSIS_ENG_ARM		= 9;	///< 能量穿甲
+    ATT_FIRE_RATE			= 10;	///< 攻速
+	ATT_SPEED				= 11;   ///< 移速
+	ATT_HPMAX				= 12;   ///< 生命上限
+	ATT_RELIVE_TIME			= 13;   ///< 重生时间
+    ATT_COMMON_SKILL_COOL	= 14;	///< 技能冷却
+	ATT_GUILD_SKILL_COOL	= 15;	///< 军团技能冷却
+	ATT_TANK_SKILL_COOL		= 16;	///< 坦克技能冷却
+	ATT_SKILL_EFF			= 17;	///< 技能效果
+	ATT_MAKE_DMG			= 18;   ///< 造成的伤害
+    ATT_SUFFER_DMG			= 19;   ///< 受到的伤害
+	ATT_SUFFER_SKILL_DMG	= 20;   ///< 受到的技能伤害
+	ATT_SUFFER_CURE_EFF		= 21;   ///< 受到的护盾、治疗效果
+	ATT_FIRE_RANGE			= 22;   ///< 射程
+    ATT_BULLET_SPEED		= 23;	///< 子弹飞行速度
+    ATT_STATE_DMG_TIME		= 24;   ///< 状态伤害（眩晕、减速、击飞）的持续时间
+	ATT_MPMAX				= 25;   ///< 能量上限
+    ATT_5S_HP_RECOVER		= 26;   ///< 每5秒生命恢复值
+    ATT_COMMON_CRITICAL 	= 27;	///< 普攻暴击率
+    ATT_COMMON_SUCK_BLOOD	= 28;   ///< 普攻吸血率
+	ATT_SKILL_SUCK_BLOOD	= 29;   ///< 技能吸血率
+	ATT_MAX					= 30;   ///< 属性最大值
+}
+
+///< 天赋类型
+enum TALENT_TYPE{
+    TAL_NONE						= 0;    ///< 无
+    TAL_FIX_ATTR				= 1;    ///< 属性
+    TAL_BORN_BUFF       = 2;    ///< 出生给予BUFF
+    TAL_TRIG_ATTR       = 3;    ///< 被动触发属性
+		TAL_MAX							= 4;    ///< 天赋最大值
+}
+
+///< 玩家容器类型
+enum CONTAINER_TYPE
+{
+    CT_NONE     = 0;    ///< 无
+    CT_EQUIP    = 1;    ///< 装备容器
+    CT_GROCERY  = 2;    ///< 杂货容器（道具）  
+    CT_MATERIAL = 3;    ///< 材料容器
+    CT_CLOSET   = 4;    ///< 时装容器
+    CT_BOOSTER  = 5;    ///< 副本助手容器
+    CT_TANK_SKIN = 6;   ///< 坦克皮肤
+    CT_DECORATE = 7;    ///< 装饰容器
+    CT_TEMP = 8;        ///< 临时包裹
+    CT_TANK_HALO = 9;   ///< 坦克光环容器
+    CT_CRYSTAL   = 10;  ///< 晶片容器
+    CONT_T_MAX  = 11;    ///< 最大值
+}
+
+// 双倍物品类型
+enum ITEM_DOUBLE_TYPE
+{ 
+    IDT_EXP = 0;        ///< 角色经验
+    IDT_TOKEN = 1;      ///< 代币
+    IDT_TANK_METERIAL = 2; ///< 坦克升级材料
+    IDT_TANK_EXP = 3;   ///< 坦克经验
+    IDT_MAX = 4;        ///< 
+}
+
+// 双倍物品的消耗类型
+enum ITEM_CONSUME_TYPE
+{
+    ITEM_CONSUME_TIME = 0;    ///< 按时间消耗
+    ITEM_CONSUME_USE_COUNT = 1; ///< 按次数消耗
+    ITEM_CONSUME_MAX = 2;     
+}
+
+// 货币物品类型
+enum ITEM_CURRENCY_TYPE
+{
+    IDT_GIFT	   = 0;	        ///< 礼券
+    IDT_GOLDEN     = 1;         ///< 银币
+     
+}
+///< 物品类型/装备位置枚举
+enum ITEM_TYPE 
+{
+    ITEM_T_EAR                  = 0;    ///< 耳机
+    ITEM_T_HELMET               = 1;    ///< 头盔
+    ITEM_T_HAIR                 = 2;    ///< 头发
+    ITEM_T_EYE                  = 3;    ///< 眼镜
+    ITEM_T_FACE                 = 4;    ///< 脸型
+    ITEM_T_TANKBODY             = 5;    ///< 车体（车身+履带）
+    ITEM_T_ARTILLERY            = 6;    ///< 主炮
+    ITEM_T_ATTACHED             = 7;    ///< 附件
+    ITEM_T_ENGINE               = 8;    ///< 引擎
+    ITEM_T_BROADCAST            = 9;    ///< 电台
+    ITEM_EXTERNAL_MAX           = 10;   ///< 外观类装备类型最大值
+
+    ITEM_T_PRESENT              = 20;   ///< 礼包
+    ITEM_T_CHAT                 = 21;   ///< 聊天道具
+    ITEM_T_VIP                  = 22;   ///< vip卡
+    ITEM_T_DOUBLE               = 23;   ///< 双倍卡 enum ITEM_DOUBLE_TYPE
+    ITEM_T_LIMIT_CLEAR          = 24;   ///< 清除限制id的物品
+    ITEM_T_EXP                  = 25;   ///< 经验卡       
+    ITEM_T_GENERAL              = 26;   ///< 普通道具，没有使用效果
+    ITEM_T_DROP                 = 27;   ///< 调用一级掉落表的物品
+    ITEM_T_AVATAR	            = 28;   ///< 角色时装道具
+    ITEM_T_TANK_SKIN            = 29;   ///< 坦克皮肤物品
+    ITEM_T_DECORATE             = 30;   ///< 主题装饰物品
+    ITEM_T_GOLD_TOKEN           = 31;   ///< 金币代币
+    ITEM_T_AVATAR_CARD          = 32;   ///< 时装卡片，获得时装（复用A）或者增加时间（读取实例的时间，默认 复用B）
+    ITEM_T_FLAUNT               = 33;   ///< 展示型物品（爱心、礼花）
+    ITEM_T_HAMMER               = 34;   ///< 锤子类物品
+    ITEM_T_TICKET               = 35;   ///< 月票
+    ITEM_T_BOOSTER              = 36;   ///< 副本小助手
+    ITEM_T_BT_EXP               = 37;   ///< 副本小助手经验
+    ITEM_T_BT_STTH              = 38;   ///< 副本小助手强化材料
+    ITEM_T_BT_CP_RATE           = 39;   ///< 副本小助手合成功率材料
+    ITEM_T_BT_TRANS             = 40;   ///< 副本小助手转换
+    ITEM_T_BT_COMPOSE           = 41;   ///< 副本小助手合成材料
+    ITEM_T_CASHBACK             = 42;   ///< 礼券按天返回类物品
+    ITEM_T_MAP_KEY              = 43;   ///< 进入副本的道具
+    ITEM_T_GUILD_DATA           = 44;   ///< 军团奖励物品
+    ITEM_T_HONOR_CARD           = 45;   ///< 给予荣誉的物品
+    ITEM_T_TANK_CARD            = 46;   ///< 坦克卡, 坦克ID（复用A），
+    ITEM_T_TANK_MATERIAL        = 47;   ///< 坦克升级材料
+    ITEM_T_MAP_DOUBLE_PVE       = 48;   ///< 双人副本的进入道具
+    ITEM_T_VALENTINE_FLAUNT     = 49;   ///< 七夕节鲜花
+    ITEM_T_GLOBAL_GIFT_POOL     = 50;   ///< 跨服礼券奖池物品
+    ITEM_T_CURRENCY             = 51;   ///< 货币类型物品
+    ITEM_T_GIVE_ITEM            = 52;   ///< 给予指定物品
+    ITEM_T_TANK_HIRE_CARD       = 53;   ///< 坦克租用卡
+    ITEM_T_VIP_POINT            = 54;   ///< vip尊贵值物品
+    ITEM_T_TANK_HALO            = 55;   ///< 坦克光环物品
+    ITEM_T_CRYSTAL              = 56;   ///< 晶片物品
+    ITEM_T_CRYSTAL_SCHEME       = 57;   ///< 晶片组合开启
+    ITEM_T_TANK_CHIP            = 58;   ///< 坦克碎片, 坦克ID（复用A）
+    ITEM_T_TANK_TIME_LIMIT_CARD = 59;   ///< （仅限QQ版本）坦克时限卡
+    ITEM_T_CASH_PRESENT         = 60;   ///< 花费点券开启的礼包
+    ITEM_T_LOGIN_BULLETIN       = 61;   ///< 上线公告物品
+    ITEM_T_REDPKT_TOKEN         = 62;   ///< 红包代币
+    ITEM_T_TRY_SKIN_CARD        = 63;   ///< 试用坦克皮肤卡
+    ITEM_T_LADDER_FRAME         = 64;   ///< 天梯展示边框
+    ITEM_T_INVITE               = 65;   ///< 邀请卡
+    ITEM_T_ADDRESS              = 66;   ///< 收集邮寄地址物品
+    ITEM_T_ROULETTE_ITEM        = 67;   ///< 轮盘道具物品
+    ITEM_T_TANK_SEARCH_CHIP     = 68;   ///< 增加坦克研究进度的碎片
+    ITEM_T_TANK_EGG             = 69;   ///< 坦克蛋
+    ITEM_T_RAND_DONTHAVETANK    = 70;   ///< 随机未拥有坦克物品
+    ITEM_T_LIMIT_AWARD          = 71;   ///< 限制奖励物品
+    ITEM_T_4399                 = 72;   ///< 4399专属道具兑换
+    ITEM_T_CLOUD_PURCHASE_BUY   = 73;   ///< 云购购买奖励物品
+    ITEM_T_CLOUD_PURCHASE_AWARD = 74;   ///< 云购大奖奖励物品
+    ITEM_T_ROULETTE             = 75;   ///< 轮盘道具
+    ITEM_T_TREASURE             = 76;   ///< 五元夺宝获得坦克大奖
+    ITEM_T_GUILD_COIN           = 80;   ///< 代表军团资金的物品
+    ITEM_T_TANK_TRY_CARD_4399   = 81;   ///< 4399坦克试用卡
+    ITEM_T_MAX                  = 100;  
+}
+
+///< 装备栏/包裹栏分界定义
+enum ITEM_SLOT_DIVIDE{    
+    SLOT_EQUIP_MIN          = 0;    ///< 装备位置起始编号
+    SLOT_EQUIP_MAX          = 10;   ///< 装备位置结束编号
+    SLOT_EQUIP_CONT_MIN     = 50;   ///< 装备包裹位置起始编号
+    SLOT_EQUIP_COUNT        = 45;   ///< 装备包裹格子个数
+    
+    SLOT_CLOSET_CONT_MIN    = 0;    ///< 时装位置起始编号
+    SLOT_CLOSET_COUNT       = 100;  ///< 时装包裹格子个数
+    
+    SLOT_GROCERY_CONT_MIN   = 0;    ///< 杂货包裹位置起始编号
+    SLOT_GROCERY_COUNT      = 45;   ///< 杂货包裹格子个数
+    
+    SLOT_MATERIAL_CONT_MIN  = 0;    ///< 材料包裹位置起始编号
+    SLOT_MATERIAL_COUNT     = 135;  ///< 材料包裹格子个数
+    
+    SLOT_BOOSTER_CONT_MIN   = 0;    ///< 助手包裹位置起始编号
+    SLOT_BOOSTER_COUNT      = 135;  ///< 助手包裹格子个数 
+    
+    SLOT_TANK_SKIN_CONT_MIN = 0;    ///< 坦克皮肤起始编号
+    SLOT_TANK_SKIN_COUNT    = 256;  ///< 坦克皮肤格子个数
+
+    SLOT_TANK_HALO_CONT_MIN = 0;    ///< 坦克光环包裹起始编号
+    SLOT_TANK_HALO_COUNT    = 80;   ///< 坦克光环包裹格子个数
+    
+    SLOT_DECORATE_CONT_MIN  = 0;    ///< 装饰包裹起始编号
+    SLOT_DECORATE_COUNT     = 80;   ///< 装饰包裹格子个数
+    
+    SLOT_TEMP_CONT_MIN      = 0;    ///< 临时包裹起始编号
+    SLOT_TEMP_COUNT         = 100;  ///< 临时包裹格子个数
+    
+    SLOT_CRYSTAL_CONT_MIN   = 0;    ///< 晶片包裹起始编号
+    SLOT_CRYSTAL_COUNT      = 100;  ///< 晶片包裹格子个数
+}
+
+///< 货币类型枚举
+enum COIN_TYPE {
+    COIN_NONE   = 0;    ///< 未知货币类型
+    COIN_CASH   = 1;    ///< 点券
+    COIN_GOLDEN = 2;    ///< 银币
+    COIN_GIFT   = 3;    ///< 礼券
+    COIN_HONOR  = 4;    ///< 勋章
+    COIN_CRYSTAL= 5;    ///< 晶石货币
+    COIN_MAX    = 6;    ///<   
+    
+    COIN_TOKEN  = 7;    ///< 代币
+    COIN_QQCOIN = 8;    ///< qq钻石
+}
+
+////< 货币操作类型
+////< 货币操作需要记录日志，所以改变这个枚举，需要相应的修改sharetypes/LogStringType.h的s_coinLogFmt定义
+enum COIN_OPERATE {
+    CO_NONE                     = 0;
+    SHOP_WITHDRAW               = 1;    ///< 商城购买
+    TURNUP_GET                  = 2;    ///< 翻牌获得
+    TEAM_BUY                    = 3;    ///< 队伍界面购买道具
+    SCENE_BUY                   = 4;    ///< 战场购买道具
+    MAIL_PAY                    = 5;    ///< 邮件付款
+    MAIL_PICKUP_CASH            = 6;    ///< 提取邮件款
+    MAIL_DELETE                 = 7;    ///< 删除邮件回收点券
+    RMB_EXCHANGE                = 8;    ///< rmb兑换点券
+    MAIL_CHARGE                 = 9;    ///< 邮件手续费
+    SHOP_LARGESS                = 10;   ///< 商城赠礼消耗
+    ITEM_RENEW                  = 11;   ///< 物品续费
+    BUY_LIFE                    = 12;   ///< 坦克复活
+    TURNUP_LOST                 = 13;   ///< 翻牌消耗
+    ITEM_PRESENT_GET            = 14;   ///< 使用礼包获得
+    ITEM_SALE_GET               = 15;   ///< 出售物品获得
+    CHAR_UPGRADE                = 16;   ///< 角色升级给与
+    TANK_HIRE                   = 17;   ///< 租用坦克
+    DRAW_AWARD                  = 18;   ///< 运营奖励给与
+    QUEST_AWARD                 = 19;   ///< 任务奖励
+    GM_GIVE                     = 20;   ///< gm给与
+    TANK_SALE_GET               = 21;   ///< 出售坦克获得
+    OPEN_VIP                    = 22;   ///< 开通vip
+    OPEN_EXP2                   = 23;   ///< 开通双倍经验
+    TEAM_DONATE                 = 24;   ///< 战队捐献
+    TANK_STTH                   = 25;   ///< 坦克强化消耗
+    TANK_SKILLUP                = 26;   ///< 坦克技能升级
+    SHOP_MULTI_BUY              = 27;   ///< 快速购买
+    CONVERT_ITEM                = 28;   ///< 兑换物品消耗
+    STAGE_REWARD                = 29;   ///< 阶段性奖励
+    SHOP_REBATE                 = 30;   ///< vip商城返利(礼券)
+    BATTLE_GET                  = 31;   ///< 战斗获得
+    ESCAPE_AMERCE               = 32;   ///< 逃跑罚款
+    CO_STTH_BOOSTER             = 33;   ///< 助手强化
+    CO_COMPOSE_BOOSTER          = 34;   ///< 合成助手
+    CO_TRANS_BOOSTER            = 35;   ///< 助手转换
+    CO_BUY_THEW                 = 36;   ///< 购买体力
+    CO_CHARGE_GIFT              = 37;   ///< 充值赠送礼券    
+    COT_EXCHANGE_BEGIN          = 38;   ///< 请求兑换点券
+    COT_EXCHANGE_FAIL           = 39;   ///< 兑换点券失败
+    COT_EXCHANGE_OK             = 40;   ///< 兑换点券成功
+    LEAGUE_REWARD               = 41;   ///< 联赛奖励
+    CO_BUY_HERO_ENTER           = 42;   ///< 购买英雄副本进入次数
+    GUILD_DONATE                = 43;   ///< 军团捐献
+    BACK_MERIT                  = 44;   ///< 回购贡献度
+    CACH_BACK                   = 45;   ///< 领取礼券每日返还
+    BOOSTER_COMP_ENTER          = 46;   ///< 购买助手竞技进入次数
+    CLEAR_BST_COMP_COOL_TIME    = 47;   ///< 清除助手竞技冷却时间
+    BOOSTER_COMP_DAILY_AWARD    = 48;   ///< 助手竞技赛每日排名奖励
+    BOOSTER_COMP_PK_AWARD       = 49;   ///< 助手竞技赛每次战斗奖励
+    CO_TANK_SKILL_UPGRADE       = 50;   ///< 购买坦克技能升级
+    SOCIAL_QUEST_AWARD          = 51;   ///< 社交任务奖励
+    PRENTICE_CASH_BACK          = 52;   ///< 徒弟充值返利
+    CO_RESET_MAP_ENTER          = 53;   ///< 重置副本进入次数
+    CO_EXPAND_CONTAINER         = 54;   ///< 扩展容器
+    CO_SWEEP_MAP                = 55;   ///< 扫荡副本
+    CO_SIGN_IN                  = 56;   ///< 签到给予
+    CO_BOSS_COOL_RESET          = 57;   ///< 重置世界BOSS的CD
+    CO_SWITCH_QUEST             = 58;   ///< 转换任务
+    CO_TANK_QUICK_UP            = 59;   ///< 坦克一键升级
+    CO_PRESENT_HIRE_TANK        = 60;   ///< 赠送租用坦克
+    CO_GLOBAL_ROULETTE_GIFT     = 61;   ///< 全服转盘礼券奖励
+    ITEM_CURRENCY_GET           = 62;   ///< 使用货币类型物品获得
+    CO_CASH_PERSENT             = 63;   ///< 消耗点券礼包
+    CO_REDPKT_COST              = 64;   ///< 发红包消耗
+    CO_REDPKT_GET               = 65;   ///< 抢红包给予
+    CO_OPENCHEST_COST           = 66;   ///< 开宝箱消耗
+    CO_TANK_RESEARCH_COST       = 67;   ///< 坦克研究消耗
+    CO_DRAW_TANK_SKIN           = 68;   ///< 抽取坦克皮肤消耗
+    CO_CHECK_FAIL               = 69;   ///< 货币出错记录报警
+    CO_SUPER_VIP_PREV_BACK      = 70;   ///< 首次成为超级VIP返还之前点券
+    CO_SUPER_VIP_CUR_BACK       = 71;   ///< 超级VIP返还当次充值点券
+    CO_RAND_STEP_COST           = 72;   ///< 冒险夺宝消耗
+    CO_BUY_MYSTICAL_SHOP        = 73;   ///< 神秘商店购买
+    CO_FUND_COST                = 74;   ///< 买基金消耗
+    CO_FUND_GET                 = 75;   ///< 领基金给予
+    CO_CLOUD_PURCHASE           = 76;   ///< 云购消耗  
+    CO_STORE_PURCHASE           = 77;   ///< 活动商店购买物品消耗
+    CO_STORE_REFRESH            = 78;   ///< 活动商店刷新消耗
+    CO_STORE_ENABLE             = 79;   ///< 活动商店开启消耗
+    CO_TREASURE_START           = 80;   ///< 一元夺宝
+    CO_MAX                      = 81;
+}
+
+enum CASH_RECORD_DAY_TYPE {
+	CRDT_YESTERDAY = 0;	 //昨天
+	CRDT_TODAY = 1;	     //今天
+	CRDT_MAX = 2;	
+}
+
+////< 物品操作类型
+////< 物品操作需要记录日志，所以改变这个枚举，需要相应的修改sharetypes/LogStringType.h的s_itemLogFmt定义
+enum ITEM_ACTION_TYPE {
+    IAT_UNKNOW                      = 0;    ///< 
+    IAT_TURNP_GET                   = 1;    ///< 翻牌给与
+    IAT_GOODS_BUY                   = 2;    ///< 商城购买
+    IAT_MAIL_PICKUP                 = 3;    ///< 邮件提取
+    IAT_CHAR_DROP                   = 4;    ///< 玩家丢弃
+    IAT_MAIL_SEND                   = 5;    ///< 玩家邮件发送
+    IAT_MAIL_DELETE                 = 6;    ///< 邮件删除回收
+    IAT_SWAP_ITEM                   = 7;    ///< 移动物品
+    IAT_MAIL_SYS_SEND               = 8;    ///< 系统邮件发送物品
+    IAT_SHOP_LAGESS                 = 9;    ///< 商城赠礼发送物品
+    IAT_PRESENT_GET                 = 10;   ///< 使用礼包获得
+    IAT_USE_ITEM                    = 11;   ///< 使用物品消耗
+    IAT_CLEANUP_CONT                = 12;   ///< 整理包裹转移
+    IAT_QUEST_AWARD                 = 13;   ///< 任务奖励
+    IAT_GM_GIVE                     = 14;   ///< GM操作给与物品
+    IAT_GUILD_GIFT                  = 15;   ///< 军团礼包
+    IAT_TANK_UP                     = 16;   ///< 坦克升级消耗
+    IAT_TANK_STTH                   = 17;   ///< 坦克强化消耗
+    IAT_TANK_SKILLUP                = 18;   ///< 坦克技能升级
+    IAT_BATTLE_GET                  = 19;   ///< 战斗获得
+    IAT_ITEM_DROP_GET               = 20;   ///< 调用掉落id的物品掉落产出
+    IAT_SHOP_WITHDRAW               = 21;   ///< 商城购买支付
+    IAT_SHOP_MULTI_BUY              = 22;   ///< 快速购买
+    IAT_MULTI_WITHDRAW              = 23;   ///< 快速购买支付
+    IAT_PVE_ADDED                   = 24;   ///< pve通关额外奖励    
+    IAT_SOLO_ADDED                  = 25;   ///< 单人副本收菜奖励
+    IAT_DRAW_AWARD                  = 26;   ///< 活动领奖
+    IAT_CONVERT_LOSE                = 27;   ///< 兑换物品消耗
+    IAT_CONVERT_GET                 = 28;   ///< 兑换物品获得
+    IAT_STAGE_REWARD                = 29;   ///< 持续在线奖励    
+    IAT_GET_AVATAR                  = 30;   ///< 使用avatar卡获得avatar
+    IAT_PLANT_BOOSTER               = 31;   ///< 喂养助手
+    IAT_STTH_BOOSTER                = 32;   ///< 助手强化
+    IAT_COMPOSE_BOOSTER             = 33;   ///< 合成助手
+    IAT_TRANS_BOOSTER               = 34;   ///< 助手转换
+    IAT_TIME_LIMIT                  = 35;   ///< 物品的物理时限到，删除
+    IAT_ROULETTE_GET                = 36;   ///< 轮盘赌获得
+    IAT_ROULETTE_LOSE               = 37;   ///< 轮盘赌消耗
+    IAT_LEAGUE_AWARD                = 38;   ///< 联赛奖励
+    IAT_SPLIT_LOSE                  = 39;   ///< 拆解物品失去
+    IAT_SPLIT_GET                   = 40;   ///< 拆解物品获得
+    IAT_BST_COMP_GET                = 41;   ///< 参与助手挑战赛获得的战斗奖励
+    IAT_SOCIAL_QUEST_AWARD          = 42;   ///< 社交任务奖励
+    IAT_SWEEP_GET                   = 43;   ///< 扫荡副本获得
+    IAT_SIGN_IN                     = 44;   ///< 签到奖励
+    IAT_CASH_BACK                   = 45;   ///< 返利月卡给予
+    IAT_HIRE_TANK                   = 46;   ///< 租用坦克消耗
+    IAT_PRESENT_HIRE_TANK           = 47;   ///< 赠送租用坦克消耗
+    IAT_OPEN_GET                    = 48;   ///< 打开物品获得
+    IAT_TANK_CHG_TO_CHIPS           = 49;   ///< 坦克转化为碎片获得
+    IAT_QQ_BLUE_VIP_RENEW           = 50;   ///< qq蓝钻续费礼包
+    IAT_CRYSTAL_UPGRADE_LOSE        = 51;   ///< 晶片升阶消耗
+    IAT_CRYSTAL_UPGRADE_GET         = 52;   ///< 晶片升阶获得
+    IAT_TANK_UP_AWARD               = 53;   ///< 坦克升级奖励
+    IAT_REDPKT_GET                  = 54;   ///< 红包获得
+    IAT_SKIN_TRY_CARD               = 55;   ///< 坦克皮肤试用卡使用获得
+    IAT_OPENCHEST_GET               = 56;   ///< 开宝箱获得
+    IAT_TANK_RESEARCH_LOSE          = 57;   ///< 坦克研究消耗
+    IAT_GOLDEN_POOL_GET             = 58;   ///< 金币池获取金币
+    IAT_INVITE_GIFT_AWARD           = 59;   ///< 邀请好礼获取奖励
+    IAT_SKIN_ITEN_REFRESH           = 60;   ///< 坦克皮肤刷新给予（越南版本）
+    IAT_TANK_SKIN_CHIP_CONVERT      = 61;   ///< 坦克皮肤碎片兑换获得
+    IAT_DRAW_TANK_SKIN_CHIP_CONSUME = 62;   ///< 抽取坦克皮肤碎片消耗
+    IAT_DRAW_TANK_SKIN_CHIP_GET     = 63;   ///< 抽取坦克皮肤碎片获得
+    IAT_QQ_FREE_GIFT                = 64;   ///< qq免费礼包
+    IAT_USE_VALENTINE               = 65;   ///< 七夕送花获得
+    IAT_YCARD_LVUP_COST             = 66;   ///< 佣兵卡升级消耗
+    IAT_RAND_STEP_AWARD             = 67;   ///< 冒险夺宝奖励
+    IAT_RAND_STEP_SUPPORT           = 68;   ///< 冒险夺宝点赞奖励
+    IAT_STAGE_WEEK_FIZZ             = 69;   ///< 阶段周活跃奖励
+    IAT_MYSTICAL_SHOP_BUY           = 70;   ///< 神秘商店购买
+    IAT_MAKETANK_COST               = 71;   ///< 制造坦克消耗
+    IAT_MAKETANK_GET                = 72;   ///< 制造坦克获得
+    IAT_GUILD_BOSS_AWARD            = 73;   ///<  军团BOSS奖励
+    IAT_RARE_TANK_GET               = 74;   ///< 获得稀有坦克
+    IAT_RARE_TANK_BATTLE_COST       = 75;   ///< 稀有坦克进入战场消耗
+    IAT_TANK_PART                   = 76;   ///< 坦克部件
+    IAT_EXPEDITION_GET              = 77;   ///< 远征系统获得
+    IAT_INVITE_SPREAD               = 78;   ///< 邀请推广奖励
+    IAT_LIMIT_AWARD                 = 79;   ///< 限制奖励
+    IAT_4399                        = 80;   ///< 4399专属道具兑换
+    IAT_CLOUD_BUY_GET               = 81;   ///< 云购购买奖励获得
+    IAT_CLOUD_BUY_USE               = 82;   ///< 云购购买奖励使用
+    IAT_STORE_PURCHASE              = 83;   ///< 活动商店购买获得
+    IAT_CHAR_UPGRADE                = 84;   ///< 角色升级奖励
+    IAT_TREASURE_START              = 85;   ///< 一元夺宝
+    IAT_TREASURE_AWARD              = 86;   ///< 一元夺宝奖励
+    IAT_TREASURE_RECOVERY_TAKE      = 87;   ///< 一元夺宝回收扣除
+    IAT_TREASURE_RECOVERY_GIVE      = 88;   ///< 一元夺宝回收给予
+    IAT_MAX                         = 89;
+}
+
+////< 坦克操作类型
+////< 坦克操作需要记录日志，所以改变这个枚举，需要相应的修改sharetypes/LogStringType.h的s_tankLogFmt定义
+enum TANK_ACTION_TYPE 
+{
+    TANK_AT_UNKNOW                  = 0;
+    TANK_AT_CREATE_CHAR             = 1;    ///< 创建角色给与
+    TANK_AT_MAIL_SYS_SEND           = 2;    ///< 系统邮件发送坦克
+    TANK_AT_MAIL_SEND               = 3;    ///< 玩家邮件发送
+    TANK_AT_MAIL_DELETE             = 4;    ///< 邮件删除回收
+    TANK_AT_MAIL_PICKUP             = 5;    ///< 邮件提取
+    TANK_AT_GOODS_BUY               = 6;    ///< 商城购买
+    TANK_AT_SHOP_LAGESS             = 7;    ///< 商城赠礼发送
+    TANK_AT_CHAR_DELETE             = 8;    ///< 玩家删除
+    TANK_AT_QUEST_AWARD             = 9;    ///< 任务奖励
+    TANK_AT_PRESENT_GET             = 10;   ///< 礼包给与
+    TANK_AT_UP                      = 11;   ///< 坦克升级
+    TANK_AT_STTH                    = 12;   ///< 坦克强化
+    TANK_AT_SKILLUP                 = 13;   ///< 坦克技能升级
+    TANK_AT_DRAW_AWARD              = 14;   ///< 活动领奖
+    TANK_AT_CARD_USE                = 15;   ///< 使用坦克卡
+    TANK_AT_GM_GET                  = 16;   ///< GM命令获得
+    TANK_AT_CONVERT_GET             = 17;   ///< 兑换给与
+    TANK_AT_DROPITEM_GET            = 18;   ///< 掉落给与
+    TANK_AT_ROULETTE_GET            = 19;   ///< 轮盘给与
+    TANK_AT_TANK_RESEARCH           = 20;   ///< 坦克研究给予
+    TANK_AT_TANK_RESEARCH_RECYCLE   = 21;   ///< 坦克研究进度回收
+    TANK_AT_MYSTICAL_SHOP_BUY       = 22;   ///< 神秘商店购买
+    TANK_AT_MAKE_TANK_GET           = 23;   ///< 坦克制造获得
+    TANK_AT_USE_RAND_DHT_ITEM_GET   = 24;   ///< 使用随机未拥有坦克卡获得
+    TANK_AT_RARE_GET                = 25;   ///< 给予稀有坦克
+    TANK_AT_LIMIT_AWARD             = 26;   ///< 限制奖励获得 
+    TANK_AT_TREASURE_START          = 27;   ///< 一元夺宝活动
+    TANK_AT_MAX                     = 28; 
+}
+
+////< 经验类型
+////< 经验需要记录日志，所以改变这个枚举，需要相应的修改sharetypes/LogStringType.h的s_expLogFmt定义
+enum CHAR_EXP_REASON {
+    CER_UNKNOW  = 0;    ///< 
+    CER_BATTLE  = 1;    ///< 战斗获得
+    CER_QUEST   = 2;    ///< 任务奖励
+    CER_GM      = 3;    ///< gm给与
+    CER_ACEM    = 4;    ///< 成就获得
+    CER_USE_ITEM = 5;   ///< 使用物品获得
+    CER_SWEEP = 6;      ///< 扫荡获得
+    CER_MAX     = 7;    ///< 
+}
+
+/**
+ * 货币流向类别枚举
+ */
+enum COIN_FLOW {
+    COIN_DEPOSIT = 1;    ///< 获得
+    COIN_WITHDRAW = 2;    ///< 失去
+}
+
+///< 社交关系操作类型枚举
+enum SOCIAL_REL_ACTION_TYPE {
+    SRAT_NONE = 0;      
+    SRAT_CREATE = 1;    ///< 关系创建
+    SRAT_DELETE = 2;    ///< 关系解除
+    SRAT_GRADUATE = 3;  ///< 师徒关系徒弟出师
+    SRAT_MAX = 4;       ///< 
+}
+
+///< 房间类型
+enum ROOM_TYPE {
+    ROOM_NONE       = 0;    ///< 没有房间
+    ROOM_FREELY     = 1;    ///< 自由
+    ROOM_PVP        = 2;    ///< pvp
+    ROOM_TEAM_PVE   = 3;    ///< 战队副本
+    ROOM_PVE        = 4;    ///< 副本
+    ROOM_TEAM_MATCH = 5;    ///< 战队排位赛
+    ROOM_TEAM_LEAGUE= 6;    ///< 战队联赛
+    ROOM_BOSS       = 7;    ///< 世界boss
+    ROOM_PVE_DOUBLE = 8;    ///< 双人副本
+    ROOM_LADDER_PVP = 9;    ///< 天梯PVP
+    ROOM_LEAGUE_INVITATIONAL = 10; ///< 联赛邀请赛房间
+    ROOM_FIRE 			= 11;		///< 火力赛
+    ROOM_GUILD_MATCH= 12;   ///< 军团赛
+    ROOM_FIRE_BALL	= 13;   ///< 火球赛
+    ROOM_GUILD_BOSS = 14;   ///< 军团BOSS
+    ROOM_3V3_COMPETITION = 15;  ///< 3V3争霸赛
+    ROOM_NEW_BASE   = 16;   ///< 新基地模式
+    ROOM_CLIENT_MAX = 17;
+    
+    ROOM_BOOSTER_COMPETE = 40;///< 助手竞技赛
+    ROOM_SOLO	    = 50;   ///< 单人副本
+    ROOM_TYRO_PVE   = 51;   ///< 新手副本
+    ROOM_PVE_TUROR  = 52;   ///< 教学副本
+    ROOM_PVE_TRAIN  = 53;   ///< 训练副本
+    ROOM_HAPPY      = 100;  ///< 欢乐赛
+    ROOM_TYRO_HAPPY = 101;  ///< 欢乐赛教学
+}
+
+///< 地图类型
+enum BATTLE_MAP_TYPE {
+    MAPT_PVP        = 1;
+    MAPT_PVE        = 2;
+    MAPT_TYRO_PVE   = 3;    ///< 新手副本
+    MAPT_PVE_SOLO   = 4;    ///< 单人副本
+    MAPT_PVE_TUTOR  = 5;    ///< 教学副本
+    MAPT_PVE_TRAIN  = 6;    ///< 训练副本
+    MAPT_HAPPY      = 7;    ///< 欢乐赛地图
+    MAPT_TYRO_HAPPY = 8;    ///< 欢乐赛教学
+    MAPT_BOSS       = 9;    ///< 世界boss
+    MAPT_PVE_DOUBLE = 10;   ///< 双人副本
+    MAPT_ACT_PVE 		= 11;   ///< 活动副本（掉落特殊处理）
+    MAPT_TYRO_PVP 	= 12;   ///< 新手前N张pvp图
+    MAPT_FIRE      	= 13;   ///< 火力赛地图
+    MAPT_GUILD_MATCH = 14;  ///< 军团赛地图
+    MAPT_FIRE_BALL  = 15;   ///< 火球赛地图
+    MAPT_GUILD_BOSS = 16;   ///< 军团BOSS地图
+    MAPT_3V3_PVP    = 17;   ///< 3V3争霸赛
+}
+
+///< 战斗模式
+enum BATTLE_MODE {
+    MODE_RANDOM = 0;        ///< 随机模式
+    MODE_BASE   = 1;        ///< 基地模式
+    MODE_OCCUPY = 2;        ///< 夺旗模式
+    MODE_LIVE   = 3;        ///< 生存模式
+    MODE_DEAD   = 4;        ///< 死亡模式
+    MODE_HALLOWMAS = 5;     ///< 万圣节模式
+    MODE_EAT_BEANS = 6;     ///< 吃豆模式
+    MODE_FIRE_BALL = 7;     ///< 火球赛模式(火球赛专用模式)
+    MODE_5_PVE     = 8;     ///< 组队副本
+	MODE_NEW_BASE  = 9;     ///< 新基地模式
+    MODE_MAX       = 10;
+}
+
+///< 战场规则
+enum BATTLE_RULE {
+    RULE_RELIVE     = 1 << 0;   ///< 允许重生
+    RULE_SELFHARM   = 1 << 1;   ///< 己方保护
+    RULE_NOPROPS    = 1 << 2;   ///< 禁用道具
+    RULE_FREEJOIN   = 1 << 3;   ///< 中途加入
+}
+
+/// AINpc类型
+enum AI_NPC_TYPE {
+    AINPC_COMMON = 0;           ///< 普通
+    AINPC_GLOBAL_BOSS = 1;      ///< 世界boss
+    AINPC_MUTABLE_SUMMON = 2;   ///< 能力根据召唤者自适应的召唤物
+    AINPC_MUTABLE_MAP = 3;      ///< 根据地图等级自适应的AINPC
+    AINPC_SHADOW = 4;           ///< 分身npc
+    AINPC_DEAD_ROUND = 5; 			///< 死亡模式回合触发NPC
+    AINPC_TANK = 6;             ///< 坦克AINPC（仅对坦克有效的技能，对这类型有效）
+    AINPC_GUILD_BOSS = 7;       ///< 军团BOSS
+}
+
+/// AINpc能力等级
+enum AI_NPC_ABILITY_TYPE{
+    AINPC_ABT_EASY = 0;        ///< 炮灰级
+    AINPC_ABT_NORMAL = 1;      ///< 普通级
+    AINPC_ABT_ELITE = 2;       ///< 精英级
+    AINPC_ABT_NORMAL_BOSS = 3; ///< 普通BOSS
+    AINPC_ABT_RARE_BOSS = 4;   ///< 稀有BOSS
+    AINPC_ABT_MAX = 5;         ///< 
+}
+
+/// 地图难度
+enum MAP_DIFFICUTY_TYPE {
+    MAP_DT_NONE = 0;    ///< 无
+    MAP_DT_COMMON = 1;  ///< 普通
+    MAP_DT_DIFFICULT = 2;   ///< 困难的   
+    MAP_DT_HERO = 3;    ///< 英雄
+}
+
+/// 地图开启状态
+enum MAP_OPEN_STATE {
+    MAP_OS_CLOSE = 0;    ///< 无
+		MAP_OS_OPEN = 1;     ///< 开启
+}
+
+////< 物品扩展信息标志位
+enum ITEM_EXT_FLAG_BIT {
+    IEF_SYS_BIND = 1<<0;    ///< 系统绑定
+    IEF_USER_LOCK = 1<<1;   ///< 玩家锁定
+    IEF_TIME_START = 1<<2;	///< 是否开始计时
+    IEF_CUR_AVATAR = 1<<3;	///< 当前有效的Avatar
+    IEF_NO_NEW = 1<<4;      ///< 不是新的
+    IEF_CUR_USE = 1<<5;     ///< 使用中
+}
+
+////< 翻牌奖励类型
+enum TURNUP_AWARD_TYPE
+{
+    TAT_NONE    = 0;    
+    TAT_GOLDEN  = 1;    ///< 金币
+    TAT_ITEM    = 2;    ///< 物品
+    TAT_MAX     = 3;
+}
+
+////< 翻牌类型
+enum TURNUP_TYPE
+{
+    TT_BATTLE_COMMON = 1;   ///< 普通战斗翻牌
+    TT_TYRO_PVE = 2;        ///< 新手副本翻牌
+    TT_BATTLE_MATCH = 3;    ///< 个人竞技的翻牌
+    TT_TEAM_MATCH = 4;      ///< 战队赛的翻牌
+    TT_BATTLE_PVE = 5;      ///< 副本的翻牌
+}
+
+///< 队伍状态枚举
+enum TEAM_STATE_TYPE
+{
+    TST_WAIT = 0;       ///< 等待状态
+    TST_PREPARE = 1;    ///< 准备状态
+    TST_BATTLE = 2;     ///< 战斗状态
+}
+
+///< 道具标志位
+enum PROPS_FLAG_BIT {    
+    PFB_NO_CUTDOWN  = 1 << 0;      ///< 不进行范围衰减
+    PFB_SHARE_EQUALLY   = 1 << 1;  ///< 均摊伤害
+    PFB_RECURSION_EFFECT = 1 << 2; ///< 存在递归变化效果
+    PFB_SEQUENCE_HIT_EFFECT = 1 << 3; ///< 连续命中变化效果
+    PFB_NO_FURY = 1 << 4;          ///< 不进行暴击
+}
+
+///< 道具商城一级分页类型
+enum GOODS_LABEL_TYPE {
+    GLT_LABEL_COMMEND   = 1;    ///< 推荐分页
+    GLT_LABEL_TANK      = 2;    ///< 坦克分页
+    GLT_LABEL_AVATAR    = 3;    ///< 服饰分页
+    GLT_LABEL_ITEM      = 4;    ///< 道具分页
+    GLT_LABEL_MATERIAL  = 5;    ///< 材料分页
+    GLT_LABEL_BOOSTER   = 6;    ///< 助手分页
+    GLT_LABEL_TANK_SKIN = 7;    ///< 坦克皮肤分页
+    GLT_LABEL_QQSHOP    = 8;    ///< qq钻石商城
+    GLT_LABEL_DECORATE = 9;		  ///< 人物装饰分页
+    GLT_LABEL_SPEC_ACTIVITY = 10; ///< 特殊活动分页
+    GLT_LABEL_HALF_PRISE = 11;  ///< 半价分页
+    GLT_LABEL_NEW_GOODS = 12;   ///< 新品上市分页
+	GLT_LABEL_CRYSTAL = 13;     ///< 晶片分页
+    GLT_LABEL_SHORTCUT  = 100;  ///< 物品的快捷购买分页
+	GLT_LABEL_TOKEN  = 101;		///< 代币分页
+	GLT_LABEL_NEW_TANK_SALE = 102; ///< 新坦克限时折扣分页
+}
+
+///< 商品类型
+enum GOODS_TYPE
+{
+    GT_ALL      = 1;    ///< 所有商品
+    GT_TANK     = 2;    ///< 坦克商品
+    GT_AVATAR   = 3;    ///< 服饰商品
+    GT_ITEM     = 4;    ///< 道具商品
+    GT_MATERIAL = 5;    ///< 材料商品
+    GT_TANK_SKIN = 6;   ///< 坦克皮肤商品
+    GT_QQ_CASH  = 7;    ///< qq钻石商场点券商品
+    GT_DECORATE = 8;    ///< 人物装饰商品
+    GT_KYQQ_CASH = 9;   ///< 凯英点券充值
+    GT_CRYSTAL   = 10;  ///< 晶片商品
+}
+
+////< 成功或者失败的类型
+enum RESULT_TYPE
+{
+	RESULT_TYPE_SUCCEED	= 1;	///< 成功
+	RESULT_TYPE_FAILED	= 2;	///< 失败
+}
+
+////< 伤害类型定义
+enum HARM_TYPE
+{
+    HARM_T_PHYSICS  = 1;    ///< 物理伤害
+    HARM_T_ENERGY   = 2;    ///< 能量伤害
+    HARM_T_BUILD    = 3;    ///< 建筑伤害
+    HARM_T_FASTNESS = 4;    ///< 固定伤害
+}
+
+///< NPC承受伤害类型
+enum NPC_COPIT_TYPE
+{
+    NPC_CT_COMMON   = 1;    ///< 普通伤害
+    NPC_CT_BURST    = 2;    ///< 爆裂伤害    
+}
+
+////< 坦克扩展信息标志位
+enum TANK_EXT_FLAG_BIT {
+    TEF_SYS_BIND = 1<<0;    ///< 系统绑定
+    TEF_JOIN_BATTLE = 1<<1; ///< 出战
+    TEF_INIT = 1<<2;        ///< 初始坦克
+    TEF_USED_FREE_WEEK = 1<<3;   ///< 使用过周免
+    TEF_USED_FREE_CARD = 1<<4;   ///< 使用过试用卡
+    TEF_FIRST_USE_LIMIT = 1<<5;  ///< 本周首个达到周免使用上限的坦克
+}
+
+////< 玩家操作标志位
+enum CHAR_OP_FLAG_BIT
+{
+    COF_TANK_REPAIR = 1<<0; ///< 维修坦克
+    COF_TANK_BATTLE = 1<<2; ///< 坦克出战
+    COF_TANK_RENEW  = 1<<3; ///< 坦克续费
+    COF_SET_DESKTOP = 1<<4; ///< 收藏桌面
+    COF_LARGESS     = 1<<5; ///< 赠送商品
+    COF_TANK_STTEN  = 1<<6; ///< 坦克强化
+    COF_TANK_UP     = 1<<7; ///< 坦克升级
+    COF_BOOSTER_CHANGE_ONE = 1<<8; ///< 助手转换1次
+    COF_BOOSTER_CHANGE_TWO = 1<<9; ///< 助手转换2次
+}
+
+////< 玩家设置标志位
+enum CHAR_SETTING_FLAG_BIT
+{
+    CSFB_BUY_LIFE_NO_ASK    = 1<<0; ///< 买活不询问
+    CSFB_HAPPY_BUILD_OP     = 1<<1; ///< 欢乐赛入口操作标志位
+    CSFB_HAPPY_QUICK_JOIN   = 1<<2; ///< 欢乐赛快速加入按钮操作标志位
+    CSFB_PVP_BUILD_OP       = 1<<3; ///< 匹配赛入口操作标志位
+    CSFB_PVP_QUICK_JOIN     = 1<<4; ///< 匹配赛快速加入按钮操作标志位
+    CSFB_PVE_BUILD_OP       = 1<<5; ///< 副本入口操作标志位
+    CSFB_PVE_QUICK_JOIN     = 1<<6; ///< 副本入口进入标志位
+    CSFB_BUY_LIFE_PWD		= 1<<7; ///< 买活时提示2级密保
+    CSFB_HIRE_TANK_OPEN     = 1<<8; ///< 开启租用坦克
+    CSFB_SYNC_TRACK_START   = 1<<15; ///< 需要同步给track的标志位起始,无实际作用
+    CSFB_REJECT_STRANGER    = 1<<16; ///< 拒绝陌生人的邀请
+    CSFB_PAIR_BAN_ROBOT     = 1<<17; ///< 是否禁止机器人匹配
+    CSFB_PAIR_JOIN_ROOM     = 1<<18; ///< 是否匹配成功后加入房间
+    CSFB_NEWBIE_SHOP        = 1<<19; ///< 是否开启新手商城
+    CSFB_GUILD_BOSS         = 1<<20; ///< 军团boss和坦克强化的开启
+}
+
+///< 客户端需要知道的标志位
+enum CHAR_ACTION_FLAG_BIT
+{
+    CAFB_TALENT_OPEN   = 1<<0; ///< 科技系统开启
+    CAFB_BD_PVE     = 1<<1; ///< 是否开启副本
+    CAFB_BD_HAPPY   = 1<<2; ///< 是否开启欢乐赛
+    CAFB_BD_PVP     = 1<<3; ///< 是否开启匹配赛
+    CAFB_IC_QUEST   = 1<<4; ///< 任务图标
+    CAFB_IC_LOGIN   = 1<<5; ///< 登录奖励图标
+    CAFB_IC_ONLINE  = 1<<6; ///< 在线奖励图标
+    CAFB_BD_SHOP    = 1<<7; ///< 是否开启商城
+    CAFB_IC_BOOTOM  = 1<<8; ///< 是否开启底部
+    CAFB_IC_TYRO    = 1<<9; ///< 是否开新手礼包图标
+    CAFB_IC_VIP     = 1<<10; ///< 是否开启vip图标
+    CAFB_IC_ALL     = 1<<11; ///< 是否开启所有隐藏的图标
+    CAFB_UI_TYRO_SETTLE = 1<<12;    ///< 是否开启教学结算
+    CAFB_SIGN_IN = 1<<13;      ///< 签到
+    CAFB_TANK_CASH = 1<<14;      ///< 坦克点券任务
+    CAFB_IC_AWARD       = 1<<15;    ///< 活动兑奖
+    CAFB_IC_COMPANION   = 1<<16;    ///< 奖励指南
+    CAFB_IC_DAILY_FIZZ  = 1<<17;    ///< 每日活跃
+    CAFB_IC_CONVERT     = 1<<18;    ///< 兑换
+    CAFB_CRYSTAL_OPEN       = 1<<19; ///< 晶片系统开启
+    CAFB_IC_ACT_CB      = 1<<20;    ///< 活动+公告
+    CAFB_QT_DT_BAN      = 1<<21;    ///< 是否屏蔽有任务提示标志
+    CAFB_IC_ROULLETE 	= 1<<22;    ///< 神秘转盘
+    CAFB_IC_MICROCLIENT = 1<<23;    ///< 微端礼包
+    CAFB_IC_FIRSTCHARGE = 1<<24;    ///< 首充礼包
+    CAFB_IC_MONTHLYGIFT = 1<<25;    ///< 返利月卡
+    CAFB_IC_BACK_CHAPTER_MAP = 1<<26;			///< 副本房间返回章节大地图
+    CAFB_IC_TANK_PRESENT = 1<<27;         ///< 赠送坦克标志位
+    CAFB_IC_GUILD = 1 << 28;							///< 军团建筑开启标志位
+    CAFB_IC_BOOSTER_COMPETE = 1 << 29;    ///< 助手竞技赛开启标志位
+    CAFB_IC_MASTER_PRENTICE = 1 << 30;    ///< 师徒开启标志位
+    CAFB_IC_TYRO_QUEST = 1 << 31;    ///< 开启新兵任务标志位
+}
+
+////< 成就类型
+enum ACHIEVEMENT_TYPE
+{
+    ACEM_TYPE_NONE      = 0;    ///< 无
+    ACEM_TYPE_PULLULATE = 1;    ///< 成长成就
+    ACEM_TYPE_BATTLE    = 2;    ///< 对战成就
+    ACEM_TYPE_SOCIAL    = 3;    ///< 社交成就
+    ACEM_TYPE_WORLD		= 4;      ///< 全服成就
+}
+
+////< 成就主体
+enum ACHIEVEMENT_OBJECT
+{
+    ACEM_OBJECT_INDIVIDUAL = 1;   ///< 个人
+    ACEM_OBJECT_GROUP = 2;   			///< 团体
+}
+
+////< 检查点类型
+enum CHECK_TYPE
+{
+    CKT_NONE = 0;
+    CKT_BATTLE_WIN = 1;     ///< 取得胜利次数
+    CKT_CON_KILL_TANK = 2;  ///< 连续击杀坦克数量(个人赛、战队赛)
+    CKT_KILL_TANK = 3;      ///< 在一场战斗中击杀坦克数量(个人赛、战队赛)
+    CKT_LOGIN = 4;          ///< 登陆游戏
+    CKT_JOIN_BATTLE = 5;    ///< 参加战斗次数
+    CKT_BATTLE_LOSE = 6;    ///< 失败次数
+    CKT_LIVE_KILL_TANK = 7; ///< 存活的情况下击杀坦克数量(个人赛、战队赛)
+    CKT_PROPS_KILL = 8;     ///< 在一场战斗中使用道具杀死坦克数量(个人赛、战队赛)
+    CKT_PROPS_CON_KILL = 9; ///< 使用道具同时杀死坦克数量(个人赛、战队赛)
+    CKT_FIRST_BLOOD = 10;   ///< 获得第一滴血(个人赛、战队赛)
+    CKT_KILL_BUILDING = 11; ///< 摧毁建筑数量(个人赛、战队赛
+    CKT_BLOW = 12;          ///< 自爆次数(个人赛、战队赛)
+    CKT_SCORE_NO1 = 13;     ///< 得分最高
+    CKT_GET_BUFF = 14;      ///< 在一场战斗中获得buff(个人赛、战队赛)
+    CKT_EXCHANGE_RMB = 17;  ///< 充值的点券数量
+    CKT_FRIEND_COUNT = 18;  ///< 好友数达到
+    CKT_TANK_COUNT = 19;    ///< 坦克数达到
+    CKT_AST_COUNT  = 20;    ///< 助攻次数
+    CKT_USE_AVATAR = 21;    ///< 更换AVATAR
+    CKT_TANK_BATTLE = 22;   ///< 坦克出战
+    CKT_ADD_FRIEND = 23;    ///< 添加好友
+    CKT_LEVEL = 24;         ///< 等级达到
+    CKT_JOIN_TEAM = 25;     ///< 加入战队
+    CKT_INVITE_COUNT = 26;  ///< 邀请平台好友达到
+    CKT_OPEN_UI =27;        ///< 打开界面
+    CKT_CREATE_ROOM = 28;   ///< 创建房间
+    CKT_USE_TANK = 30;      ///< 使用坦克战斗
+    CKT_ALL_KILL_TANK = 31; ///< 击杀坦克数量累计
+    CKT_ALL_KILL_BUILDING = 33; ///< 击杀建筑数量
+    CKT_BUY_LIFE = 34;      ///< 买活
+    CKT_TANK_STTEN = 35;    ///< 坦克部件强化 enum TANK_STTEN_TYPE
+    CKT_TANK_LEVEL = 36;    ///< 坦克等级达到
+    CKT_OWN_TANK = 37;      ///< 拥有某坦克
+    CKT_TANK_SKILL_UP = 38; ///< 坦克技能升级
+    CKT_ACEM_COUNT = 39;    ///< 完成成就数量
+    CKT_COMPLETE_ACEM = 40; ///< 完成具体成就
+    CKT_BATTLE_LEVEL = 41;  ///< 战斗等级达到
+    CKT_SHARE_COUNT = 42;   ///< 分享次数
+    CKT_SET_DESKTOP = 43;   ///< 收藏桌面
+    CKT_KEEP_ONLINE = 44;   ///< 保持在线
+    CKT_BATTLE_MAP_WIN = 45;    ///< 取得某地图类型的胜利 enum BATTLE_MAP_TYPE
+    CKT_BATTLE_PVE_WIN = 46;    ///< 通过多人副本
+    CKT_OWN_COIN = 47;      ///< 拥有货币
+    CKT_VIP = 48;           ///< 获得vip特权
+    CKT_BUY_GOODS = 49;     ///< 购买物品 enum GOODS_TYPE
+    CKT_LARGESS = 50;       ///< 赠送商品
+    CKT_COMPLETE_QUEST = 51; ///< 完成某类任务
+    CKT_OCCUPY_FLAG = 52;   ///< 占领据点
+    CKT_CHAR_RANK_AWARD = 53;  ///< 领取昨日个人排行奖励
+    CKT_TEAM_RANK_AWARD = 54;  ///< 领取昨日战队排行奖励
+    CKT_BATTLE_MAP = 55;    ///< 打过某地图
+    CKT_TANK_STTEN_ONCE = 56;   ///< 有做过坦克强化的动作
+    CKT_TANK_TRY = 57;      ///< 试用坦克
+    CKT_TANK_UP_ONCE = 58;      ///< 有做过坦克升级的动作
+    CKT_CHAT_ACTION = 59;   ///< 聊天行为
+    CKT_TANK_UPGRADE = 60;  ///< 坦克升级
+    CKT_TANK_UP_ACTION = 61;    ///< 坦克升级行为    
+    CKT_CONSUME_COIN = 62;  ///< 消费货币数量
+    CKT_BATTLE_MAP_ID_WIN = 63; ///< 胜利某个地图id
+    CKT_BT_LEVEL = 64;      ///< 助手等级达到
+    CKT_BT_UP_LEVEL = 65;   ///< 助手强化等级达到
+    CKT_BT_RANK = 66;       ///< 助手星级达到
+    CKT_BT_COUNT = 67;      ///< 助手数量达到
+    CKT_EAT_PROPS = 68;     ///< 吃道具数量达到
+    CKT_BT_APT_COUNT = 69;  ///< 大于等于指定资质的助手数量
+    CKT_STAGE_AWARD = 70;   ///< 领取阶段奖励 enum CSTAGE_TYPE
+    CKT_BATTLE_TITLE = 72;  ///< 战斗中获得称号 (1.杀 2助 3全 4拆 0.以上任一 )
+    CKT_SOLOPVE_5STAR = 73; ///< 5星单人副本数量
+    CKT_BATTLE_PVE_DIFF = 74;   ///< 通过某难度的多人副本 enum MAP_DIFFICUTY_TYPE
+    CKT_BUY_THEW = 75;      ///< 购买体力次数
+    CKT_LIKE_US = 76;       ///< 赞
+    CKT_ACCUMULATE_FIZZ = 77;   ///< 累计活跃值
+    CKT_DAY_FIZZ = 78;          ///< 单日的活跃值
+    CKT_BATTLE_SCORE = 79;      ///< 战斗得分
+
+    CKT_BATTLE_PVE_TIME = 81;   ///< 多人副本的完成时间
+    CKT_DAY_FIZZ_COUNT = 82;     ///< 超过某个活跃值的累积次数
+    CKT_ELO_SCORE = 83;          ///< 战斗力（ELO）达到
+    CKT_BT_CHANGE = 84;          ///< 助手转换次数达到
+    CKT_BT_CLEAR_CHAPTER_HARD = 85;   ///< 通关某章节所有主线困难副本
+    ///< CKT_SCORE_ASST_NO1 = 86;     ///< MVP+助攻王
+    CKT_CHAR_CONSUME_CASH_BACK = 87; ///< 领取昨日消费点券返利
+    CKT_CHAR_CONSUME_CASH_TODAY = 88; ///< 今日消费点券数额
+    CKT_FACEBOOK_FRIEND_COUNT = 89;   ///< 邀请facebook好友数达到
+    CKT_CHAR_BOOSTER_ATTACK = 90;     ///< 助手战力达到
+    CKT_CHAR_VIP_LEVEL = 91;          ///< VIP等级达到
+    CKT_BOOSTER_SEQ_WIN = 92;					///< 助手竞技场连胜次数达到
+    CKT_BOOSTER_COMPETE_BATTLE = 93;  ///< 参加助手赛次数达到
+    CKT_BOOSTER_BUY_TIME = 94;  ///< 购买助手赛挑战次数达到
+    CKT_PVE_EVALUATE_SSS = 95;  ///< 某地图获得SSS评价
+    CKT_BOOSTER_BATTLE_WIN = 96;///< 助手赛胜利次数达到
+    CKT_USE_TANK_SKIN_PVP_WIN = 97; ///< 使用某坦克皮肤获得PVP胜利
+    CKT_CONVERT_ITEM = 98;			///< 兑换物品
+    CKT_ONE_CHARGE = 100;			  ///< 单笔充值点券数达到
+    CKT_TANK_LEVEL_COUNT = 101; ///< X等级的坦克数量达到
+    CKT_SWEEP_MAP = 102;    ///< 扫荡副本
+    CKT_CHARM_SCORE = 103;     ///< 魅力值
+    CKT_ROMANTIC_SCORE = 104;  ///< 浪漫值
+    CKT_ROULETTE_ITEM_COUNT = 105;  ///< 使用神秘球个数
+    CKT_LOGIN_IN_TIME_RANGE = 106;///< 指定时间登录
+    CKT_BT_HISTORY_CHANGE = 107;          ///< 助手历史转换次数
+    CKT_TANK_SKIN_COUNT = 108;    ///< 坦克皮肤数量达到
+    CKT_ACT_CHARM_SCORE = 109;    ///< 七夕活动魅力值
+    CKT_ACT_ROMANTIC_SCORE = 110; ///< 七夕活动浪漫值
+    CKT_ROLL_ROULETTE_COUNT = 111;///< 转动转盘次数
+    CKT_SAVE_TALENT_PAGE = 112;///< 保存科技方案
+    CKT_SAVE_CRYSTAL_SCHEME = 113;///< 保存晶片方案
+    CKT_CLASSIFICATION_CARRY_BATTLE = 114;  ///< 使用输出型坦克分类类型战斗
+    CKT_BUY_LABEL_GOODS = 115;   ///< 购买指定一级标签的商品
+    CKT_BATTLE_WITH_FRIEND = 116; ///< 与好友组队完成战斗
+    CKT_OWE_QUALITY_SKIN_CNT = 117; ///< 拥有指定品质皮肤数量  
+    CKT_DRAW_NEWBIE_PRESENT = 118;  ///< 领取新人礼包
+    CKT_SEND_REDPKT = 119;          ///< 发送红包次数
+    CKT_RESEARCH_TANK = 120;        ///< 研发坦克次数
+    CKT_DRAW_TANK_SKIN = 121;       ///< 抽取坦克皮肤
+    CKT_OWN_TANK_AND_SKIN = 122;    ///< 拥有指定坦克和指定皮肤
+    CKT_BUY_GOODS_ITEM = 123;				///< 购买指定商城物品
+    CKT_CASH_RESEARCH_TANK = 124;   ///< 点券研发坦克次数
+    CKT_GUILD_MATCH_RANK = 125;     ///< 军团赛排名
+    CKT_RAND_STEP_PASS   = 126;			///< 冒险夺宝通关
+    CKT_SEND_REDPKT_TANK   = 127;		///< 发红包累计获得坦克
+    CKT_LEARN_GUILD_SKILL = 128;        ///< 学习军团技能
+    CKT_TANK_MAKE = 129;        ///< 坦克制造次数
+    CKT_FACEBOOK_INVITE_ACTION = 130;  ///< facebook邀请了好友（不需要好友同意）
+    CKT_INVITE_SPREAD_CNT = 131;		///< 邀请推广活动人数
+    CKT_LVUP_TANK_PART = 132;		///< 升级坦克部件次数
+    CKT_FINISH_EXPEDITION = 133;       ///< 完成一次远征挂机
+    CKT_CLASSIFICATION_BODYSHIELD_BATTLE = 134;  ///< 使用肉盾型坦克分类类型战斗
+    CKT_CLASSIFICATION_SUPPORT_BATTLE = 135;  ///< 使用辅助型坦克分类类型战斗
+    CKT_CHARGE_EQUAL_COUNT = 136;			///< 充值指定的金额
+    CKT_COMPLETE_QUEST_ID = 137;    ///< 完成任务ID
+    CKT_ACCU_AST_COUNT = 138;       ///< 助攻次数
+    CKT_BONFIRE_COUNT  = 139;       ///< 篝火柴火值
+    CKT_MAX = 140;
+}
+
+////< 检查点种类
+enum CHECK_TYPE_KIND
+{
+    CKTK_NONE = 0;
+    CKTK_ADD = 1;       ///< 增加型
+    CKTK_ONCE = 2;      ///< 一次性型
+    CKTK_REPLACE = 3;   ///< 替换型
+    CKTK_EQUAL  = 5;    ///< 检查点数量完成相等的
+    CKTK_REPLACE_ONCE_LARGER = 6;			///< 大于当前值时，替换型
+}
+
+////< 任务类型
+enum QUEST_TYPE
+{
+    QTT_NONE = 0;
+    QTT_DAILY_FIZZ = 1; ///< 每日活跃度任务
+    QTT_ACHIEVEMENT = 2;///< 成就任务
+    QTT_COMMON = 3;     ///< 主线任务
+    QTT_LATERAL = 4;    ///< 分支任务
+    QTT_RANK = 5;       ///< 排行任务
+    QTT_PROMPT = 6;     ///< 时限任务(欢乐卡、每日)
+    QTT_ONLINE = 7;     ///< 保持在线任务（每日）
+    QTT_DIRECT = 8;     ///< 指引任务（新手引导，任务面板中不可见）
+    QTT_PRESENT = 9;		///< 馈赠任务 （需要客户端特殊引导，任务面板不可见）
+    QTT_STABLE_DAILY = 10; ///< 日常任务（显示在任务的活动面板）
+
+    QTT_ACT_DAILY = 11; ///< 活动任务（每日）
+    QTT_STABLE_WEEK  = 12;  /// 周常任务 （显示在任务的活动面板，周一0点重置）  
+    QTT_TYRO = 13;      /// 新手任务
+    QTT_ACT_TYRO_TARGET = 14;  ///< 活动时间，新玩家建号成功获得的每日系列任务
+    QTT_GUILD_MATCH_RANK = 15; ///< 军团赛排行
+    QTT_ACT_SLICE = 21; ///< 活动任务(时间片内)
+    QTT_ACT_CASH = 22;  ///< 充值、消费任务
+    QTT_ACT_AWARD_LIMIT = 23;   ///< 有领取限制的活动任务
+    QTT_ACT_CYCLE = 24; ///< 循环任务
+    
+    QTT_FACEBOOK = 31;  ///< facebook任务
+    QTT_INVITE = 32;    ///< 邀请好友礼包检查点任务
+    QTT_REACTIVE = 33;  ///< 召回老玩家礼包检查点任务
+    QTT_RAND_INIT = 34; ///< 随机初始固定任务
+    QTT_RAND_SELECT = 35; ///< 随机选择任务
+    QTT_RAND_SEL_TANK  = 36; ///< 随机选择坦克任务
+    QTT_RAND_HAS_TANK = 37; ///< 随机已有坦克任务
+    QTT_RAND_NO_TANK  = 38; ///< 随机未有坦克任务
+    QTT_RAND_GUILD    = 39; ///< 随机军团任务
+    QTT_RESEARCH      = 40; ///< 日常随机任务
+
+    QTT_ELO_RESET = 41; ///< 天梯赛季重置任务
+    QTT_BE_INVITE = 42; ///< 受邀请好礼检查点任务
+    QTT_BONFIRE   = 43; ///< 篝火活动任务
+    QTT_MAX = 44;       ///< 
+}
+
+////< 任务状态
+enum QUEST_STATE_TYPE
+{
+    QST_NONE = 0;
+    QST_NEW_QUEST = 1;  ///< 新任务
+    QST_GOING = 2;      ///< 进行中
+    QST_COMPLETE = 3;   ///< 完成，可领奖
+    QST_OVER = 4;       ///< 完成，已领奖
+    QST_DRAWING = 5;    ///< 奖励领取中
+}
+
+////< 成就状态
+enum ACHIEVEMENT_STATE_TYPE
+{
+    AST_NONE    = 0;
+    AST_CLOSED  = 1;    ///< 未开启
+    AST_OPEN    = 2;    ///< 已开启
+}
+
+////< 系统公告对象类型
+enum BULLETIN_TARGET
+{    
+    BLT_TARGET_ALL = 1;    ///< 全服
+    BLT_TARGET_ROOM = 2;   ///< 本房间或者战场
+    BLT_TARGET_TEAM = 3;   ///< 本战队
+    BLT_TARGET_GUILD = 4;  ///< 本军团 
+}
+
+////< 公告显示位置
+enum BULLETIN_POSITION {
+    BPT_NONE = 0;
+    BPT_CHAT = 1<<0;    ///< 聊天（当前）栏
+    BPT_CENTER = 1<<1;    ///< 中间公告
+    BPT_ROLL = 1<<2;    ///< 滚动公告区
+    BPT_GUILD = 1<<3;   ///< 军团栏
+}
+
+////< 游戏计数类型
+enum GAME_COUNT_TYPE
+{
+    GCOUNT_NONE     = 0;    ///< 无
+    GCOUNT_WIN      = 1;    ///< 获胜次数
+    GCOUNT_LOST     = 2;    ///< 失败次数
+    GCOUNT_ESCAPE   = 3;    ///< 逃跑次数
+    GCOUNT_KILLER   = 4;    ///< 杀戮王次数
+    GCOUNT_AST_KING = 5;    ///< 助攻王次数
+    GCOUNT_KDA      = 6;    ///< 全能王次数
+    GCOUNT_DESTROYER = 7;   ///< 拆迁王次数
+    GCOUNT_LADDER_ELO = 8;  ///< 天梯elo值
+    GCOUNT_LEISURE_ELO = 9; ///< 休闲ELO
+    GCOUNT_ELO_SECTION_ID = 10;	///< 天梯elo阶段ID
+    GCOUNT_PRE_ELO_SECTION_ID = 11;	///< 上赛季天梯elo阶段ID
+    GCOUNT_MAX      = 12;
+}
+
+////< 助手竞技赛统计类型
+enum BST_COMP_TEC_TYPE
+{
+		BCTT_RANK = 0;   ///< 助手竞技排名
+		BCTT_WIN = 1;    ///< 获胜次数
+		BCTT_LOSE = 2;   ///< 失败次数
+		BCTT_SEQUENCE = 3;  ///< 连胜次数
+		BCTT_MAX = 4;    ///< 
+}
+
+////< 角色基础功能类型
+enum CHAR_OPTION_TYPE
+{
+    OPTION_VIP  = 1;    ///< vip功能
+    OPTION_EXP2 = 2;    ///< 经验双倍功能
+    OPTION_KICK = 3;    ///< 防踢功能
+    OPTION_TOKEN_DOUBLE = 4; ///< 代币双倍产出时间
+    OPTION_TANK_MATERIAL_DOUBLE = 5; ///< 坦克材料双倍产出时间
+    OPTION_TANK_EXP_DOUBLE = 6; ///< 坦克经验双倍产出时间
+    OPTION_TOKEN_DOUBLE_USE = 7; ///< 代币双倍产出次数
+    OPTION_TANK_MATERIAL_DOUBLE_USE = 8; ///< 坦克材料双倍产出次数
+	OPTION_TANK_EXP_USE = 9;	///< 坦克经验双倍次数
+    OPTION_MAX = 10;
+}
+
+///< 统计用界面定义
+enum CLIENT_VIEW_TYPE
+{
+    LOAD_CLIENT             = 0;    //加载客户端swf          
+    LOAD_FIRST_BG_RES       = 1;    //加载 加载器的背景      
+    LOAD_BACKGROUND_RES     = 2;    //后台资源加载           
+    LOAD_FIGHT_RES          = 3;    //战斗资源加载           
+    LOAD_NEWBIE_RES         = 4;    //新手资源加载           
+    MAIN_VIEW               = 4;    //主界面                 
+    HALL_VIEW               = 5;    //游戏大厅界面           
+    MAIL_WINDOW             = 6;    //邮件界面               
+    SHOP_WINDOW             = 7;    //商城界面               
+    GARAGE_VIEW             = 8;    //车库界面               
+    CHAR_VIEW               = 9;    //角色界面               
+    RANK_VIEW               = 10;   //排行界面               
+    QUEST_VIEW              = 11;   //任务界面               
+    ACHIEVEMENT_VIEW        = 12;   //成就界面               
+    LOGIN_TIP_VIEW          = 13;   //上线提示界面           
+    PLAYER_WATCH_VIEW       = 14;   //角色观察界面           
+    CLAN_VIEW               = 15;   //战队界面               
+    LEAGUE_VIEW             = 16;   //联赛界面               
+    LOAD_TEMPLET_AND_IMG    = 17;   //加载图片和模板表       
+    ROOM_VIEW               = 18;   //房间界面               
+    ITEM_OUTPUT             = 19;   //产出查询界面 
+}
+
+////< 角色分析数据枚举
+enum CHAR_STAT_TYPE
+{
+    CST_UNKNOWN     = 0;
+    CST_CHANGE_TEAM = 1;    ///< 更换战队
+    CST_BATTLE      = 2;    ///< 战斗时间统计
+    CST_LOAD        = 4;    ///< 客户端加载时间
+    CST_FRD_COUNT   = 5;    ///< 客户端掉帧次数
+    CST_FRD_TIMES   = 6;    ///< 客户端掉帧持续时长
+    CST_MAP_LOAD    = 7;    ///< 地图加载时间
+    CST_SEL_MODE    = 8;    ///< 用户主动选择玩法的次数统计
+    CST_CHARM       = 9;    ///< 角色魅力
+    CST_MERCY       = 10;   ///< 角色浪漫
+    CST_RANK_START = 11;    ///< 排行数据起始
+    CST_ACT_CHARM  = 11;    ///< 角色活动魅力值（倾城值）
+    CST_ACT_MERCY  = 12;    ///< 角色活动浪漫值（情缘值）
+    CST_RLTE_COUNT  = 13;   ///< 神秘球使用数量
+    CST_SLOT_MACHINE = 14;  ///< 活动转盘计数(老虎机)
+    CST_SEND_REDPKT = 15;   ///< 红包活动积分
+    CST_RLTE_LUCK   = 16;   ///< 幸运活动转盘计数
+    CST_RAND_STEP   = 17;   ///< 冒险夺宝
+    CST_RANK_END = 40;      ///< 排行数据截止 
+}
+
+////< 角色等级类型
+enum LEVEL_TYPE
+{
+    LT_CHAR_LEVEL   = 1;
+    LT_MIL_LEVEL    = 2;
+}
+
+////< 坦克强化类型
+enum TANK_STTEN_TYPE
+{
+    TANK_ST_ATTACK  = 1;    ///< 攻击力
+    TANK_ST_HP      = 2;    ///< 血量
+    TANK_ST_CENTESIS = 3;   ///< 穿甲
+    TANK_ST_ARMOR   = 4;    ///< 护甲
+    TANK_ST_EG_ATTACK = 5;  ///< 能量攻击
+}
+
+////< 坦克实例更新类型
+enum TANK_INST_OP_TYPE
+{
+    TIOT_GET_EXP    = 1;    ///< 获得经验
+    TIOT_UP_SUCCEED   = 2;    ///< 升级成功
+    TIOT_UP_FAILED = 3;     ///< 升级失败
+    TIOT_STTEN_SUCCEED      = 4;    ///< 强化成功
+    TIOT_STTEN_FAILED = 5;  ///< 强化失败
+    TIOT_REPAIR     = 6;    ///< 修理
+    TIOT_WEAR       = 7;    ///< 扣除耐久
+    TIOT_EXT_FLAG   = 8;    ///< 额外标记发送变化
+    TIOT_CHANGE_EXTERNAL = 10;   ///< 更换外观
+    TIOT_HIRE       = 11;   ///< 坦克续租
+    TIOT_HIRE_COUNT_RESET = 12; ///< 坦克租用次数重置
+    TIOT_GET_PRESENT_HIRE = 13; ///< 获得赠送的租用坦克
+	TIOT_ADD_EXIST_TIME = 14;   ///< 增加存在时间
+	TIOT_WARCOUNT_ADD = 15;     ///< 战斗次数变化
+	TIOT_WEEKWARCOUNT_ADD = 16; ///< 周战斗次数变化
+	TIOT_CHANGE_SKIN_FRAME = 17; ///< 坦克皮肤边框品质变化
+	TIOT_CHG_COM_SKILL = 18;	 ///< 指挥官技能变化
+	TIOT_CRYSTAL_SCHEME_ID = 19; ///< 晶片组方案
+    TIOT_CHG_TALENT_PAGE = 20;  ///< 科技方案变化
+}
+
+///< 坦克容器类型
+enum TANK_CONTAINER_TYPE
+{
+    TANK_CONT_OWN     = 0;       ///< 拥有的
+    TANK_CONT_HIRE    = 1;       ///< 租用的
+	TANK_CONT_FREE_QQ    = 2;    ///< Q服的免费的(周免或者试用卡)
+	TANK_CONT_FREE_4399 = 3;     ///< 4399的周免（有每日使用限制，有最高等级限制）
+	TANK_CONT_TRY_4399 = 4;      ///< 4399的试用
+    TANK_CONT_MAX     = 5;       ///< 需要保存数据库的枚举最大值
+    TANK_CONT_TAG_TRY = 6;       ///< 试用
+    TANK_CONT_TAG_NOT_HAVE = 7;  ///< 未拥有 未租用的（客户端专用）
+    TANK_CONT_NONE = 100;        ///< 任务用，代表任意容器类型
+}
+
+///PVE副本标志位
+enum PVE_SETTEL_FLAG
+{
+    PSF_PROFIT_STOLEN  	= 1<<0;	    ///< 收益被系统收走
+    PSF_PROFIT_GATHERED = 1<<1;	    ///< 收益已被玩家自己采摘
+    PSF_PROFIT_2_STAR   = 1<<2;     ///< 2星奖励是否已领取(1天1次)
+    PSF_PROFIT_3_STAR   = 1<<3;     ///< 3星奖励是否已领取(1天1次)
+    PSF_PROFIT_4_STAR   = 1<<4;     ///< 4星奖励是否已领取(1天1次)
+    PSF_PROFIT_5_STAR   = 1<<5;     ///< 5星奖励是否已领取(1天1次)
+    
+    PSF_PROFIT_ROLL_1   = 1<<10;    ///< 已产生1级掉落ID
+    PSF_PROFIT_ROLL_2   = 1<<11;    ///< 已产生2级掉落ID
+    PSF_PROFIT_ROLL_3   = 1<<12;    ///< 已产生3级掉落ID
+}
+
+///PVE副本过关评价
+enum PVE_EVALUATION_TYPE
+{
+		PE_EVAL_NONE = 0;
+    PE_EVAL_D  = 1;          ///< 评价D.
+    PE_EVAL_C  = 2;
+    PE_EVAL_B  = 3;   
+    PE_EVAL_A  = 4;
+    PE_EVAL_S  = 5;
+    PE_EVAL_SS  = 6;
+    PE_EVAL_SSS  = 7;
+    PE_EVAL_SSSS  = 8;  
+    PE_EVAL_MAX  = 9;              
+}
+
+////< 玩家的状态
+enum PLAYER_STATE 
+{
+    PS_IDLE         = 0;    ///< 空闲
+    PS_ROOM         = 1;    ///< 房间状态
+    PS_BATTLE       = 2;    ///< 战斗
+    PS_LOGOUT       = 3;    ///< 下线
+    PS_PAIR         = 4;    ///< 匹配状态
+}
+
+////< 创建角色时选择的坦克id
+enum INIT_TANK_ID_TYPE
+{
+    GANGTIE_TANK_ID = 10000001;     ///< 钢铁
+    ABAO_TANK_ID    = 10000003;     ///< 阿宝
+    GUMDAM_TANK_ID  = 10000019;     ///< 高达
+    TIANMA_TANK_ID = 10000035;      ///< 天马
+}
+
+////< 通知类型
+enum SETTLE_TYPE
+{
+    ST_NONE                 = 0;    ///< 无
+    ST_BATTLE_AWARD         = 1;    ///< 战斗奖励
+    ST_SOLO_ADD             = 2;    ///< 单人收菜奖励
+    ST_USE_ITEM             = 3;    ///< 使用物品获得
+    ST_QUEST_AWARD          = 4;    ///< 任务奖励
+    ST_DRAW_AWARD           = 5;    ///< 活动领奖
+    ST_STAGE_AWARD          = 6;    ///< 阶段奖励
+    ST_PVP_AWARD            = 7;    ///< pvp奖励
+    ST_CONVERT              = 8;    ///< 物品兑换
+    ST_ROULETTE             = 9;    ///< 轮盘赌
+    ST_LEAGUE               = 10;   ///< 联赛
+    ST_SPLIT_ITEM           = 11;   ///< 拆解物品
+    ST_PVE_EVAL             = 12;   ///< 副本过关评价
+    ST_TEAM_PVP_AWARD       = 13;   ///< 战队排位赛奖励
+    ST_TEAM_PVE_AWARD       = 14;   ///< 战队副本奖励
+    ST_HAPPLY_AWARD         = 15;   ///< 欢乐赛奖励
+    ST_BOOSTER_COMPETE_AWARD= 16;   ///< 挑战赛奖励
+    ST_SOCIAL_QUEST_AWARD   = 17;   ///< 社交任务奖励
+    ST_HIRE_TANK            = 18;   ///< 租用坦克奖励
+    ST_ROULETTE_SLOT_MACHINE= 19;   ///< 老虎机
+    ST_ONLINE_PEAK          = 20;   ///< 峰值在线活动
+    ST_ANNIVERSARY          = 21;   ///< 周年庆获得
+    ST_CHAR_GIFT            = 22;   ///< 角色礼包获得
+    ST_DRAGON_BOAT          = 23;   ///< 端午活动转盘获得
+    ST_SHOP                 = 24;   ///< 商城购买
+    ST_MAIL                 = 25;   ///< 邮件提取
+    ST_RAND_STEP            = 26;   ///< 冒险夺宝
+    ST_TANK_MAKE            = 27;   ///< 坦克制造
+    ST_LIMIT_AWARD          = 28;   ///< 限制奖励
+    ST_TREASURE             = 29;   ///< 一元夺宝
+    ST_MAX = 30;            ///<
+}
+
+////< 活动类型
+enum ACTIVITY_TYPE
+{
+    AT_NONE = 0;
+    AT_TEAM_MATCH = 1;  ///< 战队排位赛
+    AT_TEAM_LEAGUE = 2; ///< 战队联赛
+    AT_HAPPY_MATCH = 3; ///< 欢乐赛
+    AT_PVP_MATCH = 4;   ///< 匹配赛双倍掉落
+    AT_BOSS = 5;        ///< 世界boss
+    AT_INVITE_FRIEND = 6;   ///< 邀请好友活动
+    AT_REACTIVE = 7;        ///< 召回老玩家活动
+    AT_ANGEL_TANK = 8;       ///< 天使坦克活动
+    AT_VALENTINE = 9;   ///< 七夕临时活动
+    AT_SCHOOL_OPENS = 10; ///< 开学活动
+    AT_MID_FESTIVAL = 11; ///< 中秋活动
+    AT_SLOT_MACHINE = 12; ///< 老虎机转盘活动
+    AT_HALLOWEEN = 13;    ///< 万圣节活动
+    AT_LADDER_PVP_MATCH = 14;   ///< 天梯赛活动
+    AT_SPRING_FESTIVAL = 15;    ///< 春节活动
+    AT_ONLINE_PEAK  =16;        ///< 在线峰值活动
+    AT_CHARGE  =17;             ///< 充值活动
+    AT_LUCK = 18;        				///< 幸运活动
+    AT_PVP_MODE = 19;           ///< 匹配模式选择
+    AT_FIVE_ONE = 20;           ///< 五一活动
+    AT_SEND_REDPKT = 21;        ///< 发红包活动
+    AT_ROB_REDPKT = 22;         ///< 抢红包活动
+    AT_NEWBIE_WELFARE = 23;     ///< 新手福利活动    （指定时间内创号的玩家，连续登陆可获得奖励）
+    AT_INVITATIONAL_MATCH = 24; ///< 邀请赛
+    AT_CHEST = 25;							///< 开宝箱活动
+    AT_DRAGON_BOAT1 = 26;			  ///< 端午转盘活动
+    AT_DRAGON_BOAT2 = 27;       ///< 端午活动
+    AT_FIRE = 28;								///< 火力赛
+    AT_LUCK_CONVERT = 29;				///< 幸运兑换活动
+    AT_GUILD_MATCH = 30;        ///< 军团赛
+    AT_RAND_STEP   = 31;        ///< 冒险夺宝活动
+    AT_FIRE_BALL	 = 32;        ///< 火球赛 
+    AT_WEEK_FIZZ  = 33;         ///< 周活跃奖励
+    AT_3V3_COMPETITION   = 34;  ///< 3V3争霸赛
+    AT_CLOUD_PURCHASE    = 35;  ///< 云购
+    AT_FINANCE_FUND    = 36;    ///< 理财基金
+    AT_WINTER_HOLIDAY = 37;     ///< 寒假总动员
+    AT_LIMIT_CONVERT = 38;      ///< 限制兑换活动
+    AT_NEW_BASE      = 39;      ///< 新基地模式活动
+    AT_BONFIRE       = 40;		  ///< 篝火活动
+    AT_MAX = 41;								///< 客户端显示所用活动类型，在客户端添加ClientActType (>=100)
+}
+
+////< 活动重复模式
+enum ACTIVITY_REPEAT
+{
+    ATR_ONCE = 0;	///< 一次性活动，不重复
+    ATR_MONTHDAY = 1;  	///< 按月重复日
+    ATR_WEEKDAY = 2; 	///< 按周重复日
+}
+
+////< 活动状态
+enum ACTIVITY_STATE 
+{
+    ACT_NONE    = 0;
+    ACT_PREPARE = 1;    ///< 活动准备中
+    ACT_RUNNING = 2;    ///< 活动进行中
+    ACT_CLOSED  = 3;    ///< 活动结束
+}
+
+////< 战队排位赛的战队状态
+enum TEAM_MATCH_STATE
+{
+    TMST_NONE       = 0;    ///< 无
+    TMST_IDLE       = 1;    ///< 空闲
+    TMST_GOING      = 2;    ///< 对战中
+    TMST_ARMISTICE  = 3;    ///< 休战中
+}
+
+////< 战队排位赛比赛状态
+enum TEAM_MATCH_MATCH_STATE
+{
+    TMMST_NONE      = 0;    ///< 无
+    TMMST_CHALLENGE = 1;    ///< 挑战状态
+    TMMST_ACCEPT    = 2;    ///< 迎战状态
+    TMMST_BATTLE    = 3;    ///< 战斗状态
+    TMMST_IDLE      = 4;    ///< 空闲状态(战斗间的间歇)
+    TMMST_REMOVE    = 5;    ///< 等待移除状态
+    TMMST_PAIR_NONE = 6;    ///< 尚未参加匹配
+    TMMST_PAIR_WAIT = 7;    ///< 匹配等待时间
+    TMMST_PAIR_IDLE = 8;    ///< 匹配空闲状态(比赛战斗时间)
+    TMMST_PAIR_END = 9;     ///< 匹配结束
+    TMMST_PAIR_INIT = 10;   ///< 匹配初始状态
+    TMMST_MATCH_OUT = 11;   ///< 比赛未晋级
+}
+
+////< 约战列表状态
+enum CHALLENGE_LIST_STATE
+{
+    CLST_NONE       	= 0;    ///< 无
+    CLST_BE_CG_FULL 	= 1;    ///< 被挑战次数已满
+    CLST_CG_GOING   	= 2;    ///< 正在对战中
+    CLST_ARMISTICE  	= 3;    ///< 休战中
+    CLST_CG_DONE    	= 4;    ///< 已经挑战过
+    CLST_NO_ACT     	= 5;    ///< 不在比赛时间内
+    CLST_CG_FULL    	= 6;    ///< 挑战次数已满
+    CLST_PLACE_ERR  	= 7;    ///< 对方名次不符合
+    CLST_SELF       	= 8;    ///< 自己战队
+    CLST_NOSUCHCONTEST  = 9;    ///< 对阵不存在
+    CLST_CONTESTNOTOPEN = 10;	///< 对阵状态不是开启状态
+    CLST_NOTENROLLED	= 11;   ///< 未报名或未进入本轮次
+    CLST_NOSUCHGROUP 	= 12;   ///< 对应的分组不存在
+    CLST_NEEDMOREMATES  = 13;	///< 出战人数不足
+    CLST_NOTLEADER	= 14;	///< 只有队长才能挑战
+    CLST_SELFONFIGHTING	= 15;	///< 本方战队正在战斗中
+    CLST_NOTTHETIME	= 16;	///< 不在比赛时间内
+    CLST_CONTESTNOTEAM	= 17;	///< 战队不在pContest里
+    CLST_CG_DONE_WIN 	= 18;   ///< 已经挑战过获胜
+    CLST_CG_DONE_LOSE 	= 19;   ///< 已经挑战过失败
+    CLST_CG_DONE_ABSENSE= 20;   ///< 双方缺阵
+    CLST_CG_BY_SEED     = 21;   ///< 种子队不能约战
+    CLST_CG_TO_SEED     = 22;   ///< 不能约战种子队
+    CLST_SQUARE_CLOSED  = 23;	///< 轮次结束
+    CLST_TEAM_DISMISSED = 24;	///< 对方战队已解散
+    CLST_DATABASE_ERROR = 25;	///< 数据错误
+    CLST_TEAMDATASYNCING = 26;  ///< 战队数据同步中
+}
+
+////< 本地化类型
+enum LOCALE_TYPE
+{
+    LT_NONE     = 0;    ///< 无
+    LT_ZH_CN    = 1;    ///< 中文简体
+    LT_VI_VN    = 2;    ///< 越南
+    LT_ZH_TW    = 3;    ///< 台湾繁体
+    LT_EN_US    = 4;    ///< 英文版本      
+    LT_TH_TH    = 5;    ///< 泰文版本
+    LT_ID_ID    = 6;    ///< 印尼版本
+    LT_RU_RU    = 7;    ///< 俄罗斯版本      
+}
+
+////< 战队职务
+enum TEAM_POST_TYPE
+{
+    TEAM_PT_NONE    = 0;        ///< 无    
+    TEAM_PT_CAPTAIN = 5;        ///< 战队队长
+    TEAM_PT_VICE_LEADER = 9;    ///< 副团长
+    TEAM_PT_LEADER  = 10;       ///< 团长
+}
+
+////< 战斗结果组成类型
+enum BATTLE_SETTLE_TYPE
+{
+    BATTLE_ST_BASE  = 0;    ///< 基础
+    BATTLE_ST_ACT   = 1;    ///< 活动加成
+    BATTLE_ST_VIP   = 2;    ///< vip加成
+    BATTLE_ST_DOUBLE = 3;   ///< 双倍加成
+    BATTLE_ST_DAILY = 4;    ///< 每日额外奖励
+    BATTLE_ST_AVATAR = 5;   ///< AVATAR额外加成
+    BATTLE_ST_DECORATE = 6; ///< 主题边框（装饰）加成
+    BATTLE_ST_MAX = 7;      ///< 枚举最大值（以上枚举需要顺序定义）
+    ///< 坦克经验的特殊类型
+    BATTLE_ST_TANK_EXP_CARD = 20; ///< 坦克经验卡加成
+    BATTLE_ST_HAPPY_RANK_BONUS = 21; ///< 欢乐赛排名的经验加成
+}
+
+////< 礼包给与类型
+enum PRESENT_GIVE_TYPE
+{
+    PRESENT_GIVE_ITEM   = 1;    ///< 物品
+    PRESENT_GIVE_COIN   = 2;    ///< 货币
+    PRESENT_GIVE_TANK   = 3;    ///< 坦克
+}
+
+
+// 目前实现的阶段性奖励的类型
+enum CSTAGE_TYPE  {
+    CSTAGE_COMMON   = 0;	// 无
+    CSTAGE_ONLINE   = 1;	// 在线时长阶段记录
+    CSTAGE_LOGINS   = 2;	// 连续登录阶段记录
+    CSTAGE_LEVELS   = 3;    // 玩家等级阶段记录
+    CSTAGE_NEWBIE   = 4;    // 玩家首次登录阶段记录
+    CSTAGE_CHARGE   = 5;    // 玩家充值阶段记录
+    CSTAGE_VIP_DAILY      = 6;    // 玩家vip每日礼包阶段记录
+    CSTAGE_FIZZ     = 7;    // 活跃度阶段记录
+    CSTAGE_RETURN	= 8;	// 老玩家回归阶段记录
+    CSTAGE_DROPS	= 9;	// 各比赛类型的掉落次数
+    CSTAGE_ROULETTE = 10;   // 轮盘保底阶段记录   
+    CSTAGE_MCLIENT	= 11;   // 微端阶段奖励   
+    CSTAGE_ELO_WEEK = 12;   // elo周名次奖励
+    CSTAGE_ELO_SESSION = 13;    // elo赛季名次奖励
+    CSTAGE_FIRST_CHARGE = 14;   // 首次充值记录
+    CSTAGE_ACCUMULATE_CHARGE = 15; //累计充值阶段记录
+    CSTAGE_VIP_LEVEL = 16;  // VIP等级礼包阶段记录
+    CSTAGE_ACT_NEWBIE_WELFARE = 17; // 活动开启的，新手连续登陆阶段记录
+    CSTAGE_ACCUMULATE_NEWBIE = 18; // 新手累计登录
+    CSTAGE_ACT_WEEK_FIZZ    = 19; // 活动开启的周活跃奖励
+    CSTAGE_WINTER_HOLIDAY   = 20; // 寒假总动员签到记录
+    CSTAGE_WEEK_FIZZ = 21;  // 周活跃度阶段记录
+    CSTAGE_MAX = 22;
+}
+
+enum PARAM_CONSTS
+{
+    VIP_MAX_LVL = 10;		///< VIP最高等级
+    CRYSTAL_SCHEME_DEFAULT_CNT = 2; ///< 晶片默认分页数量
+    SUPER_VIP_LV_OFFSET = 100;      ///< 超级VIP等级偏移
+}
+
+////< 结算界面退出类型
+enum BATTLEEND_EXIT_TYPE
+{
+    BE_T_PAIR   = 1;    ////< 退出后，开始个人匹配
+    BE_T_BACK   = 2;    ////< 个人退到大厅，组队的退到组队房间
+    BE_T_EXIT_HALL = 3; ///<　返回大厅
+}
+
+////< 范围类型
+enum RANGE_TYPE
+{
+    RANG_T_CIRCLE   = 0;    ///< 圆形范围，范围为0表示单体目标      
+    RANG_T_LINE     = 1;    ///< 线形范围
+    RANG_T_SECTOR   = 2;    ///< 扇形范围
+    RANG_T_DOT      = 3;    ///< 点,需要特殊表现
+    RANG_T_SELF     = 4;    ///< 自身周围
+	RANG_T_DESPOS_LINE     = 5;    ///< 技能目标点修正的线形范围
+	RANG_T_VERTICAL_DIR     = 6;    ///< 与技能方向垂直的范围
+}
+
+///< 数据统计类型
+enum DATA_STAT_TYPE
+{
+    STAT_DEAD       = 0;    ///< 统计死亡次数
+    STAT_KILL_TANK  = 1;    ///< 统计击杀数量
+    STAT_SCORE      = 2;   ///< 得分情况
+    STAT_ASSIST     = 3;   ///< 助攻次数
+    STAT_HIT        = 4;    ///< 统计命中次数
+    STAT_FIRE       = 5;    ///< 统计开火次数
+    STAT_HARM       = 6;    ///< 统计伤害值
+    STAT_HARM_BASE  = 7;    ///< 统计对基地和炮塔的伤害
+    STAT_KILL_BARBETTE = 8; ///< 统计摧毁炮塔数量
+    STAT_KILL_BASE  = 9;    ///< 统计摧毁基地数
+    STAT_EXP        = 10;    ///< 统计战斗获得的经验值
+    STAT_COIN       = 11;    ///< 战斗获得银币数量
+    STAT_BLOW       = 12;   ///< 自爆数量
+    STAT_BE_HARM    = 13;   ///< 承受伤害值
+    STAT_SPACE      = 14;   ///< 名次
+    STAT_BL_FREE    = 15;   ///< 免费买活
+    STAT_BL_COIN    = 16;   ///< 银币买活
+    STAT_BL_GIFT    = 17;   ///< 礼券买活
+    STAT_BL_CASH    = 18;   ///< 点券买活
+    STAT_CURE       = 19;   ///< 治疗值
+    STAT_CURE_COUNT = 20;   ///< 治疗次数
+    STAT_MAX        = 21;
+}
+
+///< 数据统计中得分类型
+enum SCORE_TYPE
+{
+    TST_HIT_TARGET	= 0;	///< 命中得分
+    TST_OCCUPY_FLAG	= 1;    ///< 占旗加分
+    TST_HEAL_HP		= 2;    ///< 给别人加血
+    TST_HARM_NPC	= 3;    ///< 伤害NPC （目前只有基地）
+    TST_KILL_TANK	= 4;    ///< 击杀坦克
+    TST_KILL_NPC	= 5;    ///< 击杀NPC
+    TST_DESTROY_BASE	= 6;    ///< 摧毁基地
+    TST_DESTROY_TURRENT	= 7;    ///< 摧毁炮塔
+
+    TST_ASSIST		= 9;    ///< 助攻
+    TST_ENDURE_HARM	= 10;   ///< 承受伤害
+    TST_KILL_TOPTANK	= 11;	///< 射杀分数最高的
+    TST_SCORE_ITEM	= 12;	///< 吃到分数道具
+    TST_SHARE_TOPTANK	= 13;	///< 分享射杀头名的奖励
+    TST_KILLED_ASTOP    = 14;   ///< 头名被杀（扣分）
+    TST_SHARE_KILL      = 15;   ///< 参与击杀得分
+}
+
+// 各比赛类型当日胜场
+enum SETTLE_DROP_ID
+{
+	SETTLE_DROP_HAPPY	= 0;	// 记录欢乐赛的掉落次数
+	SETTLE_DROP_SOLO	= 1;	// 记录单人副本的掉落次数	
+	SETTLE_DROP_PVE		= 2;	// 记录多人副本的掉落次数	
+	SETTLE_DROP_PVP		= 3;	// 记录匹配赛的掉落次数	
+	SETTLE_DROP_TVT		= 4;	// 记录战队赛的掉落次数
+	SETTLE_DROP_TUTOR	= 5;	// 记录教学赛的掉落次数
+	SETTLE_DROP_TRAIN	= 6;	// 记录人机赛的掉落次数
+	SETTLE_DROP_DOUBLE_PVE = 7; // 记录双人副本的
+	SETTLE_DROP_MAX		= 8;
+}
+
+/// 商城价格时间定义
+enum GOODS_TIME_TYPE
+{
+    GOODS_TIME_PRICE_WEEK   = 7;
+    GOODS_TIME_PRICE_MONTH  = 30;
+    GOODS_TIME_PRICE_QUATER = 90;
+    GOODS_TIME_PRICE_YEAR   = 365; 
+}
+
+/// 商城单人限购周期定义
+enum GOODS_CHAR_LIMIT_CYC
+{
+    GOODS_CLC_NONE      = 0;    ///< 无
+    GOODS_CLC_DAY       = 1;    ///< 每日
+    GOODS_CLC_WEEK      = 2;    ///< 每周
+    GOODS_CLC_MONTH     = 3;    ///< 每月
+    GOODS_CLC_YEAR      = 4;    ///< 每年
+    GOODS_CLC_FOREVER   = 5;    ///< 永远
+}
+
+/// 城市状态定义
+enum CITY_STATE_TYPE
+{
+    CITY_ST_ENABLE  = 1<<0;     ///< 是否激活
+    CITY_ST_LEVEL   = 1<<1;     ///< 等级是否满足
+    CITY_ST_QUEST   = 1<<2;     ///< 前置任务是否满足
+    CITY_ST_PRE_CITY    = 1<<3; ///< 前置城市是否满足
+    CITY_ST_COMMON  = 1<<4;     ///< 是否通过普通难度
+    CITY_ST_HERO    = 1<<5;     ///< 是否通过英雄难度
+    CITY_ST_COMMON_TODAY = 1<<6;///< 今天是否通过普通难度
+    CITY_ST_HERO_TODAY = 1<<7;  ///< 今天是否通过英雄难度 
+    CITY_ST_TEMP_ENABLE = 1<<8; ///< 是否临时激活
+}
+
+///城市类型定义
+enum CITY_TYPE
+{
+    CITY_BRANCH = 1;     ///< 单人副本
+    CITY_TRUNK = 2;     ///< 多人副本
+    CITY_HERO = 3;     ///< 英雄副本
+    CITY_ACT = 4;        ///< 活动副本
+}
+
+/// 坦克类型
+enum TANK_TYPE
+{
+    TANK_T_PHYSICS  = 1;    ///< 物理型
+    TANK_T_ENERGY   = 2;    ///< 能量型
+}
+
+/// 退出战场枚举
+enum BATTLE_EXIT_TYPE
+{
+    EXIT_OTHER  = 0;    // 其他退出
+    EXIT_END    = 1;    // 战斗结束退出
+    EXIT_PLAYER = 2;    // 玩家主动退出
+    EXIT_END_PAIR = 3;  // 战斗结束退出并开始配对
+    EXIT_DISCONNECT = 4;// 玩家掉线
+    EXIT_PAIR_CHAR_EXIT = 5; // 匹配有玩家退出
+    EXIT_PAIR_NO_SELECT_TANK = 6; //匹配有玩家未选择坦克
+    EXIT_ENEMY_EMPTY_BEFORE_ENTER = 7; // 进战场前，对手成员为空
+    EXIT_PLAYER_AFK = 8;// 玩家挂机，踢出战场，托管
+}
+
+/// 小助手属性类型
+enum BOOSTER_ATTR_TYPE
+{
+    BOOSTER_AT_NONE     = 0;    ///< 无
+    BOOSTER_AT_ATTACK   = 1;    ///< 攻击力
+    BOOSTER_AT_CTSIS    = 2;    ///< 穿甲
+    BOOSTER_AT_ARMOR    = 3;    ///< 护甲
+    BOOSTER_AT_HP       = 4;    ///< 血上限
+    BOOSTER_AT_MOVE     = 5;    ///< 移动
+    BOOSTER_AT_FIRERATE = 6;    ///< 射速
+    BOOSTER_AT_MAX      = 7;    ///< 
+}
+
+/// 消费类型
+enum CONSUME_TYPE
+{
+    CS_T_BT_STTH        = 1;    ///< 助手强化
+    CS_T_BT_COMPOSE     = 2;    ///< 助手合成
+}
+
+/// 举报类型
+enum IMPEACH_TYPE
+{
+    IMPEACH_T_NONE      = 0;
+    IMPEACH_T_SCRIPT    = 1<<0;    ///< 脚本挂机
+    IMPEACH_T_AD        = 1<<1;    ///< 垃圾广告
+    IMPEACH_T_BAM       = 1<<2;    ///< 欺诈信息
+    IMPEACH_T_ASSAULT   = 1<<3;    ///< 人身攻击
+    IMPEACH_T_TECHNO_BAD= 1<<4;    ///< 技术太烂
+}
+
+/// 举报返回类型
+enum IMPEACH_RET_TYPE
+{
+    IMPEACH_RT_OK       = 0;    ///< 成功
+    IMPEACH_RT_FAIL     = 1;    ///< 其他错误
+    IMPEACH_RT_TWICE    = 2;    ///< 重复
+    IMPEACH_RT_BAN      = 3;    ///< 禁止举报
+    IMPEACH_RT_LEVEL    = 4;    ///< 等级不足
+    IMPEACH_RT_LIMIT    = 5;    ///< 每日次数不足
+}
+
+/// 物品相关ID
+enum ITEM_BUY_ID
+{
+    CHANNEL_WORLD_ITEM_ID   = 2100001;  ///< 世界聊天的物品id
+    CHANNEL_BUGLE_ITEM_ID   = 2100002;  ///< 大喇叭物品id
+    CHANNEL_GLOBAL_ITEM_ID  = 2100007;  ///< 跨服喇叭物品id
+    
+    SPRAY_ITEM_ID           = 2600001;  ///< 喷图道具的物品id
+    RENAME_ITEM_ID          = 2600002;  ///< 改名道具的物品id
+    TEAM_RENAME_ITEM_ID     = 2600003;  ///< 战队改名道具的物品id
+    HERO_ENTER_CARD_ITEM_ID = 2600005;  ///< 增加英雄副本进入次数的物品ID     
+    GUILD_RENAME_ITEM_ID    = 2600006;  ///< 军团改名卡                       
+    GUILD_CREATE_ITEM_ID    = 2600007;  ///< 军团创建卡                       
+    GUILD_DONATE_ITEM_ID    = 8000001;  ///< 军团捐献的虚拟物品               
+    TEAM_DONATE_ITEM_ID     = 8000002;  ///< 战队捐献的虚拟物品     
+    BACK_MERIT_ITEM_ID      = 8000003;  ///< 回购贡献度的虚拟物品
+    
+    TRANS_BT_TRANS_ITEM_ID  = 4000001;  ///< 转换助手等级的物品id
+    
+    SERVER_CHARGE_AWARD_ITEM_ID_3 = 2004117; ///<　全服充值3000超值礼包ID
+    SERVER_CHARGE_AWARD_ITEM_ID_5 = 2004120; ///<  全服充值5000超值礼包ID
+    
+    SERVER_DAILY_CHARGE_ITEM_ID_1 = 2004121; ///<  每日充值第一的礼包ID
+    SERVER_DAILY_CHARGE_ITEM_ID_2 = 2004122; ///<  每日充值第二的礼包ID
+    SERVER_DAILY_CHARGE_ITEM_ID_3 = 2004123; ///<  每日充值第三的礼包ID
+    
+    INVITE_GIFT_DAY_AWARD_ITEM_ID   = 2000921; ///< 邀请好礼每日奖励礼包ID
+    INVITE_GIFT_ACC2_AWARD_ITEM_ID  = 2000922; ///< 邀请好礼累计2日奖励礼包ID
+    INVITE_GIFT_ACC7_AWARD_ITEM_ID  = 2000923; ///< 邀请好礼累计7日奖励礼包ID
+    INVITE_GIFT_ACC14_AWARD_ITEM_ID = 2000924; ///< 邀请好礼累计14日奖励礼包ID
+    INVITE_GIFT_ACC21_AWARD_ITEM_ID = 2000925; ///< 邀请好礼累计21日奖励礼包ID
+    INVITE_GIFT_ACC30_AWARD_ITEM_ID = 2000926; ///< 邀请好礼累计30日奖励礼包ID
+    INVITE_GIFT_INVITE_AWARD_ITEM_ID = 2000927; ///< 邀请好礼新人接受邀请礼包
+    
+    INVITE_SPREAD_BIND_AWARD_ITEM_ID = 4050502; ///< 邀请推广绑定礼包
+    
+    ///军团赛排行奖励
+    GUILD_MATCH_RANK_AWARD_ITEM_ID_1 = 2001501; ///< 争夺赛军团积分第1名礼包ID
+    GUILD_MATCH_RANK_AWARD_ITEM_ID_2 = 2001502; ///< 争夺赛军团积分第2名~3名
+    GUILD_MATCH_RANK_AWARD_ITEM_ID_3 = 2001503; ///< 争夺赛军团积分第4名~7名
+    GUILD_MATCH_RANK_AWARD_ITEM_ID_4 = 2001504; ///< 争夺赛军团积分第8名~15名
+    GUILD_MATCH_RANK_AWARD_ITEM_ID_5 = 2001505; ///< 争夺赛军团积分第16名~31名
+    GUILD_MATCH_RANK_AWARD_ITEM_ID_6 = 2001506; ///< 争夺赛军团积分第32名~64名
+    GUILD_MATCH_RANK_AWARD_ITEM_ID_7 = 2001507; ///< 资格赛未晋级
+    
+    /// 活动商店门票ID
+    ACT_STORE_MYSTERIOUS_TICKET_ID = 2003129; ///< 门票ID
+}
+
+/// 转盘类型
+enum ROULETTE_TYPE
+{
+    ROULETTE_NONE 					= 0;
+    ROULETTE_T_OUTSIDE  		= 1;    ///< 外圈
+    ROULETTE_T_INSIDE   		= 2;    ///< 内圈
+    ROULETTE_T_VIP_OUTSIDE  = 3; 		///< 外圈VIP
+    ROULETTE_T_SLOT_MACHINE = 4;		///< 老虎机
+    ROULETTE_T_ONLINE_PEAK1 = 5; 		///< 峰值在线活动阶段1
+    ROULETTE_T_ONLINE_PEAK2 = 6; 		///< 峰值在线活动阶段2
+    ROULETTE_T_ANNIVERSARY1 = 7; 		///< 周年庆活动阶段1
+    ROULETTE_T_ANNIVERSARY2 = 8; 		///< 周年庆活动阶段1
+    ROULETTE_T_ANNIVERSARY3 = 9; 		///< 周年庆活动阶段1
+    ROULETTE_T_ANNIVERSARY4 = 10; 	///< 周年庆活动阶段1
+    ROULETTE_T_ANNIVERSARY5 = 11; 	///< 周年庆活动阶段1
+    ROULETTE_T_ANNIVERSARY6 = 12; 	///< 周年庆活动阶段1
+    ROULETTE_T_DRAGON_BOAT  = 13;		///< 端午活动转盘
+    ROULETTE_T_LUCK  				= 14;		///< 幸运转盘
+    ROULETTE_MAX = 15;
+    ROULETTE_T_ITEM_USE     = 100;  ///< 道具转盘 
+}
+
+/// 匹配类型
+enum PVP_PAIR_POOL_TYPE
+{
+    PPP_T_NONE      = 0;    
+    PPP_T_TYRO      = 1;    // 新手池子
+    PPP_T_COMMON    = 2;    // 普通（休闲）匹配赛池子 
+    PPP_T_HAPPY     = 3;    // 欢乐赛池子
+    PPP_T_LADDER    = 4;    // 天梯池子
+    PPP_T_FIRE		  = 5;    // 火力赛池子
+    PPP_T_FIREBALL  = 6;    // 火球赛
+    PPP_T_NEWBASE   = 7;    // 新基地池子
+}
+
+/// 限制id类型
+enum LIMIT_ID_TYPE
+{
+    MAIL_SEND_COUNT_LIMITID         = 1;        // 邮件发送数量限制id
+    TEAM_JOIN_LIMIT                 = 2;        // 加入战队的限制id
+    ROULETTE_SLOT_MACHINE_LIMIT_ID  = 3;        // 老虎机转盘转动次数
+    SYNC_FRIEDN_ID                  = 4;        // 好友信息同步
+    PVP_WINNING_LIMIT_ID            = 6;        // 玩家的匹配赛连胜记录
+    PVP_BUY_LIFE_LIMIT_ID           = 7;        // 记录pvp免费买活的id
+    PVE_BUY_LIFE_LIMIT_ID           = 8;        // 记录pve免费买命的id
+
+    HERO_FREE_ENTER_LIMIT           = 9;        // 英雄副本免费进入限制
+    HERO_DAY_ENTER_LIMIT            = 10;       // 英雄副本每日进入限制
+    HERO_BUY_ENTER_LIMIT            = 11;       // 英雄副本额外购买次数
+
+    GUILD_BUY_COIN_LIMIT_ID         = 12;       // 军团银币捐献的限制id
+    TEAM_MEMBER_MERIT_LIMIT_ID      = 13;       // 个人贡献限制id
+    BACKUP_MERIT_LIMIT_ID           = 14;       // 记录可以回购的贡献的限制id
+    BACKUP_OPEN_UI_LIMIT_ID         = 15;       // 自动打开回购界面的限制id
+
+    TEAM_TRANSFER_COIN_LIMIT_ID     = 16;       // 战队资金转军团限制
+
+    BOOSTER_CG_LIMIT_ID             = 17;       // 助手挑战赛每日进入次数限制ID
+    BOOSTER_CG_FREE_ENTER_LIMIT_ID  = 18;       // 助手挑战赛每日免费进入限制ID
+    BOOSTER_CG_BUY_LIMIT_ID         = 19;       // 助手赛每日可额外购买限制ID
+
+    PVP_BAN_TIME_LIMIT_ID           = 20;       // 匹配赛禁止匹配的截止时间限制ID
+    PVP_ESCAPE_TIME_LIMIT_ID        = 21;       // 匹配赛逃跑累积时间
+    PVP_ESCAPE_COUNT_LIMIT_ID       = 22;       // 匹配赛每日逃跑次数
+    WORLD_BOSS_JOIN_LIMIT_ID        = 23;       // 世界BOSS分线
+    PVP_JION_COUNT_LIMIT_ID         = 24;       // PVP局数
+
+    TANK_RESEARCH_TIME_LIMIT_ID     = 26;       // 坦克研究的冷却时间限制ID
+    LIT_INVITE_GIFT_DARW_DAY        = 27;       // 邀请好礼每日领奖限制
+    LIT_INVITE_GIFT_INVITE          = 28;       // 邀请好礼邀请限制
+    LIT_ROULETTE_LUCK_DAY           = 29;       // 幸运转盘转动每日次数
+    LIT_ROULETTE_DRAGON_BOAT_DAY    = 30;       // 端午转盘转动每日次数
+    PVP_LADDER_PVP_FAIL_COUNT       = 31;       // 匹配或者天梯，连输的次数
+    PER_DAY_GUILD_ACTIVE            = 32;       // 每日军团活跃度限制
+    PER_DAY_LOGIN_GUILD_ACTIVE      = 33;       // 每日登录对军团活跃度限制
+    FIRE_BAN_TIME_LIMIT_ID          = 34;       // 活力赛火球赛止匹配的截止时间限制ID
+    FIRE_ESCAPE_TIME_LIMIT_ID       = 35;       // 活力赛火球赛逃跑累积时间
+    FIRE_ESCAPE_COUNT_LIMIT_ID      = 36;       // 匹活力赛火球赛每日逃跑次数
+    LIT_ROULETTE_ANNIVERSARY_DAY    = 37;       // 周年庆转盘转动每日次数
+    LIT_TREASURE_ONE_GET            = 38;       // 一元夺宝获得限制
+    LIT_TREASURE_FIVE_GET           = 39;       // 五元夺宝获得限制
+
+    CLIENT_LIMITID_BEGIN            = 220;      // 客户端限制id起始
+    GUILD_BUY_CASH_LIMIT_ID         = 220;      // 军团点券捐献的限制ID
+    SERVER_CHARGE_AWARD_3_LIMIT_ID  = 221;      // 30000点礼包的限制ID
+    SERVER_CHARGE_AWARD_5_LIMIT_ID  = 222;      // 50000点礼包的限制ID
+    MASTER_PRENTICE_RELATION_LIMIT_ID = 223;    // 拜师收徒的限制ID
+    RECEIVE_PRENTICE_LIMIT_ID       = 224;      // 师傅每日收徒的限制ID
+    DRAW_LEVEL_GIFT                 = 225;      // 领取等级礼包限制id(次数记录已经领取过礼包的等级)
+    DRAW_DAILY_GIFT                 = 226;      // 领取每日礼包限制id(次数不为0,表示今天已领取)
+    DRAW_TYRO_GIFT                  = 227;      // 领取新手礼包限制id(次数不为0,表示已领取)
+    DRAW_INVITE_GIFT                = 228;      // 领取邀请好友礼包限制id(对应等级标志位不为0表示已领取, 1 << level)
+    DAY_PVP_ELO_RECORD              = 236;      // 每日ELO最高值的限制id
+    LIT_DAY_RAND_QUEST_REFRSH       = 240;      // 每日随机任务刷新次数
+    QQ_REQUEST_GIFT                 = 241;      // qq每日免费礼物索取限制
+    FREE_HIRE_TANK_LIMIT            = 242;      // 每月VIP免费租用坦克限制
+    COIN_HIRE_TANK_LIMIT            = 243;      // 每月金币租用坦克限制
+    IMPEACH_LIMIT_CNT               = 244;      // 每日举报限制次数
+    LIT_CRYSTAL_SCHEME              = 245;      // 晶片页开启页数
+    TANK_EXP_MAX_LIMIT_ID           = 246;      // 坦克每日经验上限
+    CHAR_EXP_MAX_LIMIT_ID           = 247;      // 角色每日经验上限
+    CHAR_ROB_REDPKT_LIMIT_ID        = 248;      // 抢红包每日次数上限
+    LIT_SKIN_TOKEN_NORMAL           = 249;      // 坦克皮肤普通产出限制
+    LIT_SKIN_TOKEN_MAX              = 250;      // 坦克皮肤极限产出限制
+    LIT_RICE_LEAF_LIMIT             = 251;      // 粽叶产出限制
+    LIT_STICKY_RICE_LIMIT           = 252;      // 糯米产出限制
+    LIT_ROULETTE_DRAGON_BOAT_TOTAL  = 253;      // 端午转盘转动总次数
+    TANK_RESEARCH_FORBIDDEN_TIME_LIMIT_ID = 255; // 禁止坦克研究的冷却时间
+    DRAW_INVITE_COUNT_1             = 256;      // 领取邀请1个好友礼包限制id
+    DRAW_INVITE_COUNT_3             = 257;      // 领取邀请3个好友礼包限制id
+    DRAW_INVITE_COUNT_5             = 258;      // 领取邀请5个好友礼包限制id
+    DRAW_INVITE_COUNT_7             = 259;      // 领取邀请7个好友礼包限制id
+    DRAW_INVITE_COUNT_10            = 260;      // 领取邀请10个好友礼包限制id
+    DRAW_INVITE_COUNT_15            = 261;      // 领取邀请15个好友礼包限制id
+    GOODSHOP_PRESENT_LIMIT          = 267;      // 商城物品赠送限制ID
+    LIT_CRAZY_CHEST_DROP_COUNT      = 270;      // 疯狂宝箱掉落数量
+    LIT_RAND_STEP_SUPPORT_COUNT     = 271;      // 疯狂夺宝点赞剩余数量
+    LIT_GUILD_BOSS_COUNT            = 272;      // 参加军团BOSS每日次数
+    FREE_WEEK_TANK_DAILY_WAR_LIMIT_1= 276;      // 周免坦克每日使用上限 1
+    FREE_WEEK_TANK_DAILY_WAR_LIMIT_2= 277;      // 周免坦克每日使用上限 2
+    FREE_WEEK_TANK_DAILY_WAR_LIMIT_3= 278;      // 周免坦克每日使用上限 3
+    FREE_WEEK_TANK_DAILY_WAR_LIMIT_4= 279;      // 周免坦克每日使用上限 4
+    FREE_WEEK_TANK_DAILY_WAR_LIMIT_5= 280;      // 周免坦克每日使用上限 5
+    BATTLE_SINGLE_QUEST_LIMIT       = 281;      // 战场单人挑战每日完成次数上限
+    FIVE_PVE_DAY_ENTER_LIMIT        = 282;      // 组队副本每日进入次数限制
+    LIT_TREASURE_AWARD_DARW_LIMIT   = 283;      // 领取夺宝奖励限制次数
+    
+    CLIENT_LIMITID_SVR_END          = 1000;     // 服务端需要使用限制id结束(之后的限制ID预留给策划填表使用)
+    CLIENT_LIMITID_END              = 10000;    // 客户端限制id结束
+}
+
+/// 角色关系类型 （小于10的为固定关系）
+enum SOCIAL_RELTYPE
+{
+    CSOT_TRAINEE = 1;	// 师徒关系
+    CSOT_MARRIAGE = 2;		// 夫妻关系
+    CSOT_TUTOR_TEMP = 10;	// 临时师徒活动关系
+}
+
+/// 关系条件主体 SOCIAL_SUBJECT
+enum SOCIAL_SUBJECT	
+{
+    SST_SOURCE = 0;			// 发起者，甲方
+    SST_TARGET = 1;			// 接收者，乙方
+    SST_BOTH   = 2;			// 双方
+    SST_ANY    = 3;     // 双方任一
+    SST_NONE   = 10;
+}
+
+//  社交关系子类型
+enum SOCIAL_REL_SUBTYPE {
+    SRS_MASTER = 0;             // 师傅
+    SRS_PRENTICE = 1;           // 徒弟
+    SRS_MAX = 2;                
+}
+
+// 关系条件类型
+enum SOCIAL_CONDTYPE
+{
+    SCT_REL_CONFIRMED   = 1;    // 关系成功确立
+    SCT_LEVEL_UPGRADE   = 2;    // 等级提升    
+    SCT_INSTANCE_CLEARD = 3;    // 地图通关
+    SCT_PVP_PAIR        = 4;    // 参与PVP
+    SCT_FIZZ            = 5;    // 活跃度达到
+    SCT_PRESENT         = 6;    // 赠礼
+}
+
+// 条件奖励限量类型
+enum SOCIAL_LIMIT_TYPE
+{
+    SLT_SELF_VALUE = 0;			// 0:按自身条件值限量;
+    SLT_COND_TYPE = 1;			// 1:按条件类型限量
+}
+
+// 条件奖励限量周期
+enum SOCIAL_LIMIT_CYCLE
+{
+    SLC_NO_LIMIT = 0;			// 不限量
+    SLC_LIMIT_ONCE = 1;			// 一次性限量
+    SLC_DAILY = 2;			// 按日限量
+    SLC_WEEKLY = 3;			// 按周限量
+    SLC_MONTHLY = 4;			// 按月限量
+}
+
+// 角色军团技能位置枚举(注意与GUILD_SKILL_OPEN_FLAG的偏移值一致)
+enum GUILD_SKILL_SLOT
+{
+		GSS_NONE = 0;
+		GSS_ACTIVE = 1;         //主动技能格
+		GSS_PASSIVE1 = 5;       //被动技能格1
+		GSS_PASSIVE2 = 6;				//被动技能格2
+		GSS_PASSIVE3 = 7;				//被动技能格3     
+		GSS_PASSIVE4 = 8;				//被动技能格4
+		GSS_MAX = 9;
+}
+
+// 角色军团技能开启标志位(注意与GUILD_SKILL_SLOT中的定义匹配)
+enum GUILD_SKILL_OPEN_FLAG
+{
+    GSOF_ACTIVE_OPEN = 1<<1;
+    GSOF_PASSIVE1_OPEN = 1<<5;
+    GSOF_PASSIVE2_OPEN = 1<<6;
+    GSOF_PASSIVE3_OPEN = 1<<7;
+    GSOF_PASSIVE4_OPEN = 1<<8;
+}
+
+// 各种INFO LIST的操作类型(通知客户端用)
+enum INFO_OP_TYPE
+{
+		IOT_ADD = 0;					//追加（只变更指定的信息）
+		IOT_RESET = 1;			  //重置（需要清空原有信息，然后追加）
+		IOT_DELETE = 2;				//删除 (删除指定信息)
+}
+
+// 2级密保操作类型
+enum PROTECT_PASSWORD_OP_TYPE
+{
+		PPOT_CHECK_PWD = 1;  ///< 验证2级密码
+		PPOT_DELETE_PWD = 2; ///< 删除2级密码
+    PPOT_SET_PWD = 3; 	 ///< 设定2级密码
+    PPOT_CLEAR_PWD_TICKET = 4;  ///< 取消清除密码
+    PPOT_PWD_TICKET = 5;        ///< 开始清除密码倒计时
+    PPOT_PWD_CHANGE = 6;				///< 修改2级密码
+    PPOT_SWITCH_TO_LOCK = 7;     ///< 转换角色2级密保至待验证状态
+}
+
+// 助手竞技赛结果枚举
+enum BOOSTER_BATTLE_RESULT
+{
+		BBR_CHALLENGE_WIN = 1;  ///< 挑战成功
+		BBR_CHALLENGE_LOSE = 2; ///< 挑战失败
+		BBR_GUARD_WIN = 3;      ///< 守卫成功
+		BBR_GUARD_LOSE = 4;     ///< 守卫失败
+		BBR_CHALLENGE_LOW_WIN = 5; ///< 向排位靠后的玩家挑战成功（排行榜 前5的玩家可以互相挑战,该情况不发生排位变化）
+		BBR_GUARD_HIGH_LOSE = 6;   ///< 守卫排位靠前玩家的挑战失败 （排行榜 前5的玩家可以互相挑战,该情况不发生排位变化）
+}
+
+// 战斗结果
+enum BATTLE_RESULT
+{
+    BR_NONE = 0;    ///< 无
+    BR_WIN = 1;     ///< 胜利
+    BR_LOSE = 2;    ///< 失败
+    BR_ESCAPE = 3;  ///< 逃跑
+}
+
+
+// 移动类型
+enum MOVE_TYPE
+{
+	MOVE_NORMAL = 0;    //普通的移动
+	MOVE_BEAT_BACK = 1; //击退
+	MOVE_TRANSFER = 2;	 //传送
+	MOVE_DASH = 3;      //冲锋
+	MOVE_THROW = 4;     //投掷
+    MOVE_SERVER = 5;    //服务端控制移动
+}
+
+enum BUFF_TYPE
+{
+    BUT_NONE            = 0;    ///< 无
+    BUT_STATE_BEGIN = 20;       ///< 状态buff起始
+    BUT_SAFE        = 21;       ///< 出生保护   
+    BUT_SHIELD      = 22;       ///< 护盾   
+    BUT_STAR        = 23;       ///< 红星   
+    BUT_SCATTER     = 24;       ///< 分散弹   
+    BUT_CONTINUE    = 25;       ///< 连环弹   
+    BUT_STEALTH     = 26;       ///< 伪装   
+    BUT_HP          = 27;       ///< 定时加血(负的为扣血)
+    BUT_OFFSET      = 28;       ///< 吸收伤害
+    BUT_DEFEND      = 29;       ///< 抵挡伤害
+    BUT_STUN        = 30;       ///< 晕眩
+    BUT_FURY        = 31;       ///< 爆击
+    BUT_RADAR       = 32;       ///< 反隐形
+    BUT_NOCOLLIDE   = 33;       ///< 无视对方坦克障碍
+    BUT_LEVITATE    = 34;       ///< 不会踩中陷阱 
+    BUT_SILENT      = 35;       ///< 沉默
+    BUT_STILL       = 36;       ///< 不能动
+    BUT_RETORT      = 37;       ///< 反伤
+    BUT_SKILL       = 38;       ///< 定时在自身点使用技能    
+    BUT_REVERSAL	= 39;         ///< 混乱状态，方向与控制的方向相反
+    BUT_PHYSICS_HARM    = 40;   ///< 受到物理伤害，不能为负数
+    BUT_ENERGY_HARM     = 41;   ///< 受到能量伤害，不能为负数
+    BUT_BUILD_HARM      = 42;   ///< 受到建筑伤害，不能为负数
+    BUT_DEFEND_PHYSICS  = 43;   ///< 抵挡物理伤害
+    BUT_DEFEND_ENERGY	  = 44;   ///< 抵挡能量伤害
+    BUT_AUTO_MOVE  		  = 45;   ///< 服务端自移动
+    BUT_COLLIDE_EFFECT	= 46;   ///< 碰撞效果
+    BUT_SKILL_AROUND_TRIGGER_ONCE = 47;		///< 定时对自身周围目标使用技能，技能效果对同一目标只作用一次
+    BUT_DMG_LIMIT    = 48;           ///< 最多受到N点伤害
+    BUT_FACE    = 49;           ///< 没有效果的buff，表现用
+    BUT_BACK_TO_PAST = 51;      ///< 回到过去（位置，血量）
+    BUT_REPLACE_SLOT_SKILL = 52;///< 替换技能槽的技能ID
+    BUT_DEAD_SKILL = 53;        ///< 死亡触发技能
+    BUT_EFFECT_IMMUNITY = 54;   ///< 免疫技能效果
+    BUT_CHANGE_EXTERNAL = 55;   ///< 改变外观
+    BUT_DISAPPEAR = 56;  	///< 消失
+    BUT_DEL_BULLET = 57;	///< 消除子弹
+    BUT_RELIVE = 58;            ///< 复活
+    BUT_MOVE_REDUCE_HP = 59;    ///< 移动扣血
+    BUT_EFFECT = 60;            ///< 调用效果  
+    BUT_CURE_CONNECT = 61;      ///< 定时治疗自己和释放者
+    BUT_MOVE_CASTER = 62;       ///< 向释放者移动
+    BUT_AUTO_SKILL  = 63;       ///< 自动释放技能 
+    BUT_PORTAL_COOL = 64;       ///< 玩家传送冷却   
+    BUT_DEL_AND_AUTO_BULLET = 65;	///< 消除子弹并自动释放子弹 
+    BUT_SEAL_SKILL = 66;          ///< 封印技能  
+    BUT_NEGATIVE_ARMOR 			= 67; ///< 造成伤害时，目标护甲取负  
+    BUT_HP_DOWN_SKILL       = 68; ///< 生命低于N时使用技能  
+    BUT_CLOSE_DEAD_SKILL    = 69; ///< 濒死时触发技能
+    BUT_FIRE_BALL           = 70; ///< 被火球击中
+	BUT_DELAY_UPDATE_HP     = 71; ///< 延迟结算血量
+	BUT_KILLER_SKILL		= 72; ///< 死亡后对击杀者触发技能
+	BUT_RESIST_EFFECT		= 73; ///< 抵抗效果链，并反弹技能
+	BUT_HP_KEEP				= 74; ///< 生命值不会降低至X以下
+	BUT_DMG_TRI_EFF_SHIELD	= 75; ///< 受到X伤害触发效果的护盾
+    BUT_BE_HARM                 = 77; ///< 受到伤害
+    BUT_CANNOT_ADD_HP           = 78; ///< 不能加血 
+	BUT_DMG_DECREASE			= 79; ///< 伤害递减  
+	BUT_PASSIVE_TRIGGER		= 200; ///< 被动触发
+    BUT_ATTR_AMEND		= 201; ///< 属性修正
+    BUT_NPCCOOL = 500;          ///< npc冷却
+    BUT_NPCHARD = 501;          ///< 加固
+    BUT_NPCFACE = 502;          ///< NPC外观表现
+}
+
+// BUFF显示类型（针对BUFF类型的晕眩子类）
+enum BUFF_SHOW_TYPE
+{
+   BST_NONE     = 0;    ///< 无
+   BST_FLOW     = 1;    ///< 漂浮
+   BST_STONE    = 2;     ///< 石化
+   BST_FREEZE   = 3;    ///< 冰冻
+}
+
+// 隐形类型
+enum STEALTH_TYPE
+{
+    STEALTH_NORMAL = 0;    //普通隐形
+    STEALTH_PROWL = 1;     //潜行
+}
+
+// 清除技能CD类型
+enum DEC_SKILL_CD_TYPE
+{
+    DSCT_SKILL_ID = 0; //指定技能ID
+    DSCT_SKILL_SLOT = 1; //按位指定技能槽 ENUM SKILL_SLOT
+}
+
+// 技能封印类型
+enum SKILL_SEAL_TYPE
+{
+    S_SEAL_FIRE = 1<<0;    // 封印普攻
+    S_SEAL_E = 1<<1;       // 封印E技能
+    S_SEAL_SPACE = 1<<2;   // 封印空格技能
+    S_SEAL_R = 1<<3;       // 封印R技能
+    S_SEAL_GUILD_SKILL = 1<<4; // 封印军团技能
+	S_SEAL_HOME = 1<<5;		// 封印回城技能
+    S_SEAL_MAX = 1<<16;    // 最大值
+}
+
+// AINPC特性限制类型
+enum FEATURE_LIMIT_BIT
+{
+    FLB_NO_MOVE = 1 << 0;  //无法被移动
+    FLB_NO_JUMP = 1 << 1;  //无法作为跳跃对象
+    FLB_NO_THROW = 1<< 2;  //无法被投掷
+}
+
+
+// 商店类型
+enum STORE_TYPE
+{
+    STORE_NONE          = 0;    ///< 无
+    STORE_MYSTERIOUS = 1;   ///< 神秘商店
+    STORE_MAX		= 2; 	///< 
+}
+
+// 签到奖励类型
+enum SIGN_IN_AWARD_TYPE
+{
+    SIGN_IN_DAILY_AWARD = 0;   ///< 每日签到奖励
+    SIGN_IN_INC_AWARD = 1;     ///< 累计签到奖励
+}
+
+// 机器人等级
+enum ROBOT_TYPE
+{
+    ROBOT_NONE = 0;
+    ROBOT_PVP_L1 = 1;   ///< PVP LV1机器人
+    ROBOT_PVP_L2 = 2;   ///< PVP LV2机器人
+    ROBOT_PVP_L3 = 3;   ///< PVP LV3机器人
+    ROBOT_PVP_L4 = 4;   ///< PVP LV4机器人
+    ROBOT_PVP_L5 = 5;   ///< PVP LV5机器人
+    ROBOT_PVP_L6 = 6;   ///< PVP LV6机器人
+    ROBOT_PVP_L7 = 7;   ///< PVP LV7机器人
+    ROBOT_PVP_MAX = 8;
+}
+
+// ELO更新类型
+enum ELO_UPDATE_TYPE
+{
+    ELO_UP_BATTLE = 0;  ///< 参与匹配战斗变化
+    ELO_UP_SESSION = 1; ///< 赛季刷新
+}
+
+// 扫荡消耗枚举
+enum SWEEP_COST_TYPE
+{
+    SWEEP_TICKET = 0;  ///< 消耗扫荡券
+    SWEEP_CASH = 1;    ///< 消耗点券
+}
+
+// 角色下线类型
+enum PLAYER_LOGOUT_TYPE
+{
+    LOGOUT_NORMAL = 0;    ///< 正常下线
+    LOGOUT_WALLOW = 1;    ///< 防沉迷下线
+    LOGOUT_RELOGIN = 2;   ///< 重复登录被T下线
+    LOGOUT_MISS_PING = 3; ///< 未接收到PING消息
+}
+
+// PVE记录存在时间
+enum PVE_RECORD_VALID_TYPE
+{
+    RECORD_VALID_TIME = 7;   ///< 副本记录存在时间（天）
+}
+
+// svr_award指定的奖励类型
+enum SVR_AWARD_TYPE
+{
+    SVR_AWARD_T_UNKNOWN             = 0;
+    SVR_AWARD_T_SLOT_MACHINE        = 1;    ///< 老虎机奖励
+    SVR_AWARD_T_ROULETTE_LIMIT_ITEM = 2;    ///< 转盘里有掉落上限的物品
+    SVR_AWARD_T_ONLINE_PEAK         = 3;    ///< 峰值在线奖励
+    SVR_AWARD_T_ONLINE_PEAK_LIMIT1  = 4;    ///< 第一阶段限制掉落的物品
+    SVR_AWARD_T_ONLINE_PEAK_LIMIT2  = 5;    ///< 第二阶段限制掉落的物品
+    SVR_AWARD_T_ANNIVERSARY         = 6;    ///< 周年庆奖励
+    SVR_AWARD_T_ANNIVERSARY_LIMIT1  = 7;    ///< 第一阶段限制掉落的物品
+    SVR_AWARD_T_ANNIVERSARY_LIMIT2  = 8;    ///< 第二阶段限制掉落的物品
+    SVR_AWARD_T_ANNIVERSARY_LIMIT3  = 9;    ///< 第三阶段限制掉落的物品
+    SVR_AWARD_T_ANNIVERSARY_LIMIT4  = 10;   ///< 第四阶段限制掉落的物品
+    SVR_AWARD_T_ANNIVERSARY_LIMIT5  = 11;   ///< 第五阶段限制掉落的物品
+    SVR_AWARD_T_ANNIVERSARY_LIMIT6  = 12;   ///< 第六阶段限制掉落的物品
+    SVR_AWARD_T_DRAGON_BOAT         = 13;   ///< 端午奖励
+    SVR_AWARD_T_DRAGON_BOAT_LIMIT   = 14;   ///< 端午掉落的物品
+    SVR_AWARD_T_LUCK                = 15;   ///< 幸运转盘奖励
+    SVR_AWARD_T_LUCK_LIMIT          = 16;   ///< 幸运转盘掉落的物品
+    SVR_AWARD_T_TANK_MAKE           = 17;   ///< 坦克制造奖励
+    SVR_AWARD_T_BONFIRE             = 18;   ///< 篝火奖励
+    SVR_AWARD_T_TREASURE            = 19;   ///< 一元夺宝奖励
+}
+
+// svr_params表的key type
+enum SVR_PARAMS_KEY_TYPE
+{
+    SVR_PARAM_T_COMMON = 0;
+    SVR_PARAM_T_BOSS_ACT = 2;
+    SVR_PARAM_T_INVITE_DROP = 3;  //邀请卡掉落数
+}
+
+enum GUILD_QUIT_TYPE
+{
+    GQT_LEAVE = 1;    ///< 主动退出
+    GQT_KICK_OUT = 2; ///< 被踢出
+}
+
+/// 坦克升级奖励类型
+enum TANK_LEVEL_AWARD_TYPE{
+    TK_LV_AWARD_NONE = 0;       
+    TK_LV_AWARD_GOLDEN_PACKET = 1;        ///< 金币包奖励
+    TK_LV_AWARD_TANK_SKIN = 2;            ///< 给予坦克皮肤
+    TK_LV_AWARD_TANK_HONOR = 3;           ///< 给予坦克勋章
+    TK_LV_AWARD_BORN_FLASH = 4;           ///< 出生动画
+    TK_LV_AWARD_UNLOCK_TANK_SKIN_SALE = 5;///< 开启皮肤购买
+    TK_LV_AWARD_TANK_HALO = 6;            ///< 坦克光环
+    TK_LV_AWARD_TANK_MASTER_ACHIEVE = 7;  ///< 坦克大师成就
+}
+
+// 坦克分类类型
+enum TANK_CLASSIFICATION_TYPE
+{
+	TANK_TYPE_CARRY = 1;       ///< 输出
+	TANK_TYPE_BODYSHIELD = 2;  ///< 肉盾
+	TANK_TYPE_SUPPORT = 3;     ///< 辅助
+	TANK_TYPE_MAX = 4;         
+}
+
+//坦克皮肤品质类型
+enum TANK_SKIN_QUALITY_TYPE
+{
+	TSQT_BEGIN          =   2;
+	TSQT_A_QUALITY  		= 	2;   ///< A品质
+	TSQT_S_QUALITY  		= 	3;   ///< S品质
+	TSQT_SS_QUALITY  		= 	4;   ///< SS品质
+	TSQT_SSS_QUALITY  	= 	5;   ///< SSS品质
+	TSQT_MAX            =   6;
+}
+
+//坦克皮肤品质属性激活类型
+enum TANK_SKIN_QUALITY_ATTR_ACTIVE_TYPE
+{
+	TSQAAT_A_QUALITY   	=   1;   	///< A品质激活
+	TSQAAT_S_QUALITY   	=   2;   	///< S品质激活
+	TSQAAT_SS_QUALITY  	=   3;   	///< SS品质激活
+	TSQAAT_SSS_QUALITY 	=   4;   	///< SS品质激活
+	
+	TSQAAT_COLLECT_1 		=  11;    ///< 收集1种品质
+	TSQAAT_COLLECT_2 		=  12;    ///< 收集2种品质
+	TSQAAT_COLLECT_3 		=  13;    ///< 收集3种品质
+	TSQAAT_COLLECT_4 		=  14;    ///< 收集4种品质
+}
+
+
+//代币物品ID
+enum TOKEN_ITEM_ID
+{
+    TII_SCENE_TOKEN_ITEM_ID 			= 8000005;   //战场金币的物品ID
+    TII_REDPKT_TOKEN_ITEM_ID 			= 8000007;   //红包代币的物品ID
+    TII_DRAGON_BOAT_TOKEN_ITEM_ID = 2600071;   //端午代币的物品ID
+    TII_TANK_SKIN_TOKEN_ITEM_ID   = 8000009;   //坦克皮肤碎片代币的物品ID（皮肤抽取卡）
+    TII_VALENTINE_TOKEN_ITEM_ID   = 8000010;   //情缘代币的物品ID
+}
+
+///< 皮肤属性类型
+enum SKIN_ATTR_TYPE
+{
+    SAT_NONE                    = 0;    ///< 无
+    SAT_FIX_ATTR                = 1;    ///< 属性 enum ATTR_TYPE
+    SAT_BORN_BUFF               = 2;    ///< 出生给予Buff
+    SAT_TRIG_ATTR               = 3;    ///< 被动触发属性
+    SAT_MAX                     = 4;    ///< 最大值
+}
+
+// Buff触发类型
+enum BUFF_TRIG_TYPE
+{
+	BTT_NONE				    = 0;
+    BTT_KILL_EFF		        = 1;	///< 击杀触发效果
+    BTT_ASSIT_EFF	            = 2;	///< 助攻触发效果
+    BTT_RELIVE_EFF			    = 3;	///< 重生触发效果
+    BTT_MEDICAL_EFF		        = 4;	///< 替换医疗箱的治疗效果
+	BTT_MEDICAL_APPEND_EFF	    = 5;	///< 医疗箱治疗后触发效果
+	BTT_COMMON_HIT_EFF		    = 6;	///< 普攻命中触发效果
+    BTT_COMMON_BEHIT_EFF	    = 7;	///< 受到普攻触发效果
+    BTT_USESKILL_EFF		    = 8;	///< 使用技能触发效果
+    BTT_HARM_SKILL_ENEMY_EFF	= 9; 	///< 伤害型技能给敌人效果
+	BTT_COMMON_HIT_ENEMY_EFF	= 12; 	///< 普攻给敌人效果
+	BTT_HARM_SKILL_EFF		    = 13; 	///< 伤害型技能命中触发效果
+	BTT_MAX					    = 14;
+}
+
+///< 皮肤边框类型
+enum SKIN_FRAME_TYPE
+{
+    SFT_NONE                    = 0;    ///< 无边框
+    SFT_PURPLE					= 1;    ///< 紫色边框
+    SFT_ORANGE					= 2;    ///< 橙色边框
+}
+
+// 传送门类型
+enum PORTAL_TYPE
+{
+    PORT_RANDOM        = 0;   ///<　随机传送
+    PORT_SEQUENCE      = 1;   ///<  顺序循环传送
+}
+
+// 军团赛赛事阶段
+enum GUILD_MATCH_ROUND
+{
+    GUILD_MATCH_ROUND_QUALIFICATION = 1;  ///< 军团赛海选赛
+    GUILD_MATCH_ROUND_CHAMPION = 2;  ///< 军团赛争夺赛
+}
+
+///< 佣兵卡类型
+enum YCARD_TYPE
+{
+    YT_SINGAL   = 1;    ///< 单卡
+    YT_GROUP	= 2;    ///< 组合卡
+}
+
+///< 佣兵卡效果类型
+enum YCARD_EFFECT_TYPE
+{
+    YET_NONE                    = 0;    ///< 无
+    YET_FIX_ATTR                = 1;    ///< 属性 enum ATTR_TYPE
+    YET_BORN_BUFF               = 2;    ///< 出生给予Buff
+    YET_MAX                     = 3;    ///< 最大值
+}
+
+///< 佣兵卡生效模式
+enum YCARD_EFFECT_MODEL
+{
+    YEM_ALL                    = 1;    ///< 所有模式
+    YEM_PVE_AND_GUIDE          = 2;    ///< 副本和领土战
+}
+
+///< Buff反应模式
+enum BUFF_EFFECT_MODEL
+{
+    BEM_ALL					= 0;    ///< 全反应
+    BEM_ONLY_SELF			= 1;    ///< 仅和自己buff反应
+}
+
+///< 坦克稀有度
+enum TANK_RARE
+{
+    TR_NORMAL				= 0;    ///< 普通
+    TR_EPIC					= 1;    ///< 史诗
+	TR_LEGEND				= 2;    ///< 传奇
+}
+
+///< 坦克掉落类型
+enum TANK_DROP_TYPE
+{
+	TDT_DISABLE				= 0;    ///< 不掉落
+    TDT_ENABLE				= 1;    ///< 掉落
+}
+
+///< 战场经验模式
+enum BATTLE_EXP_MODE
+{
+	BEM_NONE			= 0;	// 无经验
+    BEM_OLD				= 1;	// 旧战场经验模式
+    BEM_NEW				= 2;	// 新战场经验模式
+}
+
+///< 战场对象类型
+enum BATTLE_OBJ_TYPE
+{
+	BOT_TANK			= 0;	// 坦克
+    BOT_AINPC			= 1;	// AINPC
+    BOT_NPC			    = 2;	// NPC
+    BOT_MAX			    = 3;
+}
+
+///< AI战场等级类型
+enum AI_BATTLE_LV_TYPE
+{
+	ABLT_NONE		= 0;	// 无
+    ABLT_NO_SYNC	= 1;	// 不同步客户端
+    ABLT_SYNC	    = 2;    // 定时同步客户端
+}
+
+///< 技能打断类型
+enum SKILL_BREAK_TYPE
+{
+	SBT_BUFF		= 1 << 0;	// 控制buff打断
+    SBT_MOVE	    = 1 << 1;	// 移动打断
+    SBT_HURT	    = 1 << 2;   // 受到伤害打断
+    SBT_SKILL	    = 1 << 3;   // 释放技能打断
+}
+
+///< 技能目标选择优先级
+enum SKILL_SEL_PRIOR
+{
+	SSP_NONE	        = 0;	// 无优先级
+    SSP_TANK_PRIOR	    = 1;	// 优先选择坦克
+}
+

@@ -1,0 +1,265 @@
+// ----------------------------------------------------------------------
+///	@file			protocol/MonitorMessage.h
+///	@brief
+///	@author			侯明园
+///	@copyright		Sixcube Information Technology Co,. Ltd. (2012)
+///	@date			2005-12-30 14:32:47
+// ----------------------------------------------------------------------
+/// @addtogroup dt_ManageMessage
+/// @{
+enum MONITOR_COMMAND {
+    MC_UNKOWN = 0;
+    MC_CLIENT = 1;    ///< 取得一个连接数据
+    MC_PACKET = 2;    ///< 取得网络包统计
+    MC_ALL = 3;       ///< 取得所有连接及网络包数据
+    MC_AVERAGE = 4;   ///< 平均值及总值
+    MC_RESET = 5;     ///< 清空所有统计数据
+}
+
+/// 网络层管理命令
+/// MSG_MONITOR_COMMAND
+message MonitorCommandPacket {
+    enum { THIS_MSG_TYPE = MSG_MONITOR_COMMAND; }
+
+    required int m_command = 1;
+    required UINT32 m_argClientId = 2;
+}
+
+
+/// 请求远程服务器运行命令
+/// MSG_RUN_ROMOTE_COMMAND
+message RequestRunCommand {
+    enum { THIS_MSG_TYPE = MSG_RUN_ROMOTE_COMMAND; }
+
+    required int m_requestId = 1;
+    required string m_command = 2;
+}
+
+
+/// 命令运行结果
+/// MSG_COMMAND_RESULT
+message NotifyCommandResult {
+    enum { THIS_MSG_TYPE = MSG_COMMAND_RESULT; }
+
+    required int m_requestId = 1;
+    required string m_result = 2;
+}
+
+
+/// 服务器注册到监控后端
+/// MSGTYPE_DECLARE(MSG_ADMIN_REGISTER),
+message RequestAdminRegister {
+    enum { THIS_MSG_TYPE = MSG_ADMIN_REGISTER; }
+
+    required int m_serverType = 1;
+    required int m_serverUid = 2;
+    required UINT32 m_serverPort = 3;
+    required int m_processId = 4;
+    required string m_serverName = 5;
+    required string m_command = 6;
+    required string m_loadmaps = 7;
+}
+
+
+/// 监控后端注册答复恢复
+/// MSGTYPE_DECLARE(MSG_ADMIN_RESPONSE),
+message NotifyAdminResponse {
+    enum { THIS_MSG_TYPE = MSG_ADMIN_RESPONSE; }
+
+    required int m_result = 1;
+}
+
+
+/**
+* 服务器启动成功，通知adminsvr
+* MSGTYPE_DECLARE(MSG_NOTIFY_SVR_STARTUP_OK),
+*/
+message NotifyAdminStartupOk {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SVR_STARTUP_OK; }
+
+    required int m_severUid = 1;
+}
+
+
+/**
+* 请求登陆管理服
+* MSG_ADMIN_REQUEST_LOGIN
+*/
+message RequestAdminLogin {
+    enum { THIS_MSG_TYPE = MSG_ADMIN_REQUEST_LOGIN; }
+
+    required UINT32 m_version = 1;
+    required string m_login = 2;    ///< 登录名
+    required string m_password = 3;    ///< 登录密码
+}
+
+
+enum LOGIN_RESULT {
+    LOGIN_OK = 1;    ///< 登录成功
+    VERSION_FAILED = 2;    ///< 协议版本有错
+    NOSUCHLOGIN = 3;    ///< 帐号出错
+    WRONG_PASS = 4;    ///< 密码错误
+    LOGIN_FAILE = 5;    ///< 登录失败
+    TIME_OUT = 6;    ///< 超时
+}
+
+
+/**
+* 返回登陆请求结果
+* MSG_ADMIN_LOGIN_RESULT
+*/
+message AdminLoginResult {
+    enum { THIS_MSG_TYPE = MSG_ADMIN_LOGIN_RESULT; }
+
+    required int m_result = 1;
+}
+
+
+/// 被管理对象的类型
+enum MANAGE_OBJECT {
+    MO_UNKNOWN = 0;
+    MO_REGION = 1;      ///< 大区
+    MO_CLUSTER = 2;     ///< 单节点集群
+    MO_NODE = 3;        ///< 物理节点
+    MO_GROUP = 4;       ///< 进程组(单服多组的情况)
+    MO_PORCESS = 5;     ///< 进程
+}
+
+/// 进程组结构定义
+message ProcGroup {
+    required string m_szName = 1;   ///< 进程组的名字
+    repeated string m_aProcs = 2;   ///< 组内进程列表
+}
+
+/// MSGTYPE_DECLARE(MSG_MANAGE_REQUEST_OBJECT),
+/// 管理消息，获取各种类型的对象信息
+message ManageRequestObject {
+    enum { THIS_MSG_TYPE = MSG_MANAGE_REQUEST_OBJECT; }
+
+    required MANAGE_OBJECT m_objType = 1;
+    required string     m_target = 2;
+}
+
+
+/// MSGTYPE_DECLARE(MSG_MANAGE_GROUPLIST),
+/// 管理消息，返回进程组列表
+message ManageGroupList {
+    enum { THIS_MSG_TYPE = MSG_MANAGE_GROUPLIST; }
+
+    required string    m_node = 1;      ///< 节点ID，通常应该是外网IP
+    repeated ProcGroup m_groups = 2;    ///< 返回进程组信息
+}
+
+enum MANAGE_COMMAND {
+    MCMD_UNKNOWN = 0;
+    MCMD_START = 1;     ///< 启动
+    MCMD_STOP = 2;      ///< 停止
+    MCMD_RESTART = 3;   ///< 重启
+    MCMD_REFRESH = 4;   ///< 刷新
+    MCMD_PING = 5;      ///< 心跳
+}
+
+enum MANAGE_SCOPE {
+    MSCO_UNKNOWN = 0;
+    MSCO_SELF = 1;      ///< 启动
+    MSCO_CHILD = 2;     ///< 特定子对象
+    MSCO_CHILDREN = 3;  ///< 全部子对象
+}
+
+/// MSGTYPE_DECLARE(MSG_MANAGE_CONTROLCMD),
+/// 管理消息，控制命令
+message ManageControlCommand {
+    enum { THIS_MSG_TYPE = MSG_MANAGE_CONTROLCMD; }
+
+    required MANAGE_OBJECT m_objType = 1;       // 被管对象类型的类型
+    required MANAGE_COMMAND m_nCommand = 2;     // 控制命令
+    required MANAGE_SCOPE m_nScope = 3;         // 控制范围
+    required UINT32  m_nTarget = 4;             // 目标对象类型
+}
+
+/// MSGTYPE_DECLARE(MSG_REQUEST_NET_PROFILE_DATA),
+/// 请求服务器返回网络性能分析数据
+message RequestNetProfileDataMessage {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_NET_PROFILE_DATA; }
+}
+
+message PacketProfileData {
+	required UINT32 m_msgType 		= 1;   //消息类型
+	required UINT32 m_sendMsgCnt  = 2;   //发送消息数量
+	required UINT32 m_recvMsgCnt  = 3;   //接收消息数量
+}
+
+message NetProfileData {
+		required UINT64 m_sendTotalBytes 	= 1;			 // 发送总字节数
+    required UINT64 m_recvTotalBytes  = 2;       // 接收总字节数
+    required UINT32 m_sendTotalCnt    = 3;       // 发送接口调用总次数
+    required UINT32 m_recvTotalCnt    = 4;       // 接收接口调用总次数
+    required UINT32 m_outQueueSize    = 5;       // 发送等待队列大小
+    required UINT32 m_inQueueSize     = 6;       // 接收等待队列大小
+    required UINT32 m_handleMsgCnt    = 7;       // 处理消息数
+    repeated PacketProfileData m_packetProfileDataVec = 8;   // 网络包性能分析数据
+}
+
+/// MSGTYPE_DECLARE(MSG_NOTIFY_NET_PROFILE_DATA),
+/// 返回服务器返回网络性能分析数据
+message NotifyNetProfileDataMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_NET_PROFILE_DATA; }
+
+    required UINT32 m_serverUid 						 = 1;       // 服务器进程标识
+    required string m_serverName             = 2;				// 服务器名
+    required NetProfileData m_netProfileData = 3;       // 服务器性能分析数据
+}
+
+/// MSGTYPE_DECLARE(MSG_REQUEST_DB_PROFILE_DATA),
+/// 请求服务器返回数据库性能分析数据
+message RequestDbProfileDataMessage {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_DB_PROFILE_DATA; }
+}
+
+message DbCmdProfileData {
+		required UINT32 m_cmdType 		= 1;			 	// 命令类型
+		required UINT64 m_inCount     = 2;        // 执行次数
+		required UINT64 m_dbFail      = 3;        // 数据库失败次数
+}
+
+message DbProfileData {
+		required UINT32 m_objectType 									= 1;				// 对象类型
+		repeated DbCmdProfileData m_cmdProfileDataVec = 2;			 	// 命令分析数据
+}
+
+/// MSGTYPE_DECLARE(MSG_NOTIFY_DB_PROFILE_DATA),
+/// 返回服务器返回数据库性能分析数据
+message NotifyDbProfileDataMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_DB_PROFILE_DATA; }
+
+    required UINT32 m_serverUid 						 = 1;       // 服务器进程标识
+    required string m_serverName             = 2;				// 服务器名
+    repeated DbProfileData m_dbProfileDataVec = 3;      // 服务器性能分析数据
+    required UINT32 m_inQueueCnt						 = 4;				// 进入队列总数
+    required UINT32 m_curQueueCnt						 = 5;       // 当前队列数
+}
+
+
+/// MSGTYPE_DECLARE(MSG_REQUEST_FUNC_PROFILE_DATA),
+/// 请求服务器返回函数性能分析数据
+message RequestFuncProfileDataMessage {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_FUNC_PROFILE_DATA; }
+}
+
+message FuncProfileData {
+	required string m_funcName 	= 1;   //函数名
+	required UINT64 m_callsCnt  = 2;   //调用次数
+	required float  m_callsTime = 3;   //调用时间
+}
+
+/// MSGTYPE_DECLARE(MSG_NOTIFY_FUNC_PROFILE_DATA),
+/// 返回服务器返回网络性能分析数据
+message NotifyFuncProfileDataMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_FUNC_PROFILE_DATA; }
+
+    required UINT32 m_serverUid 						 = 1;       // 服务器进程标识
+    required string m_serverName             = 2;				// 服务器名
+    repeated FuncProfileData m_funcProfileDataVec = 3;  // 服务器性能分析数据
+}
+
+/// @}

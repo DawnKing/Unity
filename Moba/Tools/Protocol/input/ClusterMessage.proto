@@ -1,0 +1,304 @@
+// ----------------------------------------------------------------------
+///	@file			protocol/ClusterMessage.h
+///	@brief
+///	@author			Bob Lee (bob@onwind.cn)
+///	@copyright		Sixcube Information Technology Co,. Ltd. (2012)
+///	@date			2005-8-18 21:10:55
+// ----------------------------------------------------------------------
+
+import LoginProtocol;
+import ClusterDataType;
+import ShareTypes;
+
+/// @addtogroup dt_ClusterMessage
+/// @{
+/// 认证服务器，注册服务
+/// 也用来通知游戏服务器，网关服务器OK
+/// MSGTYPE_DECLARE(MSG_CLUSTER_AUTHREGISTER),
+message ClusterAuthRegisterMessage {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_AUTH_REGISTER; }
+
+    required UINT32 m_nodetype = 1;    ///< 参见上面的枚举NODE_TYPE
+    required UINT32 m_events = 2;    ///< 参见上面的枚举AUTH_EVENT
+    required UINT32 m_region = 3;    ///< 区服的唯一标识
+    required UINT32 m_svr_uid = 4;    ///< 网关服务器的唯一编号
+}
+
+/// 集群认证结果
+message ClusterAuthRegisterResult {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_AUTH_REGISTERRESULT; }
+
+    required UINT32 m_result = 1;    // @see AUTH_REG_RESULT
+}
+
+
+//MSGTYPE_DECLARE(MSG_CLUSTER_AUTH_SESSIONCLOSE),
+//认证前端->认证中心，通知有登录SESSION请求关闭
+message ClusterAuthSessionClose {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_AUTH_SESSIONCLOSE; }
+
+    required UINT16 m_reason = 1;
+    required UINT32 m_region = 2;
+    required UINT32 m_svr_uid = 3;
+    required UINT32 m_session = 4;
+    required UINT32 m_client_cid = 5;   // 客户端在目标服务器上的CID
+    required UINT32 m_nAcctId = 6;      // 账号id
+}
+
+//MSGTYPE_DECLARE(MSG_CLUSTER_AUTH_SESSIONSTART),
+//网关->认证服务器，有登陆请求激活
+message ClusterAuthSessionStart {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_AUTH_SESSIONSTART; }
+
+    required UINT32 m_session = 1;
+    required UINT32 m_client_cid = 2;
+    required UINT32 m_nAcctId = 3;
+}
+
+//MSGTYPE_DECLARE(MSG_CLUSTER_AUTH_NOTIFY_WENTER),
+//认证中心->，通知有角色进入游戏世界
+message ClusterAuthNotifyWorldEnter {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_AUTH_NOTIFY_WENTER; }
+
+    required UINT32 m_region_id = 1;    //区服的ID
+    required UINT32 m_svr_uid = 2;    //通知事件源所在的服务器UID
+    required UINT32 m_sector_id = 3;    //进入的地图编号
+    required UINT32 m_session = 4;    //SessionKey
+    required UINT32 m_account_id = 5;    //角色的帐号id
+    required string m_char_name = 6;    //角色名称
+    required string m_login = 7;    //登录名
+}
+
+
+//MSGTYPE_DECLARE(MSG_CLUSTER_AUTH_NOTIFY_WLEFT),
+//认证中心->，通知有角色离开游戏世界
+message ClusterAuthNotifyWorldLeft {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_AUTH_NOTIFY_WLEFT; }
+
+    required UINT32 m_region_id = 1;    //区服的ID
+    required UINT32 m_svr_uid = 2;    //通知事件源所在的服务器UID
+    required UINT32 m_session = 3;    //SessionKey
+    required UINT32 m_account_id = 4;    //角色的帐号id
+    required string m_char_name = 5;    //角色名称
+    required string m_login = 6;    //登录名
+}
+
+
+/// MSGTYPE_DECLARE(MSG_CLUSTER_AUTH_NOTIFY_SREQUEST),
+/// 认证中心->，通知有登录请求
+message ClusterAuthNotifySessionRequest {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_AUTH_NOTIFY_SREQUEST; }
+
+    required BYTE m_microclient = 1;    ///< 是否微端：1-是；0-不是; 2-腾讯平台
+    required UINT32 m_act_oid = 2;      ///< 帐号OID
+    required UINT32 m_session = 3;      ///< SessionID
+    required string m_login = 4;        ///< 登录名
+    required string m_token = 5;        ///< 市场活动代码
+    required string m_serialKey = 6;    ///< 密码(openkey)
+    required string m_channel = 7;      ///< 用户渠道来源
+    required string m_passport = 8;     ///< 用户通行证(多玩用)
+}
+
+
+//MSGTYPE_DECLARE(MSG_CLUSTER_AUTH_NOTIFY_SSTART),
+//认证中心->，通知有登录开始
+message ClusterAuthNotifySessionStart {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_AUTH_NOTIFY_SSTART; }
+
+    required UINT32 m_region_id = 1;    // 区服的ID
+    required UINT32 m_svr_uid = 2;      // 通知事件源所在的服务器UID
+    required UINT32 m_client_cid = 3;   // 在对应服务器上的ＣＩＤ
+    required UINT32 m_session = 4;      // SessionKey
+    required INT32  m_isWallow = 5;     // 0：不沉迷；1：沉迷；-1：待确定
+    required INT32  m_nowWallow = 6;    // 当前周期防沉迷累计在线时间(秒数)
+    required string m_login = 7;        // 登录名
+    required INT32  m_isPwdCheck = 8;   // 二级密码是否已验证（用于分线切换后不重复验证）
+}
+
+
+//MSGTYPE_DECLARE(MSG_CLUSTER_AUTH_NOTIFY_SCLOSE),
+//认证中心->，有SESSION已经放弃
+message ClusterAuthNotifySessionClose {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_AUTH_NOTIFY_SCLOSE; }
+
+    required UINT16 m_reason = 1;    //关闭原因 AUTH_SESSION_RESULT
+    required UINT32 m_region_id = 2;    //区服的ID
+    required UINT32 m_svr_uid = 3;    //通知事件源所在的服务器UID
+    required UINT32 m_client_cid = 4;    //所在服务器的连接号
+    required UINT32 m_session = 5;    // SessionKey
+    required UINT32 m_nAcctId = 6;    // 账号id
+}
+
+
+/// MSG_CLUSTER_GATE_SESSION_READY
+/// 网关服务器告知登陆服务器session_key ready, 可以登陆
+message ClusterGateSessionReady {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_GATE_SESSION_READY; }
+
+    required UINT32 m_reason = 1;    // 结果
+    required UINT32 m_svrUid = 2;    // 服务器UID
+    required UINT32 m_session = 3;    // session key
+    required UINT32 m_nAcctId = 4;    // 账号id
+}
+
+//MSGTYPE_DECLARE(MSG_CLUSTER_GATE_CLIENTLOST),
+//网关服务器->游戏服务器，玩家断线
+message ClusterGateClientLost {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_GATE_CLIENTLOST; }
+
+    required UINT32 m_char_oid  = 1;
+    required UINT32 m_token     = 2;
+}
+
+
+//MSGTYPE_DECLARE(MSG_CLUSTER_GAME_CLIENTLOSTCONFIRM),
+//游戏服务器->网关服务器，断线处理完毕
+message ClusterClientLostConfirm {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_GAME_CLIENTLOSTCONFIRM; }
+
+    required UINT32 m_char_oid = 1;
+}
+
+
+//MSGTYPE_DECLARE(MSG_CLUSTER_GATE_PLAYERSYNC),
+//网关->游戏服务器，发送初始角色信息
+message ClusterRequestSyncPlayer {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_GATE_PLAYERSYNC; }
+
+    required UINT32 m_account_oid = 1;
+    required UINT16 m_isLogin = 2;      ///< 是否登录，false为跳地图
+    required UINT32 m_ip = 3;           ///< ip地址	
+    required string m_token = 4;        ///< 客户端token
+}
+
+//MSGTYPE_DECLARE(MSG_CLUSTER_RESYNC_SESSIONS),
+//->认证中心，同步已经完成的登陆
+message ClusterResyncSessions {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_RESYNC_SESSIONS; }
+
+    repeated GAME_SESSION m_sessions = 1;    //保存记录的缓冲区
+}
+
+
+//MSGTYPE_DECLARE(MSG_CLUSTER_RESYNC_COMPLETE),
+//Gate->认证中心，登录同步结束
+message ClusterResyncComplete {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_RESYNC_COMPLETE; }
+
+    required UINT32 m_cur_players = 1;    //同步的玩家数量
+}
+
+/**
+ * 此消息包含一个服务器自身的信息描述，服务器类型，服务器表示ID，
+ * 服务器名字，提供服务器的地图
+ * 用来在服务器之间表示身分
+ * MSG_CLUSTER_SERVER_PROFILE
+ */
+message ClusterServerProfile {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_SERVER_PROFILE; }
+
+    required SERVER_TYPE m_svrType = 1;
+    required UINT32 m_svrUid = 2;
+    required string m_svrName = 3;
+    required string m_accAddr = 5;
+    required string m_accPort = 6;
+    required INT32  m_svrLindId = 7;
+}
+
+/// MSGTYPE_DECLARE(MSG_BRIDGE_RESPONSE),				///< 桥接服务器响应
+message BridgeResponse {
+    enum { THIS_MSG_TYPE = MSG_BRIDGE_RESPONSE; }
+
+    required UINT32	m_reqcmd = 1;	///< HTTP请求的命令类型
+    required UINT32 	m_svrUid = 2;    ///< 对应请求的服务器UID
+    required UINT32 	m_reqSeq = 3;    ///< 对应请求的内容
+    required INT32 	m_state = 4;    ///< 对应线程操作的返回码
+    required UINT32	m_resCode = 5;	///< 对应HTTP的返回代码
+    required FLOAT	m_resTime = 6;	///< 对应HTTP的请求处理时间
+    required FLOAT	m_resDns = 7;	///< 对应HTTP的域名解析时间
+    required FLOAT	m_resConn = 8;	///< 对应HTTP的连接时间
+    required string 	m_response = 9;  ///< 请求返回内容
+    required string 	m_account = 10;   ///< 帐号
+    required INT32	m_reqType = 11;	 ///< 请求时的请求类型(登录, 登出等)
+}
+
+/// MSGTYPE_DECLARE(MSG_HTTP_BRIDGE_RESPONSE),				///< 桥接HTTP服务器响应
+message HttpBridgeResponse {
+    enum { THIS_MSG_TYPE = MSG_HTTP_BRIDGE_RESPONSE; }
+
+    required UINT32	m_reqcmd = 1;	///< HTTP请求的命令类型
+    required INT32	m_reqtype = 2;	///< HTTP请求的类型，参见HTTP_REQ_TYPE枚举
+    required UINT32	m_receipt = 3;	///< 回调的HTTP请求ID
+    required INT32 	m_state = 4;    ///< 对应线程操作的返回码
+    required UINT32	m_resCode = 5;	///< 对应HTTP的返回代码
+    required FLOAT	m_resTime = 6;	///< 对应HTTP的请求处理时间
+    required FLOAT	m_resDns = 7;	///< 对应HTTP的域名解析时间
+    required FLOAT	m_resConn = 8;	///< 对应HTTP的连接时间
+    required string 	m_response = 9;  ///< 请求返回内容
+}
+
+message ConfigEntry
+{
+	required string first = 1;
+	required string second = 2;
+}
+
+/// MSGTYPE_DECLARE(MSG_CLUSTER_CONFIG_UPDATE)
+/// 通知群组配置信息，Adminsvr到各个服务器
+message ClusterConfigUpdate {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_CONFIG_UPDATE; }
+
+    repeated ConfigEntry m_configEntries = 1;
+}
+
+/// MSGTYPE_DECLARE(MSG_CLUSTER_SHUT_DOWN_INDICATE)
+/// 通知群组，系统即将关闭， Adminsvr到各个服务器
+message ClusterShutDownIndicate {
+    enum { THIS_MSG_TYPE = MSG_CLUSTER_SHUT_DOWN_INDICATE; }
+}
+
+// 关闭用户连接请求
+message CloseClientConnect {
+	enum { THIS_MSG_TYPE = MSG_CLOSE_CLIENT_CONNECT; }
+}
+// MSGTYPE_DECLARE(MSG_NOTIFY_TRACKSVR_PLAYERLOGIN)
+// 通知玩家登陆(GameSvr -> TrackSvr)
+message NotifyTrackSvrPlayerLogin {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TRACKSVR_PLAYERLOGIN; }
+    
+    required UINT32 m_nCharOid = 1;    //登陆的角色ID  
+    required UINT32 m_nSvrUid  = 2;    //登陆的服务器ID
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFYGAMESVR_REMOVELEFTOVEROBJ)
+// 通知清除玩家参与数据(TrackSvr  -> GameSvr)
+message NotifyGameSvrRemoveLeftOverObj {
+    enum { THIS_MSG_TYPE = MSG_NOTIFYGAMESVR_REMOVELEFTOVEROBJ; }
+    
+    required UINT32 m_nCharOid = 1;    //删除的角色ID  
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_BACK_TO_MAIN),               
+// tacksvr关闭，通知客户端退回主界面
+message NotifyBackToMain {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_BACK_TO_MAIN; }
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_HOST_URL),                   
+// 通知服务器的url地址
+message NotifyHostUrl {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_HOST_URL; }
+
+    required string m_matchUrl  = 1;    // 联赛服务器url
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_REFRESH_NOTE),     
+// 通知刷新纪录
+message NotifyRefreshNoteMessage {
+		enum { THIS_MSG_TYPE = MSG_NOTIFY_REFRESH_NOTE; }
+
+		required INT32 	m_refreshId 	= 1;    //刷新ID  
+    required UINT32 m_refreshTime = 2;    //刷新时间
+}
+
+/// @}

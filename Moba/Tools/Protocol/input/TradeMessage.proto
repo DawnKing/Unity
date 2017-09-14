@@ -1,0 +1,180 @@
+// ----------------------------------------------------------------------
+/// @file           protocol/TradeMessage.h
+/// @brief
+/// @author         Lin Yi Xiong
+/// @copyright      Sixcube Information Technology Co,. Ltd. (2012)
+/// @date           2007-6-5 17:19:13
+// -----------------------------------------------------------------------
+enum GOODS_BUY_TYPE
+{
+    GBT_NONE            = 0;
+    GBT_SHOP_BUY        = 1;    ///< 普通商城购买
+    GBT_SCENE_TOKEN_BUY  = 2;    ///< 战场代币物品购买
+    GBT_MULTI_BUY_ITEM  = 4;    ///< 一键补齐
+    GBT_PRESENT_LARGESS = 5;    ///< 赠礼
+    GBT_OPEN_VIP        = 6;    ///< 开通vip
+    GBT_AVATAR_RENEW    = 7;    ///< 时装续费
+    GBT_GUILD_COIN      = 8;    ///< 购买军团资金
+    GBT_HERO_ENTERCOUNT = 9;    ///< 英雄副本进入次数购买
+    GBT_BACK_MERIT      = 10;   ///< 回购贡献度
+    GBT_CASH_BACK       = 11;   ///< 购买返利卡
+    GBT_SERVER_CHARGE_AWARD = 12;   ///< 全服充值奖励
+    GBT_QQ_SHOP         = 13;       ///< QQ商城
+    GBT_DECORATE_RENEW = 14;    ///< （主题）装饰续费
+    GBT_STORE_PURCHASE = 15;    ///< 角色（活动）商店购买
+    GBT_MAX             = 16;  
+}
+
+/// 购买使用的货币
+message GoodsCoinVal
+{
+    required UINT32 m_coinType = 1; // enum COIN_TYPE
+    required INT32 m_value = 2;
+}
+
+/// 购买的结构体
+message GoodsBuyInfo
+{
+    required UINT32 m_goodsId = 1;      ///< 商品id
+    required UINT32 m_coinType = 2;    ///< 使用的货币类型 enum COIN_TYPE
+    required int m_price = 3;           ///< 购买单价
+    required int m_count = 4;           ///< 购买数量
+}
+
+/**
+* 购买商品
+* MSGTYPE_DECLARE(MSG_GOODS_SHOP_BUY)
+* client->gamesvr
+*/
+message BuyGoodsMessage {
+    enum { THIS_MSG_TYPE = MSG_GOODS_SHOP_BUY; }
+
+    required GOODS_BUY_TYPE m_type  = 1;    ///< 购买类型
+    required GoodsBuyInfo m_info    = 2;    ///< 购买的商品
+    repeated GoodsCoinVal m_coinVec = 3;    ///< 使用的货币
+}
+
+/// 购买商品
+message BuyMultiGoodsMessage
+{
+    enum { THIS_MSG_TYPE = MSG_GOODS_SHOP_BUY_MULTI; }
+    
+    required GOODS_BUY_TYPE m_type = 1;
+    repeated GoodsBuyInfo m_infos = 2;    ///< 购买的列表
+    repeated GoodsCoinVal m_coinVec = 3;    ///< 使用的货币    
+}
+
+/// 商品赠送给他人
+message PresentGoodsMessage
+{
+    enum { THIS_MSG_TYPE = MSG_GOODS_SHOP_LARGESS; }
+
+    required UINT32 m_goodsId = 1;      ///< 商品id
+    required int m_price = 2;           ///< 赠送单价
+    required int m_count = 3;           ///< 赠送数量
+    required string m_receiverName = 4; ///< 接收者名字
+    required string m_text = 5;         ///< 赠言
+}
+
+/// 通知可以赠送商品给他人(buddy -> gate)
+message NotifyCanPresentGoods
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CAN_PRESENT_GOODS; }
+
+    required UINT32 m_goodsId = 1;      ///< 商品id
+    required int m_price = 2;           ///< 赠送单价
+    required int m_count = 3;           ///< 赠送数量
+    required string m_receiverName = 4; ///< 接收者名字
+    required string m_text = 5;         ///< 赠言
+	required string  m_receiverUuid	= 6;	///< 接收者Uuid
+	required UINT32  m_receiverOid	= 7;	///< 接收者Oid
+}
+
+/// 商品赠送给他人
+message PresentMultiGoodsMessage
+{
+    enum { THIS_MSG_TYPE = MSG_GOODS_SHOP_LARGESS_MULTI; }
+
+    repeated GoodsBuyInfo m_infos = 1;  ///< 赠送的列表
+    required string m_receiverName = 2; ///< 接收者名字
+    required string m_text = 3;         ///< 赠言
+}
+
+/// 通知商城购买成功
+message NotifyBuyGoodsOk
+{
+    enum { THIS_MSG_TYPE = MSG_BUY_GOODS_OK_NOTIFY; }
+    
+    required GOODS_BUY_TYPE m_type = 1;    
+}
+
+/// 商城购买失败枚举
+enum GOODS_REJECT_TYPE
+{
+    GBRT_NONE           = 0;    ///< 
+    GBRT_GOODS_NULL     = 1;    ///< 无此商品或者未发售
+    GBRT_TPLT_NULL      = 2;    ///< 没有模板数据
+    GBRT_PRICE_CHANGE   = 3;    ///< 价格发生变化
+    GBRT_LACK_COUNT     = 4;    ///< 限量物品数量不足，与13枚举区别
+    GBRT_DATABASE_ERR   = 5;    ///< 数据库操作失败
+    GBRT_LEVEL_LIMIT    = 6;    ///< 等级不足
+    GBRT_LACK_COIN      = 7;    ///< 货币不足
+    GBRT_LACK_TOKEN     = 8;    ///< 代币不足
+    GBRT_PRE_NO_CASH    = 9;    ///< 只有点券购买的商品才能赠送
+    GBRT_MULTI_GT_ERR   = 10;   ///< 不同类型的商品不能一起购买
+    GBRT_MULTI_CONT_FUNLL = 11; ///< 包裹栏不足，无法购买
+    GBRT_OWN_GOODS      = 12;   ///< 拥有此商品
+    GBRT_SOLD_OUT       = 13;   ///< 限量物品买的一个不剩
+    GBRT_SOLD_OUT_TODAY = 14;   ///< 限量物品今天买的一个不剩
+    GBRT_LIMIT_BUY_COUNT = 15;  ///< 单人限购
+    GBRT_LIMIT_PRE_COUNT = 16;  ///< 赠送单人限购
+    GBRT_TANK_LEVEL_LIMIT = 17; ///< 坦克等级不足
+    GBRT_VIP_LIMIT      = 18;   ///< VIP等级不足
+    GBRT_LACK_PRESENT_POINT = 19; ///< 赠送点数不足
+}
+
+/// 通知商品购买失败
+message RejectGoodsBuy
+{
+    enum { THIS_MSG_TYPE = MSG_BUY_GOODS_REJECT; }
+    
+    required GOODS_REJECT_TYPE m_type = 1;
+    required int m_iCount = 2;  ///< 单人限购时，还可以(购买/赠送)的数量
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_QQ_BUY_GOODS),
+// 通知qq商城购买
+message NotifyQQBuyGoods
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_QQ_BUY_GOODS; }
+    
+    required int m_ret = 1;             ///< 返回结果, 0, 表示成功; 非0,表示失败; 
+    required string m_urlParam = 2;     ///< 购买物品的url参数
+    required string m_errMsg = 3;       ///< 如果错误，返回错误信息
+}
+
+// 通知推荐坦克
+message NotifyRecommendTankMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_RECOMMEND_TANK; }
+    
+    required UINT32 m_tankId 						= 1;   ///< 推荐的坦克ID 
+    required UINT32 m_recommendEndTime 	= 2;	 ///< 推荐结束时间		
+}
+
+// 请求购买神秘商店商品
+message RequestBuyMysticalShopGoodsMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_BUY_MYSTICAL_SHOP_GOODS; }
+    
+    enum MYSTICAL_SHOP_BUY_TYPE {
+    	MSBT_TANK 	= 1;
+    	MSBT_GIFT 	= 2;
+    	MSBT_SKIN2S = 3;
+    	MSBT_SKIN3S = 4;
+    }
+    
+    required UINT32 m_tankId 				= 1;   ///< 购买的坦克ID
+    required UINT32 m_buyType       = 2;   ///< 购买类型	enum MYSTICAL_SHOP_BUY_TYPE
+}
+

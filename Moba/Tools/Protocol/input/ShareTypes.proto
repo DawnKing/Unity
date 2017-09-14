@@ -1,0 +1,253 @@
+// ----------------------------------------------------------------------
+///	@file			sharetypes/ShareTypes.h
+///	@brief
+///	@author			Hou Ming Yuan
+///	@copyright		Sixcube Information Technology Co,. Ltd. (2012)
+///	@date			2005-4-6 10:43:58
+// ----------------------------------------------------------------------
+/// @defgroup dt_CommonData 公用数据类型
+/// @{
+
+/// 服务器类别枚举
+enum SERVER_TYPE {
+    SVR_ALL = 0x7FFFFFFF;    ///< 所有服务器
+    SVR_GAME = 1<<0;    ///< 游戏服务器
+    SVR_GATE = 1<<1;    ///< 网关服务器
+    SVR_TRACK = 1<<2;    ///< 坐标服务器
+    SVR_NPC = 1<<3;    ///< NPC服务器
+    SVR_CHAT = 1<<4;    ///< 聊天服务器
+    SVR_LOG = 1<<5;    ///< 日志服务器
+    SVR_TXN = 1<<6;    ///< 数据服务器
+    SVR_ACENTER = 1<<7;    ///< 认证中心
+    SVR_AFRONT = 1<<8;    ///< 认证前端
+    SVR_ADMIN = 1<<9;    ///< 管理服务器
+    SVR_BRIDGE = 1<<10;     ///< 认证桥接服务
+    SVR_ROBOT = 1<<11;      ///< 机器人服务器
+    SVR_GLOBAL = 1<<12;     ///< 跨服配对服务器
+    SVR_POLICY = 1<<13;         ///< Flash策略服务器
+    SVR_GUILD = 1 << 14;    ///< 军团服务器
+    SVR_ACTIVITY = 1 << 15; ///< 活动服务器
+    SVR_BUDDY = 1 << 16;    ///< 社交关系服务器
+}
+
+/// 认证方式
+enum AUTH_SVR_TYPE {
+    AST_HTTP = 0;
+    AST_SOAP = 1;
+    AST_NAP = 2;
+}
+
+
+/// 服务器语言类型
+enum SERVER_LANGUAGE_TYPE {
+    LANG_CHS = 0;    ///< 简体中文
+    LANG_ENG = 1;    ///< 英文
+    LANG_CHT = 2;    ///< 繁体中文
+}
+
+enum GAME_OBJECT_TYPE
+{
+    ZUOBJ_TANK      = 0;    ///< 坦克
+    ZUOBJ_BULLET    = 2;    ///< 炮弹
+    ZUOBJ_NPC       = 3;    ///< npc
+    ZUOBJ_PROPS     = 4;    ///< 物品
+    ZUOBJ_AINPC     = 5;    ///< ai npc
+    ZUOBJ_BUFF      = 6;    ///< BUFF
+    ZUOBJ_FLAG      = 7;    ///< 据点
+    ZUOBJ_PORTAL    = 8;    ///< 传送门
+    ZUOBJ_UNKN      = 9;    ///< 未知
+}
+
+enum ROBOT_ENTITY_TYPE 
+{
+    ENTITY_UNKN = 0;                    ///< 未知
+    ENTITY_TANK = 1;                    ///< 坦克
+    ENTITY_BULLET = 2;                  ///< 炮弹
+    ENTITY_PROP = 3;                    ///< 物品
+    ENTITY_NPC = 4;                     ///< Npc
+    ENTITY_BRICK = 5;                   ///< 砖块
+    ENTITY_BASE = 6;                    ///< 基地
+    ENTITY_BARBETTE = 7;                ///< 炮塔
+    ENTITY_BLOW = 8;                    ///< 爆炸类NPC
+    ENTITY_REPAIR = 9;                  ///< 修理
+    ENTITY_ICEWALL = 10;                ///< 冰墙
+    ENTITY_AINPC = 11;                  ///< AINPC
+    ENTITY_AINPC_COMMON = 12;           ///< 普通
+    ENTITY_AINPC_GLOBAL_BOSS = 13;      ///< 世界boss
+    ENTITY_AINPC_MUTABLE_SUMMON = 14;   ///< 能力根据召唤者自适应的召唤物
+    ENTITY_AINPC_MUTABLE_MAP = 15;      ///< 根据地图等级自适应的AINPC
+    ENTITY_AINPC_SHADOW = 16;           ///< 分身npc
+    ENTITY_AINPC_DEAD_ROUND = 17;       ///< 死亡模式回合触发NPC
+    ENTITY_AINPC_TANK = 18;             ///< 坦克AINPC（仅对坦克有效的技能，对这类型有效）
+    ENTITY_AINPC_GUILD_BOSS = 19;       ///< 军团BOSS
+    ENTITY_MAX = 20;
+}
+
+/**
+ * 聊天频道枚举定义
+ */
+enum CHAT_CHANNEL {
+    CHANNEL_UNSPECIFIC = 0;
+    CHANNEL_PRIVATE = 1<<0;     ///< 密聊频道, 1v1
+    CHANNEL_NORMAL = 1<<1;      ///< 普通频道，不在房间里的玩家接收
+    CHANNEL_TEAM = 1<<2;        ///< 战队频道, 队友接收
+    CHANNEL_ROOM = 1<<3;        ///< 房间频道 
+    CHANNEL_ROOM_CAMP = 1<<4;   ///< 房间本方阵营频道
+    CHANNEL_SCENE = 1<<5;       ///< 战场频道, 场景内可接收
+    CHANNEL_SCENE_CAMP = 1<<6;  ///< 战场本方阵营频道
+    CHANNEL_WORLD = 1<<7;       ///< 世界频道
+    CHANNEL_BUGLE = 1<<8;       ///< 大喇叭频道
+    CHANNEL_GM = 1<<9;          ///< GM 频道, GM接收
+    CHANNEL_GUILD = 1<<10;      ///< 军团频道
+    CHANNEL_GLOBAL = 1 << 11;   ///< 跨服频道
+    CHANNEL_MASK = 0xFFF;       ///< 频道掩码，同性质频道最大位数
+}
+
+
+// 喊话扣除仙石数目
+// 新手最大等级
+/**
+ *  聊天信息结构定义
+ *  - channel;      // PRIVATE NORMAL SCENE TEAM GUILD GM  GLOBAL
+ *  - sender;       // YES     YES    YES   YES  YES   YES  YES
+ *  - senderGid;    // NO      YES    YES   NO   NO    No   NO
+ *  - senderUuid;   // YES     YES    YES   YES  YES   YES  YES
+ *  - receiver;     // YES     NO     NO    NO   NO    NO   NO
+ *  - content;      // YES     YES    YES   YES  YES   YES  YES
+ */
+message ChatContents {
+    required CHAT_CHANNEL channel = 1;      ///< 频道
+    required BYTE senderVipLvl = 2;         ///< 发送者的VIP等级
+    required BYTE senderGmLv = 3;           ///< 发送者GM等级
+    required BYTE receiverVipLvl = 4;       ///< 接受者的VIP等级（私聊频道使用）   
+    required UINT32 senderOid = 5;          ///< 发送者id
+    required string senderUuid = 6;         ///< 发送者uuid
+    required string sender = 7;             ///< 发送者
+    
+    required ZGID senderGid = 8;            ///< 发送者GID (opional) 用来显示头顶泡泡
+    required UINT32 receiverOid = 9;        ///< 接受者id
+    required string receiverUuid = 10;       ///< 接受者uuid
+    required string receiver = 11;           ///< 接受者
+    required string content = 12;           ///< 内容
+    required string paramVec = 13;          ///< 客户端参数列表
+}
+
+
+/**
+ * 聊天相关的错误定义 
+ */
+enum ENUM_CHAT_ERROR {
+    ECE_UNSPECFIC = 0;    ///< 未定义
+    ECE_AUTH_OK = 1;    ///< 认证成功
+    ECE_AUTH_INVALID_KEY = 2;    ///< 认证sessionKey错误
+    ECE_AUTH_NO_PLAYER = 3;    ///< 认证的玩家未登入
+    ECE_PRIVATE_NO_PLAYER = 4;    ///< 密聊对象不存在
+    ECE_BEEN_BLOCKED = 5;    ///< 被加入黑名单
+    ECE_NORMAL_CHANNEL_LIMIT = 6;   ///< 普通频道30s才能发送一次聊天
+    ECE_BAN_CHAT = 7;   ///< 已被禁言
+}
+
+
+/**
+* 聊天服务器所涉及的玩家信息 
+*/
+message CHAT_PLAYER_INFO {
+    required UINT32 m_sessionKey = 1;    ///< 认证使用的sessionkey
+    required UINT32 m_charOid = 2;    ///< 角色OID
+    required UINT32 m_channelStatus = 3;    ///< 频道状态
+    required string m_name = 4;    ///< 角色名
+    required string m_loginId = 5;    ///< 登录名
+}
+
+
+/**
+ * 位置信息
+ */
+message ZuPosition {
+    required int m_sector = 1;
+    required float m_x = 2;
+    required float m_y = 3;
+    required float m_z = 4;
+}
+
+/**
+*	绝对时间判断单位类型
+*/
+enum TIME_UNIT_TYPE {
+    TUT_SEC = 0;    ///< 秒数 (0 – 59)
+    TUT_MIN = 1;    ///< 分钟 (0 – 59)
+    TUT_HOUR = 2;    ///< 小时 (0 – 23)
+    TUT_MDAY = 3;    ///< 月日 (1 – 31)
+    TUT_MON = 4;    ///< 月份 (0 – 11; January = 0)
+    TUT_YEAR = 5;    ///< 年份 (current year minus 1900; 1900 = 0)
+    TUT_WDAY = 6;    ///< 周日 (0 – 6; Sunday = 0)
+    TUT_YDAY = 7;    ///< 年日 (0 – 365; January 1 = 0)
+}
+
+
+/// 时间重复单位
+enum REPEAT_TYPE {
+    RT_NONE = 0;    ///< 未定义
+    RT_ONCE = 1;    ///< 单次
+    RT_DAY = 2;    ///< 每天
+    RT_WEEK = 3;    ///< 每周
+    RT_MONTH = 4;    ///< 每月
+    RT_YEAR = 5;    ///< 每年
+    RT_HOUR = 6;    ///< 每小时
+}
+
+
+/// 时间(计划)存取的格式，用于活动、限制等
+// +----------+---------+--------+-----------+-------------+-------------+
+// | RT_ONCE  | RT_HOUR | RT_DAY | RT_WEEK   |	RT_MONTH   |   RT_YEAR	 |
+// | cur-3000 |		    |		 |           |             |	 	     |
+// | 1-12	  |		    |		 |           |			   | -12--1,1-12 |
+// | 1-31	  |		    |		 | -7--1,1-7 | -31--1,1-31 | -31--1,1-31 |
+// | 0-23	  |		    |  0-23  |   0-23    |	  0-23	   |    0-23     |
+// | 0-59	  |  0-59	|  0-59  |   0-59    |	  0-59	   |	0-59     |
+// | 0-59	  |  0=59	|  0-59  |   0-59    |	  0-59	   |	0-59     |
+// +----------+---------+--------+-----------+-------------+-------------+
+message TIME_SCHEDULE {
+    required int repeat_flag = 1;    ///< 重复类型 @see REPEAT_TYPE
+    required int years = 2;
+    required int month = 3;
+    required int days = 4;
+    required int hour = 5;
+    required int minute = 6;
+    required int second = 7;
+    required int reserve = 8;
+}
+
+message BUDDY_BRIEF {
+    required UINT32     m_accountId = 1;    ///< 帐号id
+    required string     m_charUuid  = 2;    ///< 角色uuid
+    required string     m_name      = 3;    ///< 名字
+    required BYTE       m_level     = 4;    ///< 等级
+    required BYTE       m_sex       = 5;    ///< 角色性别
+    required BYTE       m_online    = 6;    ///< 是否在线
+    required UINT32     m_lastLoginTime = 7;    ///< 最后上线时间
+    required BYTE       m_vipLevel  = 8;   ///< vip等级
+    required BYTE       m_gmLevel   = 9;   ///< GM等级
+    required UINT32     m_avatarId  = 10;   ///< 角色外观的模板ID
+    required UINT32     m_decorateId = 11;  ///< 角色（主题）装饰外观
+    required int        m_elo       = 12;   ///< elo值
+    required UINT32     m_eloSectionId = 13; ///< 天梯阶段ID
+    required UINT32     m_nHonorId  = 14;   ///< 荣誉Id    
+    required UINT32     m_nBoosterAttack = 15;  ///< 助手战力
+}
+
+// 地图位置信息
+message MapPos{
+    required UINT16     m_x = 1;    ///< 坐标
+    required UINT16     m_y = 2;    ///< 坐标
+}
+
+/// 数值类型定义
+enum VAL_TYPE {
+    VT_NONE         = 0;    // 
+    VT_VALUE        = 1;    // 绝对值
+    VT_PERCENT      = 2;    // 百分比          
+}
+
+
+/// @}

@@ -1,0 +1,37 @@
+/**
+* 由 game client 发送给 gate server 的 Apex 消息
+* 
+* MSGTYPE_DECLARE(MSG_APEX_SEND2SERVER)
+*/
+message ApexSend2Client {
+    enum { THIS_MSG_TYPE = MSG_APEX_SEND2CLIENT; }
+
+    // apex data here
+    repeated char m_pBuffer = 1;
+}
+
+
+/**
+* 由 game client 发送给 gate server 的关于chcstart的返回值消息
+* 
+* MSGTYPE_DECLARE(MSG_APEX_SEND2CLIENT)
+*/
+message ApexSend2Server {
+    enum { THIS_MSG_TYPE = MSG_APEX_SEND2SERVER; }
+
+    // apex data here
+    repeated char m_pBuffer = 1;
+}
+
+
+/**
+* 
+* MSGTYPE_DECLARE(MSG_APEX_SENDRETVAL2CLIENT)
+*/
+message ApexSendRetVal2Server {
+    enum { THIS_MSG_TYPE = MSG_APEX_SENDRETVAL2SERVER; }
+
+    required int m_nRetVal = 1;
+}
+
+

@@ -1,0 +1,192 @@
+// ----------------------------------------------------------------------
+///	@file			protocol/BoosterCompeteMessage.h
+///	@brief
+///	@author			xuyao
+///	@copyright		Sixcube Information Technology Co,. Ltd. (2012)
+///	@date			2013-11-13 11:04:55
+// ----------------------------------------------------------------------
+
+import ShareTypes;
+import BulkDataType;
+
+// 助手竞技赛玩家信息
+message BOOSTERCOMP_BRIEF
+{
+		required UINT32 m_nOid = 1; 				/// 角色AccountId
+		required string m_szUuid = 2;       /// 角色Uuid
+		required string m_szName = 3;       /// 角色名称
+		required UINT32 m_nAvatar = 4;      /// 外观ID
+		required UINT32 m_nBtItemId = 5;    /// 助手物品ID
+		required UINT32 m_nBtLevel = 6;     /// 助手等级
+		required UINT32 m_nBtUpLevel = 7;   /// 助手强化次数
+		required UINT32 m_nBtRank = 8;      /// 助手星级
+		required UINT32 m_nBtUpCost = 9;    /// 助手强化消耗
+		required UINT32 m_nBtRankCost = 10; /// 助手升星消耗
+		required UINT32 m_nTankLevel = 11;   /// 坦克等级
+		required UINT32 m_nTankId = 12;      /// 坦克ID
+		required UINT32 m_nTankExternal = 13;///坦克外观，为0时，取对应等级的外观
+		required UINT32 m_nSequenceWin = 14;  /// 连胜数
+		required UINT32 m_nWin = 15;          /// 胜场数
+		required UINT32 m_nLose = 16;         /// 负场数
+		required UINT32 m_nRank = 17;         /// 排名
+        required UINT32 m_nCharAtk = 18;      /// 角色总战力
+}
+
+
+/**
+ * 请求角色助手竞技场信息
+ * MSGTYPE_DECLARE(MSG_REQUEST_BOOSTER_COMP_INFO)
+ */
+message RequestBoosterCompInfo {
+		enum { THIS_MSG_TYPE = MSG_REQUEST_BOOSTER_COMP_INFO; }
+		required UINT32 m_nNeedEnemyList = 1;  ///是否需要发送挑战列表
+}
+
+/**
+ * 请求角色助手竞技场信息
+ * MSGTYPE_DECLARE(MSG_NOTIFY_BOOSTER_COMP_INFO)
+ */
+message NotifyBoosterCompInfo {
+		enum { THIS_MSG_TYPE = MSG_NOTIFY_BOOSTER_COMP_INFO; }
+		
+		required UINT32 m_nChallengeCount = 1; ///剩余可挑战次数
+		required UINT32 m_nBuyCount = 2;       ///已购买次数
+		required UINT32 m_nBuyLimit = 3;			 ///购买上限
+		required UINT32 m_nSequenceWin = 4;    ///连胜数
+		required UINT32 m_nWin = 5;            ///胜场数
+		required UINT32 m_nLose = 6;					 ///负场数
+		required UINT32 m_nCoolTime = 7;       ///冷却时间戳（绝对时间）
+		required UINT32 m_nRank = 8;					 ///排名
+		required UINT32 m_nTodaySeqWin = 9;    ///今日的连胜数
+		required UINT32 m_nCharAtk = 10;       ///玩家总战力
+}
+
+/**
+ * 通知助手竞技场对手信息
+ * MSGTYPE_DECLARE(MSG_NOTIFY_BOOSTER_ENEMY_LIST)
+ */
+message NotifyBoosterEnemyList {
+		enum { THIS_MSG_TYPE = MSG_NOTIFY_BOOSTER_ENEMY_LIST; }
+		
+		repeated BOOSTERCOMP_BRIEF m_vecEnemy = 1;  /// 对手列表
+}
+
+/**
+ * 请求进行助手对战
+ * MSGTYPE_DECLARE(MSG_REQUEST_BOOSTER_BATTLE)
+ */
+message RequestBoosterBattle {
+		enum { THIS_MSG_TYPE = MSG_REQUEST_BOOSTER_BATTLE; }
+		
+		required UINT32 m_nBattleRank = 1;   /// 被挑战者的名次
+		required string m_strEnemyUuid = 2;       /// 被挑战者的Uuid
+		required UINT32 m_nSelfRank = 3;     /// 玩家自身排名，用于验证数据的时效性
+}
+
+/**
+ * 通知助手挑战的结果(Gate->Client)
+ * MSGTYPE_DECLARE(MSG_NOTIFY_BOOSTER_BATTLE_RESULT)
+ */
+message NotifyBoosterBattleResult {
+		enum { THIS_MSG_TYPE = MSG_NOTIFY_BOOSTER_BATTLE_RESULT; }
+		
+		required BYTE m_bWin = 1;    /// 是否胜利(0 失败， 1 胜利)
+		required UINT32 m_nSilver = 2; ///奖励银币
+		repeated SettleItemInfo m_itemVec = 3; ///奖励物品 
+}
+
+/**
+ * 通知助手挑战结束（Track -> Gate）
+ * MSGTYPE_DECLARE(MSG_NOTIFY_BOOSTER_BATTLE_END)
+ */
+message NotifyBoosterBattleEnd {
+		enum { THIS_MSG_TYPE = MSG_NOTIFY_BOOSTER_BATTLE_END; }
+		
+		required BYTE m_bWin = 1;    /// 是否胜利(0 失败， 1 胜利)
+}
+
+/**
+ * 请求领取助手挑战赛排名奖励 
+ * MSGTYPE_DECLARE(MSG_REQUEST_BOOSTER_COMP_RANK_AWARD)
+ */
+message RequestBstCompRankAward {
+		enum { THIS_MSG_TYPE = MSG_REQUEST_BOOSTER_COMP_RANK_AWARD; }
+}
+
+/**
+ * 请求清除冷却时间 
+ * MSGTYPE_DECLARE(MSG_REQUEST_CLEAR_BOOSTER_COOL_TIME)
+ */
+ message RequestClearBstCoolTime {
+ 		enum { THIS_MSG_TYPE = MSG_REQUEST_CLEAR_BOOSTER_COOL_TIME; }
+ }
+ 
+/**
+ * 请求购买进入次数
+ * MSGTYPE_DECLARE(MSG_REQUEST_BUY_BST_ENTER)
+ */
+  message RequestBuyBstEnter {
+ 		enum { THIS_MSG_TYPE = MSG_REQUEST_BUY_BST_ENTER; }
+ }
+ 
+ /**
+ * 通知助手竞技赛排名变化
+ * MSGTYPE_DECLARE(MSG_NOTIFY_BOOSTER_RANK_CHANGE)
+
+   message NotifyBstCompRankChange {
+ 		enum { THIS_MSG_TYPE = MSG_NOTIFY_BOOSTER_RANK_CHANGE; }
+ }
+  */
+ 
+ 
+ /**
+ *助手竞技赛战斗信息
+ */
+ message BOOSTER_BATTLE_INFO
+ {
+ 		required string m_strEnemy = 1;   /// 对手名称
+ 		required UINT32 m_nBattleResult = 2;  /// 战斗结果 enum BOOSTER_BATTLE_RESULT
+ 		required UINT32 m_nRank = 3;      /// 战斗结束后排名  
+ 		required UINT32 m_nBattleTime = 4;  /// 战斗的日期
+ }
+ 
+ /**
+ * 通知助手竞技赛战斗历史信息
+ * MSGTYPE_DECLARE(MSG_NOTIFY_BOOSTER_BATTLE_HISTORY)
+ */
+ message NotifyBstBattleHistory {
+ 		enum { THIS_MSG_TYPE = MSG_NOTIFY_BOOSTER_BATTLE_HISTORY; }
+ 		repeated BOOSTER_BATTLE_INFO m_vecBattleInfo = 1;   /// 对战信息列表
+ }
+ 
+ /**
+ * 通知助手竞技赛昨日奖励信息
+ * MSGTYPE_DECLARE(MSG_NOTIFY_BOOSTER_COMP_YESTERDAY_AWARD_INFO)
+ */
+ message NotifyBstCompYesterdayAwardInfo {
+ 		enum { THIS_MSG_TYPE = MSG_NOTIFY_BOOSTER_COMP_YESTERDAY_AWARD_INFO; }
+ 		required BYTE m_bHasAward = 1;   /// 是否有奖励
+ 		required UINT32 m_nYesterdayRank = 2; /// 昨日排名
+ 		required UINT32 m_nGolden = 3;   /// 奖励的银币
+ 		required UINT32 m_nChipId = 4;   /// 奖励的芯片ID
+ 		required UINT32 m_nChipCount = 5;/// 奖励的芯片个数
+ 		required UINT32 m_nItem1 = 6;    /// 奖励物品1
+ 		required UINT32 m_nCount1 = 7;   /// 奖励物品1的个数
+ 		required UINT32 m_nItem2 = 8;    /// 奖励物品2
+ 		required UINT32 m_nCount2 = 9;   /// 奖励物品2的个数
+ }
+ 
+  /**
+ * 通知助手竞技赛实时奖励信息
+ * MSGTYPE_DECLARE(MSG_NOTIFY_BOOSTER_COMP_NOW_AWARD_INFO)
+ */
+  message NotifyBstCompNowAwardInfo {
+ 		enum { THIS_MSG_TYPE = MSG_NOTIFY_BOOSTER_COMP_NOW_AWARD_INFO; }
+ 		required UINT32 m_nGolden = 1;   /// 奖励的银币
+ 		required UINT32 m_nChipId = 2;   /// 奖励的芯片ID
+ 		required UINT32 m_nChipCount = 3;/// 奖励的芯片个数
+ 		required UINT32 m_nItem1 = 4;    /// 奖励物品1
+ 		required UINT32 m_nCount1 = 5;   /// 奖励物品1的个数
+ 		required UINT32 m_nItem2 = 6;    /// 奖励物品2
+ 		required UINT32 m_nCount2 = 7;   /// 奖励物品2的个数
+ }

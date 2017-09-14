@@ -1,0 +1,652 @@
+// ----------------------------------------------------------------------
+///    @file            protocol/RoomMessage.h
+///    @brief           
+///    @author          linyixiong
+///    @copyright       Sixcube Information Technology Co,. Ltd. (2012)
+///    @date            
+// ----------------------------------------------------------------------
+
+import ShareTypes;
+import BulkDataType;
+import BulkDataEnum;
+import TankMessage;
+
+enum BATTLE_WIN_TYPE
+{
+    BWT_COMPLETE_WIN = 0; ///< 完胜 对应 完败
+    BWT_WIN   = 1;      ///< 胜利 对应 失败
+    BWT_SMALL_WIN = 2;  ///< 险胜 对应 惜败
+    BWT_ENEMY_SURRENDER = 3;  ///< 敌方投降胜利
+    BWT_DOGFALL = 4;    ///< 平局
+    BWT_MAX = 5;
+}
+
+enum TANK_EXP_TPLT_TYPE
+{
+    TE_BATTLE_TIME_EXP = 0; ///< 战斗时间（分钟）
+    TE_HAPPY_BONUS = 1;     ///< 欢乐赛名次
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_ENTER_BATTLE),          
+// 请求进入战场
+message RequestBattleEnter {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_ENTER_BATTLE; }
+
+    required UINT32 m_nSceneId  = 1;      ///< 战场id
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_ENTER_BATTLE),               
+// 通知进入战场
+message NotifyBattleEnter {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ENTER_BATTLE; }
+
+    required UINT32 m_nStartTime = 1;     ///< 战斗开始时间
+}
+
+// MSGTYPE_DECLARE(MSG_GAME_CHANGE_BATTLE_TECHNO),
+// 通知更新技术统计
+message ChangeBattleTechno {
+    enum { THIS_MSG_TYPE = MSG_GAME_CHANGE_BATTLE_TECHNO; }
+
+    required INT16 m_iRes = 2;      ///< 战斗结果,0,失败;1,获胜;-1,逃跑
+    required BYTE m_isKiller = 3;      ///< 是否是杀戮者
+    required BYTE m_isAstKing = 4;  ///< 是否是助攻王
+    required BYTE m_isKDA = 5;      ///< 是否是全能王
+    required BYTE m_isDestroyer = 6;///< 是否是拆迁王
+    required BYTE m_roomType = 7;   ///< 房间类型 room_type
+    required BYTE m_nKill = 8;    ///< 本场击杀数
+    required BYTE m_nAst = 9;     ///< 本场助攻数
+    required INT16 m_iUpEloVal = 10;   ///< 战力变化值
+    required INT16 m_iEnemyElo = 11;   ///< 敌方平均战力
+    required UINT16 m_eloSectionId = 12; ///< 天梯ELO阶段ID
+    
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_BATTLE_END),                 
+/// 通知战斗结束，退出战场
+message NotifyBattleEnd {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_BATTLE_END; }
+    
+    required UINT32 m_nSceneId = 1;         ///< 场景id
+    required UINT32 m_nMapId = 2;	        ///< 地图ID
+    required UINT32 m_battleTime = 3;       ///< 战斗时间
+    required BYTE   m_roomType = 11;        ///< 房间类型 enum ROOM_TYPE
+    required BYTE   m_winCamp = 4;          ///< 获胜的阵营 enum CAMP_TYPE
+    required BYTE   m_winType = 5;          ///< 胜利类型 enum BATTLE_WIN_TYPE
+    required INT32  m_rebLifeCount = 6;     ///< 红方总坦克命数
+    required INT32  m_buleLifeCount = 7;    ///< 蓝方总坦克命数
+    repeated TankSettleInfo m_tankVec = 8;  ///< 统计数据列表
+    repeated TankSettleInfo m_escapeVec = 9;///< 逃跑玩家的统计数据列表
+    required float  m_svrExpRate = 12;      ///< 服务器战斗经验倍率
+    required BYTE m_bpvpActOpen = 13;       ///< 是否有开启pvp活动掉落
+    required UINT32 m_nItemDropRate = 14;   ///< 服务器物品掉落倍率
+    required UINT32 m_nKiller = 15;         ///< 杀戮者ID
+    required UINT32 m_nAssister = 16;       ///< 助攻王
+    required UINT32 m_nKDA = 17;            ///< 全能王
+    required UINT32 m_nDestroyer = 18;      ///< 拆迁办
+    required string m_sceneUuid  = 19;      ///< 战场UUID
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_EXIT_BATTLE),               
+// 客户端请求退出战场
+message RequestExitBattle {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_EXIT_BATTLE; }
+    
+    required UINT32 m_nSceneId  = 1;      ///< 房间id
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_EXIT_BATTLE),                
+/// 通知退出战场
+message NotifyExitBattle {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_EXIT_BATTLE; }
+    
+    required UINT32 m_nErrId    = 1;       ///< 错误提示id，参见SystemErr.inl
+    required UINT32 m_nSceneId  = 2;
+    required UINT32 m_nCharId   = 3;
+    required UINT32 m_exitType  = 4;     ///< enum BATTLE_EXIT_TYPE 
+    required UINT32 m_isLook    = 5;     ///< 是否观战
+}
+
+// MSGTYPE_DECLARE(MSG_GAME_EXIT_BATTLE),
+// game通知玩家退出战斗
+message GameEixtBattle {
+    enum { THIS_MSG_TYPE = MSG_GAME_EXIT_BATTLE; }
+
+    required UINT32 m_nErrId    = 1;       ///< 错误提示id，参见SystemErr.inl
+    required UINT32 m_nSceneId  = 2;
+    required UINT32 m_nCharId   = 3;
+    required BYTE m_exitType  = 4;     ///< enum BATTLE_EXIT_TYPE 
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_SCENE_OBJECT),               
+// 通知战场对象数据
+message NotifySceneObject{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SCENE_OBJECT; }
+
+    repeated ObjInfo m_objVec   = 1;    ///< 场景对象数据
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_ADD_OBJECT),                 
+// 通知新建对象数据
+message NotifyAddObject{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ADD_OBJECT; }
+    
+    required UINT32  m_nSceneId = 1;    ///< 场景ID
+    required ObjInfo m_objVec   = 2;    ///< 场景对象数据
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_REMOVE_OBJECT),                 
+// 通知删除对象数据
+message NotifyRemoveObject{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_REMOVE_OBJECT; }
+    
+    required UINT32  m_nSceneId = 1;    ///< 场景ID
+    required ZGID    m_objId = 2;       /// 对象Id
+    required BYTE    m_objType = 3;     ///< 对象类型
+}
+
+/// 通知表现空投物品
+message NotifyAirDropProp
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_AIRDROP_PROP; }
+    
+    required UINT32 m_nSceneId = 1; ///< 场景id
+    required UINT32 m_propId = 2;   ///< 道具id
+    required INT16 m_x = 3;         ///< x 坐标
+    required INT16 m_y = 4;         ///< y 坐标
+    required BYTE m_bCamp = 5;      ///< 阵营信息
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_STAT_LIST),                 
+// 客户端请求坦克技术统计列表
+message RequestSceneStat{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_STAT_LIST; }
+
+    required UINT32 m_nSceneId  = 1;      ///< 房间id
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_SCENE_STAT),                 
+// 通知坦克战场统计数据
+message NotifySceneStat{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SCENE_STAT; }
+    
+    repeated TankStatInfo m_statVec = 1;    ///< 统计数据列表
+}
+
+// 战场移动数据
+message MoveInfo {
+    required ZGID   m_objId = 1;        ///< 移动的对象id
+    required INT16  m_x = 2;            ///< 起始点
+    required INT16  m_y = 3;            ///< 起始点
+    required INT16  m_speed = 6;        ///< 移动速度
+    required BYTE   m_direction = 7;    ///< 朝向
+    required BYTE   m_moveType = 8;     ///< 移动类型  enum MOVE_TYPE
+}
+
+// 战场经验数据
+message BattleExpInfo {
+	required ZGID    m_objId = 1;    /// 对象Id
+	required UINT32  m_battleExpAdd = 2; ///< 增加的战场经验
+	required UINT32  m_battleCurExp = 3; ///< 当前战场经验
+	required UINT32  m_battleLevel = 4; ///< 当前战场等级
+}
+
+/*
+ * server->client 通知客户端播放发射炮弹动作
+ */
+message NotifyFire{
+    required ZGID m_bullteId = 1;       ///< 炮弹对象实例id
+    required ZGID m_objId = 2;          ///< 发射炮弹的对象id
+    required INT16 m_startX = 3;        ///< 炮弹发射位置
+    required INT16 m_startY = 4;
+    required INT16 m_destX = 5;         ///< 攻击目标坐标
+    required INT16 m_destY = 6;
+    required INT16 m_iSpeed = 7;        ///< 炮弹飞行速度
+    required UINT32 m_nTemplate = 8;    ///< 炮弹模板id
+}
+
+/*
+ * server->client 通知客户端更新血条
+ */
+message ObjectHp{
+    required ZGID   m_objId = 1;        ///< 对象id
+    required int    m_objHp = 3;        ///< 对象HP
+    required BYTE   m_nFury = 6;        ///< 是否暴击
+}
+
+/*
+ * server->client 通知客户端删除战场对象
+ */
+message AINpcDead{
+    required ZGID   m_AINpcId = 1;  ///< AINpc对象id
+    required INT16  m_x = 2;        ///< 击杀炮弹的x坐标
+    required INT16  m_y = 3;        ///< 击杀炮弹的y坐标
+}
+
+/*
+ * server->client 通知客户端更新能量条
+ */
+message ObjectMp{
+    required ZGID   m_objId = 1;        ///< 对象id
+    required int    m_objMp = 2;        ///< 对象MP
+}
+
+// MSGTYPE_DECLARE(MSG_SYNC_SCENE_DATA),                   
+// 战场数据同步
+message SyncSceneData {
+    enum { THIS_MSG_TYPE = MSG_SYNC_SCENE_DATA; }
+
+    repeated MoveInfo       m_moveVec = 2;      // 移动同步
+    repeated NotifyFire     m_fireVec = 3;      // 开火
+    repeated NotifyUseSkill m_skillVec = 1;     // 使用技能
+    repeated ObjectHp       m_hpVec = 4;        // 更新血条
+    repeated AINpcDead      m_deadVec = 5;      // AINpc死亡表现
+    repeated ObjectMp       m_mpVec = 6;        // 更新能量条
+    repeated ZGID           m_blowUpVec = 7;    // 爆炸的炮弹列表
+    repeated ZGID           m_delVec    = 8;    // 需要删除的对象列表
+    repeated ZGID           m_overVec   = 10;    // 存在时间到消失列表
+}
+
+// 战场旗子占领信息
+message OccupyInfo {
+    required int iIndex     = 1;        ///< 旗子索引
+    required int iCampId    = 2;        ///< 旗子阵营
+    required int iLock      = 3;        ///< 是否锁定
+    required int iOccupy    = 4;        ///< 当前占领数据，红方为负值，蓝方为正值
+    required UINT32 scoreTime = 5;      ///< 上次给予积分时间
+}
+
+// MSGTYPE_DECLARE(MSG_SYNC_OCCUPY_DATA),                  
+// 同步争夺点占领信息
+message SyncOccupyData {
+    enum { THIS_MSG_TYPE = MSG_SYNC_OCCUPY_DATA; }
+
+    repeated OccupyInfo     m_occupyVec = 1;    // 争夺点信息
+}
+
+// 传送门信息
+message PortalInfo {
+    enum {
+        PORTAL_CLOSE = 0;               ///< 关闭
+        PORTAL_OPEN = 1;                ///< 开启
+        PORTAL_COOLTIME = 2;            ///< 传送冷却中
+    }
+    required int iIndex = 1;            ///< 传送门索引
+    required int iState = 2;            ///< 传送门状态
+}
+
+// MSGTYPE_DECLARE(MSG_SYNC_PORTAL_DATA),                  
+// 同步传送门信息
+message SyncPortalData {
+    enum { THIS_MSG_TYPE = MSG_SYNC_PORTAL_DATA; }
+
+    repeated PortalInfo     m_portalVec = 1;    // 传送门信息
+}
+
+// 击杀信息
+message KillInfo 
+{
+    required ZGID   m_killerObjId = 1;      ///< 击杀者对象id
+    required ZGID   m_deadObjId = 2;        ///< 死者对象id
+    required UINT32 m_skillId = 3;          ///< 使用技能
+    required INT32  m_coinCount = 4;        ///< 获得金币
+
+    required BYTE m_contKillCount = 7;      ///< 击杀这连续杀的数量
+    required BYTE m_killerKillCount = 8;    ///< 击杀者存活杀的数量
+    required BYTE m_deadKillCount = 9;      ///< 死者存活杀的数量
+    required BYTE m_isFirstBlood = 10;       ///< 是否第一滴血(仅用于tank)
+    
+    repeated UINT32 m_assistTankId = 14;    ///< 助攻者id
+}
+
+/// 通知客户端击杀信息
+message NotifyKillInfo
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_KILL_INFO; }
+
+    required KillInfo m_killInfo = 6;               ///< 击杀信息
+}
+
+/// 通知更新坦克金钱变化
+message UpdateTankCoinCount
+{
+    enum { THIS_MSG_TYPE = MSG_UPDATE_TANK_COIN; }
+    
+    required INT32 m_count = 2;
+}
+
+/// 客户端请求买活
+message RequestBuyLife
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_BUY_LIFE; }
+    
+    required UINT32 m_nSceneId  = 1;    // 战场id
+    required BYTE   m_type = 2;         // 货币类型 enum COIN_TYPE
+}
+
+/// 主动更新技术统计
+message UpdateTankStatInfo
+{
+    enum { THIS_MSG_TYPE = MSG_UPDATE_TANK_STAT_INFO; }
+    
+    required UINT32 m_tankId = 1;       ///< 坦克id
+    required OneStatInfo m_info = 2;
+}
+
+
+/// 更新某辆坦克的分数信息
+message UpdateObjScoreInfo{
+    enum { THIS_MSG_TYPE = MSG_UPDATE_TANK_SCORE; }
+    
+    required SCORE_TYPE	 m_reaon  = 1;  ///< 参见SCORE_TYPE枚举
+    required OneObjScore m_values = 2;	///< 坦克_ID + 所得分数
+    required ZGID	     m_target = 3;  ///< 被击杀的对象ID
+}
+
+/// 更新整个战场的分数信息
+message UpdateSceneScoreInfo{
+    enum { THIS_MSG_TYPE = MSG_UPDATE_SCENE_ONE_STAT; }
+    
+    repeated OneObjScore m_values = 1;	///< 战场内所有的得分值
+}
+
+// MSGTYPE_DECLARE(MSC_CREATE_SCENE_PROPS),                
+// 通知创建场景道具
+message CreateSceneProps {
+    enum { THIS_MSG_TYPE = MSC_CREATE_SCENE_PROPS; }
+
+    required UINT32 m_nSceneId = 1;     ///< 战场id
+    required UINT32 m_nPropsId = 2;     ///< 道具id
+    required int    m_iCount = 3;       ///< 道具数量
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_CAMP_KILLNUM),               
+// 通知客户端，阵营击杀数量
+message NotifyCampKillNum {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CAMP_KILLNUM; }
+
+    required UINT32 m_nRedKill = 1;      ///< 红方杀敌数
+    required UINT32 m_nBlueKill = 2;     ///< 蓝方杀敌数
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_AINPC_WAVE),               
+// 通知客户端，击杀AINPC的波次
+message NotifyAINpcWave {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_AINPC_WAVE; }
+
+    required INT32 m_iWave      = 1;     ///< 当前波次
+    required INT32 m_iWaveMax   = 2;     ///< 最大波次
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_OVERTIME_START),             
+// 通知加时赛开始, 删除所有坦克对象
+message NotifyOverTimeStart {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_OVERTIME_START; }
+
+    required UINT32 m_overTime  = 1;    // 加时赛的比赛时间
+}
+
+// 通知战斗即将结算
+message NotifyEndOnHand
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_END_ONHAND; }
+
+    required UINT32 m_endTime  = 1;    // 战斗结束的时间戳
+}
+
+// MSGTYPE_DECLARE(MSG_RELIVE_SYNC_ATTR),
+// 坦克复活，请求同步坦克数值
+message ReliveSyncAttr {
+    enum { THIS_MSG_TYPE = MSG_RELIVE_SYNC_ATTR; }
+}
+
+// MSGTYPE_DECLARE(MSG_SYNC_ATTR_TOGAME),                  
+// 同步坦克数据给gamesvr
+message SyncAttrToGame {
+    enum { THIS_MSG_TYPE = MSG_SYNC_ATTR_TOGAME; }
+
+    required UINT32     m_sceneId   = 1;    ///< 战场id
+    required CHAR_ATTR  m_charAttr  = 2;    ///< 玩家的属性
+    repeated PropsInfo m_propsBar   = 3;    ///< 所有技能信息
+}
+
+// MSGTYPE_DECLARE(MSG_GAME_HARM_BOSS),
+// game通知玩家对世界boss造成伤害
+message GameHarmBoss {
+    enum { THIS_MSG_TYPE = MSG_GAME_HARM_BOSS; }
+
+    required string m_charUuid = 1;
+    required int m_iHarm = 2;
+}
+
+// MSGTYPE_DECLARE(MSG_TRACK_BATTLE_END),
+// trakc通知game战斗结束
+message TrackBattleEnd {
+    enum { THIS_MSG_TYPE = MSG_TRACK_BATTLE_END; }
+    
+    required BYTE m_bRoomType = 1;          ///< 战斗结束的房间类型ROOM_TYPE
+}
+
+// game通知客户端播放投掷动画
+message NotifyObjThrow {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_OBJ_THROW; }
+    
+    required ZGID m_nObj = 1;       ///< 对象 ID
+    required INT16 m_iStartX = 2;   ///< 起点X坐标
+    required INT16 m_iStartY = 3;   ///< 起点Y坐标
+    required INT16 m_iDestX = 4;    ///< 目标点X坐标
+    required INT16 m_iDestY = 5;    ///< 目标点Y坐标
+    required UINT32 m_nTime = 6;    ///< 投掷时间
+}
+
+// Client通知track选坦克阶段选择坦克
+message RequestSelectUseTank{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SELECT_USE_TANK; }
+    
+    required UINT32 m_nSceneId = 1;  ///<战场ID
+    required UINT32 m_nTankId = 2;   ///<坦克ID
+    required UINT32 m_nTankCont = 3;  ///< 坦克容器类型 enum TANK_CONTAINER_TYPE
+    required BYTE   m_roomType  = 4;
+}
+
+// Client通知track玩家锁定坦克
+message RequestLockTank{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_LOCK_TANK; }
+    
+    required UINT32 m_nSceneId = 1;   ///< 战场ID
+}
+
+// 通知玩家选坦克阶段，坦克被选取
+message NotifyTankSelected{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TANK_SELECT; }
+    
+    required UINT32 m_nCharOid = 1;   ///< 玩家OID
+    required UINT32 m_nTankId = 2;    ///< 该玩家选择的坦克ID
+    required UINT32 m_nTankCont = 3;  ///< 坦克容器类型 enum TANK_CONTAINER_TYPE
+    required UINT32 m_nTankExt = 4;   ///< 坦克外观ID
+	required UINT32 m_nSkinFrameType = 5;   ///< 坦克皮肤边框 enum SKIN_FRAME_TYPE
+	required UINT32 m_nCommandSkill = 6;    ///< 指挥官技能
+}
+
+// 通知玩家，坦克被锁定
+message NotifyTankLocked{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_TANK_LOCKED; }
+    
+    required UINT32 m_nCharOid = 1;   ///< 锁定该坦克的玩家OID
+    required UINT32 m_nTankId = 2;    ///< 坦克ID
+    required UINT32 m_nTankCont = 3;  ///< 坦克容器类型 enum TANK_CONTAINER_TYPE
+}
+
+// 同步选坦克阶段分配的坦克
+message SyncSelectedTank{
+    enum { THIS_MSG_TYPE = MSG_SYNC_TRACK_SELECTED_TANK; }
+    
+    required UINT32 m_nTankId = 1; ///< 坦克ID
+    required UINT32 m_nTankCont = 2; ///< 坦克容器
+    required UINT32 m_nTankLevel  = 3; ///< 坦克等级
+}
+
+// 请求惩罚逃跑玩家
+message RequestPunishEscape{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_PUNISH_ESCAPE; }
+    
+    required UINT32 m_nCharOid = 1;   ///< 角色OID
+    required INT32  m_punishElo = 2;  ///< 扣除的ELO
+    required INT32  m_punishType = 3; ///< 扣除原因
+}
+
+// MSGTYPE_DECLARE(MSG_GAME_SCENE_RECORD_START),
+// track->game 请求开始战斗录像
+message GameSceneRecordStart {
+    enum { THIS_MSG_TYPE = MSG_GAME_SCENE_RECORD_START; }
+    
+    required UINT32 m_nSceneId = 1;         ///<战场ID
+    required string m_urlParam = 2;         ///< 上传录像参数
+    required string m_strRecord = 3;        ///< 录像数据
+}
+
+// game->gate 通知同步玩家地图下线点信息
+message NotifyRecordCharLastInfo{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_RECORD_CHAR_LAST_INFO; }
+
+	required UINT32 m_nMapId = 1;           ///< 地图ID
+	required UINT32 m_nX     = 2;
+	required UINT32 m_nY     = 3;
+	required UINT32 m_nTankId= 4;
+	required string m_strUuid= 5;
+	required UINT32 m_nCharOid = 6;
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_CAMP_OCCUPY_SCORE),               
+// 通知客户端，阵营占领旗帜获得的总积分
+message NotifyCampOccupyScore {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CAMP_OCCUPY_SCORE; }
+
+    required UINT32 m_nRedOccupyScore = 1;      ///< 红方占领分数
+    required UINT32 m_nBlueOccupyScore = 2;     ///< 蓝方占领分数
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_CAMP_OCCUPY_ADD_SCORE),               
+// 通知客户端，阵营占领旗帜获得的单次增加积分
+message NotifyCampOccupyAddScore {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CAMP_OCCUPY_ADD_SCORE; }
+
+		required INT32  m_occupyIndex = 1;      ///< 占领旗子索引
+		required INT32  m_occupyCamp  = 2;      ///< 占领旗子阵营
+		required INT32  m_occupyScore = 3;      ///< 占领获得积分
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_CAMP_WIN_ROUND),               
+// 通知客户端，阵营胜利回合数
+message NotifyCampWinRoundMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CAMP_WIN_ROUND; }
+
+    required UINT32 m_nRedWinRound  = 1;     ///< 红方胜利回合数
+    required UINT32 m_nBlueWinRound = 2;     ///< 蓝方胜利回合数
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_CAMP_ADD_WIN_ROUND),               
+// 通知客户端，阵营胜利增加回合数
+message NotifyCampAddWinRoundMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CAMP_ADD_WIN_ROUND; }
+
+		required INT32 m_winCamp  = 1;     ///< 本回合胜利阵营
+}
+
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_NEW_ROUND_START),               
+// 通知客户端，开始新的回合
+message NotifyNewRoundStartMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_NEW_ROUND_START; }
+
+    required UINT32 m_startTime  = 1;     ///< 新回合开始时间
+    required UINT32 m_roundIndex = 2;     ///< 当前回合
+    required UINT32 m_sceneId    = 3;     ///< 场景ID
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_DEAD_MODE_ALIVE_CNT),               
+// 通知客户端，双方存活人数(死亡模式)
+message NotifyDeadModeAliveCntMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_DEAD_MODE_ALIVE_CNT; }
+
+    required UINT32 m_nRedAliveCnt  = 1;     ///< 红方存活人数
+    required UINT32 m_nBlueAliveCnt = 2;     ///< 蓝方存活人数
+}
+
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_GUILD_BOSS_DAMAGE_HP),               
+// 通知之前军团BOSS被伤害血量(军团BOSS继承伤害)
+message NotifyGuildBossDamageHpMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_BOSS_DAMAGE_HP; }
+
+		required UINT32 m_sceneId = 1;								///< 场景ID
+		required UINT32 m_bossId = 2;									///< BOOS ID
+    required INT32  m_guildBossDamageHp  = 3;     ///< 军团BOSS被伤害血量
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_GUILD_BOSS_END_DAMAGE_INFO),               
+// 通知军团Boss战斗结束信息
+message NotifyGuildBossEndDamageInfoMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GUILD_BOSS_END_DAMAGE_INFO; }
+
+		required UINT32 m_sceneId = 1;								///< 场景ID
+    required INT32  m_guildBossDamageHp  = 2;     ///< 军团BOSS被伤害血量
+    required UINT32 m_isDead = 3;                 ///< 是否已死亡
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_NO_SELECT_TANK_PUNISH),                
+/// 通知未选坦克惩罚
+message NotifyNoSelectTankPunishMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_NO_SELECT_TANK_PUNISH; }
+    
+    required UINT32 m_sceneId   = 1;
+    required UINT32 m_roomType  = 2;
+}
+
+// 通知玩家选坦克阶段，指挥官技能发生变化
+message NotifyCommandSkillSelected{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_COMMAND_SKILL_SELECT; }
+    
+    required UINT32 m_nCharOid = 1;   ///< 玩家OID
+	required UINT32 m_nCommandSkill = 2;    ///< 指挥官技能
+}
+
+// 请求开启投降表决
+message RequestSurrenderVotation{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SURRENDER_VOTATION; }
+    
+    required UINT32 m_nSceneId = 1;
+}
+
+// 通知开启投降表决
+message NotifyShowSurrenderVotation{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SHOW_SURRENDER_VOTATION; }
+    
+    required BYTE m_validCount = 1;  ///< 有效玩家数
+    required UINT32 m_nShowEndTime = 2; ///< 投票显示的截止时间
+    required UINT32 m_nNextTime = 3; ///< 下次允许开启投票的时间戳
+    required UINT32 m_nSponsor = 4;  ///< 发起人OID
+}
+
+// 设置玩家自己的投降信息
+message SetSurrenderDecision{
+    enum { THIS_MSG_TYPE = MSG_SET_SURRENDER_DECISION; }
+    
+    required BYTE m_result = 1; ///< 1:拒绝 2:同意
+    required UINT32 m_nSceneId = 2;
+}
+
+// 通知更新投降表决信息
+message UpdateVotationInfo{
+    enum { THIS_MSG_TYPE = MSG_UPDATE_VOTATION_INFO; }
+    
+    required BYTE m_validCount = 1;  ///< 有效玩家数
+    repeated BYTE m_vecVoteInfo = 2; ///< 1:拒绝 2:同意
+}
+
+// 通知投降冷却时间
+message NotifySurrenderVotationCoolTime{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SURRENDER_VOTATION_COOL_TIME;}
+    
+    required UINT32 m_nTime = 1;   ///< 允许发起投降表决的时间戳
+}

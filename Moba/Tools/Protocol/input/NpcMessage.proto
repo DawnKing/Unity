@@ -1,0 +1,283 @@
+// ----------------------------------------------------------------------
+///    @file            protocol/NpcMessage.h
+///    @brief
+///    @author          yuhaixiao
+///    @copyright       Sixcube Information Technology Co,. Ltd. (2012)
+///    @date            
+// ----------------------------------------------------------------------
+
+import BulkDataType;
+import BulkDataEnum;
+import ShareTypes;
+
+/// @addtogroup dt_ObjectManage
+/// @{
+// MSGTYPE_DECLARE(MSG_NPC_SERVER_REGISTER),    // NPC服务器启动，告知游戏服务器
+message NpcServerRegister {
+    enum { THIS_MSG_TYPE = MSG_NPC_SERVER_REGISTER; }
+
+    required string m_npcSvrName = 1;    // 服务器名
+    required UINT32 m_nSvrId = 3;
+}
+
+
+// MSGTYPE_DECLARE(MSG_NPC_SERVER_REG_RESPONE),    // 游戏服务器对NPC服务器注册的回应MSG_NPC_SERVER_REG_RESPONE
+message NpcServerRegResponse {
+    enum { THIS_MSG_TYPE = MSG_NPC_SERVER_REG_RESPONE; }
+
+    enum  {
+        NS_FRESH = 0;
+        NS_RECONNECT = 1;
+        NS_DUPLICATE = 2;
+    }
+
+    required int m_state = 1;
+}
+
+// MSGTYPE_DECLARE(MSG_NPC_SERVER_CLOSE),            // npc->gamesvr 通知npcsvr关闭
+message NpcServerClose {
+    enum { THIS_MSG_TYPE = MSG_NPC_SERVER_CLOSE; }
+}
+
+// MSGTYPE_DECLARE(MSG_NPC_SCENE_INIT),
+// npc->gamesvr 通知场景npc初始化
+message NpcSceneInit {
+    enum { THIS_MSG_TYPE = MSG_NPC_SCENE_INIT; }
+
+    required UINT32     m_nSceneId = 1;     ///< 战场id
+    repeated ObjInfo    m_objVec   = 2;     ///< 场景对象数据
+}
+
+// MSGTYPE_DECLARE(MSG_NPC_TANK_ENTER),                    
+// gamesvr->npc 通知坦克进入战场
+message NpcTankEnter {
+    enum { THIS_MSG_TYPE = MSG_NPC_TANK_ENTER; }
+
+    required UINT32       m_nSceneId = 1;           ///< 场景id
+    required ObjInfo      m_tankData = 2;           ///< 场景数据
+    required OBJECT_ATTR  m_tankAttr = 3;           ///< 玩家的属性
+    required UINT32       m_nRobotType = 4;         ///< 机器人等级类型
+    repeated PropsInfo    m_skillVec   = 5;         ///< 技能信息
+}
+
+// MSGTYPE_DECLARE(MSG_NPC_TANK_EXIT),                     
+// gamesvr->npc 通知坦克退出战场
+message NpcTankExit {
+    enum { THIS_MSG_TYPE = MSG_NPC_TANK_EXIT; }
+
+    required UINT32 m_nSceneId = 1;         ///< 场景id
+    required ZGID   m_tankId = 2;           ///< 离开的坦克id
+}
+
+// MSGTYPE_DECLARE(MSG_NPC_CREATE_PROPS),                  
+// npc->gamesvr 通知创建场景道具
+message NpcCreateProps {
+    enum { THIS_MSG_TYPE = MSG_NPC_CREATE_PROPS; }
+
+    required UINT32 m_nSceneId = 1; ///< 场景id
+    required UINT32 m_propsId = 2;  ///< 道具id
+    required INT16  m_iX = 3;       ///< 坐标
+    required INT16  m_iY = 4;
+    required BYTE   m_bCamp = 5;    ///< 阵营
+    required ZGID   m_nOwnerId = 6;  ///< 拥有者id    
+}
+
+// MSGTYPE_DECLARE(MSG_NPC_SYNC_ATTRS),                     
+// gamesvr->npc 通知同步属性数据
+message NpcSyncAttrs
+{
+    enum { THIS_MSG_TYPE = MSG_NPC_SYNC_ATTRS; }
+    
+    required UINT32     m_nSceneId = 1;     ///< 场景id
+    required ZGID       m_nTankId = 2;      ///< 坦克id
+    required OBJECT_ATTR  m_attr = 3;       ///< 玩家的属性
+}
+
+// MSGTYPE_DECLARE(MSG_NPC_REPAIR_TANK),                   
+// npc->gamesvr 通知修理箱给坦克补血
+message NpcRepairTank 
+{
+    enum { THIS_MSG_TYPE = MSG_NPC_REPAIR_TANK; }
+    
+    required UINT32     m_nSceneId = 1;     ///< 场景id
+    required ZGID       m_nNpcId = 2;       ///< 修理箱id
+    required ZGID       m_nTankId = 3;      ///< 坦克id
+}
+
+// MSGTYPE_DECLARE(MSG_NPC_OBJ_MOVE),                     
+// gamesvr->npc npc->gamesvr 通知对象移动
+message NpcObjMove
+{
+    enum { THIS_MSG_TYPE = MSG_NPC_OBJ_MOVE; }
+
+    required UINT32 m_nSceneId = 1;     ///< 场景id
+    required ZGID   m_objId = 2;        ///< 移动的对象id
+    required INT16  m_x = 3;            ///< 起始点
+    required INT16  m_y = 4;            ///< 起始点
+    required INT16  m_endx = 5;         ///< 终点
+    required INT16  m_endy = 6;         ///< 终点
+    required int    m_speed = 7;        ///< 移动速度
+    required BYTE   m_direction = 8;    ///< 朝向
+    required BYTE   m_moveType = 9;     ///< 移动类型  enum MOVE_TYPE
+}
+
+// MSGTYPE_DECLARE(MSG_NPC_CREATE_OBJECT),                    
+// npc->gamesvr 通知创建npc/ainpc
+message NpcCreateObject
+{
+    enum { THIS_MSG_TYPE = MSG_NPC_CREATE_OBJECT; }
+
+    required UINT32     m_nSceneId  = 1;     ///< 战场id
+    required AiNpcInfo  m_aiNpcInfo = 2;     ///< npc数据
+}
+
+// MSGTYPE_DECLARE(MSG_NPC_REMOVE_OBJ),                    
+// npc->gamesvr 通知移除npc/ainpc
+message NpcRemoveObject
+{
+    enum { THIS_MSG_TYPE = MSG_NPC_REMOVE_OBJ; }
+
+    required UINT32     m_nSceneId  = 1;     ///< 战场id
+    required ZGID       m_objId     = 2;     ///< 场景对象数据
+}
+
+// MSGTYPE_DECLARE(MSG_NPC_SYNC_ATTR)                     
+// gamesvr->npc 同步对象属性
+message NpcSyncAttr
+{
+    enum { THIS_MSG_TYPE = MSG_NPC_SYNC_ATTR; }
+
+    required UINT32 m_nSceneId = 1;     ///< 战场id
+    required ZGID   m_nObjId = 2;       ///< 对象id
+    required UINT32 m_nAttrType = 3;    ///< 属性类型
+    required int    m_iValue = 4;       ///< 属性值
+    required ZGID   m_casterId = 5;     ///< 释放者ID
+}
+
+// MSGTYPE_DECLARE(MSG_NPC_USE_SKILL),                     
+// npc->gamesvr 通知AINPC使用技能
+message NpcUseSkill
+{
+    enum { THIS_MSG_TYPE = MSG_NPC_USE_SKILL; }
+
+    required UINT32 m_nSceneId = 1;     ///< 战场id
+    required ZGID   m_nNpcId = 2;       ///< 对象id
+    required UINT32 m_nSkillId = 3;     ///< 技能id
+    required INT16  m_targetX = 4;      ///< 目标位置
+    required INT16  m_targetY = 5;      
+    required ZGID   m_targetId = 6;     ///< 目标对象
+}
+
+// npc->gamesvr 通知战斗结束
+message NpcBattleEnd {
+    enum { THIS_MSG_TYPE = MSG_NPC_BATTLE_END; }
+
+    required UINT32     m_nSceneId  = 1;    ///< 战场id
+    required UINT32     m_nCamp     = 2;    ///< 胜利阵营
+}
+
+// npc->gamesvr 通知冻结
+message NpcBattleFrozen {
+    enum { THIS_MSG_TYPE = MSG_NPC_FROZEN; }
+
+    required UINT32     m_nSceneId  = 1;    ///< 战场id
+    required INT32      m_iTime     = 2;    ///< 冻结时间
+}
+
+// game->npc 通知NPC创建AINpc对象
+message NotifyNpcCreateObj{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_NPC_CREATE_OBJ; }
+    
+    required UINT32    m_nSceneId = 1;       ///< 战场ID
+    repeated AiNpcInfo m_vecAINpc = 2;      ///< npc数据
+}
+
+// game->npc 通知NPC角色状态变化
+message GameObjStateChange {
+    enum { THIS_MSG_TYPE = MSG_GAME_OBJ_STATE_CHANGE; }
+    
+    required UINT32     m_nSceneId = 1;    ///< 战场ID
+    required ZGID       m_nObjId = 2;      ///< 对象ID
+    required UINT32     m_nState = 3;      ///< 状态类型 GAME_OBJ_STATE
+}
+
+// npc->Game 通知 GAME 增加BUFF
+message NpcAddBuff {
+    enum { THIS_MSG_TYPE = MSG_NPC_ADD_BUFF; }
+    
+    required UINT32     m_nSceneID = 1;    ///< 战场ID
+    required UINT32     m_nObjType = 2;    ///< 对象类型
+    required ZGID       m_nObjId = 3;      ///< 对象ID
+    required UINT32     m_nBuffId = 4;     ///< BUFF id
+    required UINT32     m_nTime = 5;       ///< 持续时间
+}
+
+// npc->Game 通知 GAME 删除BUFF
+message NpcRemoveBuff {
+    enum { THIS_MSG_TYPE = MSG_NPC_REMOVE_BUFF; }
+    
+    required UINT32     m_nSceneID = 1;    ///< 战场ID
+    required UINT32     m_nObjType = 2;    ///< 对象类型
+    required ZGID       m_nObjId = 3;      ///< 对象ID
+    required UINT32     m_nBuffId = 4;     ///< BUFF id
+}
+
+// npc->Game 通知战场对话
+message NotifySceneTalk {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SCENE_TALK; }
+    
+    required UINT32     m_nSceneId = 1;    ///< 战场ID
+    required UINT32     m_nTalkId = 2;     ///< 对话ID(对话模板表)
+}
+
+
+// npc->Game 通知给予战场经验
+message NotifyGiveBattleExp
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_GIVE_BATTLE_EXP; }
+
+	enum OPER_TYPE{
+		OT_PULL_CAR_SUC = 1; ///< 拉车成功
+		OT_PULL_COW_SUC = 2; ///< 拉牛成功
+		OT_AROUND_CAR_3_SEC = 3; ///< 在车子周围3s
+    }
+
+    required UINT32     m_nSceneId = 1;    ///< 战场ID
+    required ZGID       m_nObjId = 2;      ///< 对象ID
+	required BYTE       m_type = 3;        ///< 操作类型
+}
+
+// npc->Game 同步传送门状态
+message NpcSyncPortalState {
+    enum { THIS_MSG_TYPE = MSG_NPC_SYNC_PORTAL_STATE; }
+    
+    required UINT32 m_nSceneId = 1;        ///< 战场ID
+    required UINT32 m_nPortalId = 2;       ///< 传送门ID
+    required UINT32 m_nState = 3;          ///< 传送门状态 PortalInfo.enum
+}
+
+// game->npc 通知NPC执行地图脚本
+message NotifyNpcExecScript{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_NPC_EXEC_SCRIPT; }
+    
+    required int    iZoneId = 1;       ///< 脚本区域Id
+}
+
+// MSGTYPE_DECLARE(MSG_NPC_NOTIFY_PVE_STEP),
+// npc->Game通知gamesvr副本进度
+message NpcNotifyPveStep {
+    enum { THIS_MSG_TYPE = MSG_NPC_NOTIFY_PVE_STEP; }
+    
+    required UINT32 m_nSceneId = 1;     ///< 战场ID
+    required UINT32 m_nPveStep = 2;     ///< 副本进度
+}
+
+// game->client 通知客户端更新AINPC血上限
+message UpdateAINpcMaxHp 
+{
+    enum { THIS_MSG_TYPE = MSG_UPDATE_AINPC_MAXHP; }
+    
+    required UINT32 m_nSceneId = 1;     ///< 战场ID
+    required ZGID   m_nObjId = 2;       ///< 对象ID
+    required UINT32 m_nMaxHp = 3;       ///< 血上限(当前血量和血上限相同)
+}

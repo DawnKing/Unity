@@ -1,0 +1,65 @@
+// ----------------------------------------------------------------------
+/// @file           protocol/BuffMessage.h
+/// @brief
+/// @author         Linyixiong
+/// @copyright      Sixcube Information Technology Co,. Ltd. (2012)
+/// @date           2011-5-27 16:27:00
+// -----------------------------------------------------------------------
+
+import BulkDataType;
+
+/// Server -> Client BUFF状态变化
+/// MSGTYPE_DECLARE(MSG_NOTIFY_ADD_BUFF),
+// 通知对象获得buff
+message NotifyAddBuff {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ADD_BUFF; }
+
+    required ZGID m_nObjId = 1;     // 对象id
+    required BuffInfo m_nBuffInfo = 2;
+    required UINT32 m_nExistTime = 3;  // BUFF存在时间（毫秒）
+}
+
+/// Server -> Client 取消BUFF
+/// MSGTYPE_DECLARE(MSG_NOTIFY_REMOVE_BUFF),
+// 通知对象失去buff
+message NotifyRemoveBuff {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_REMOVE_BUFF; }
+
+    required ZGID m_nObjId = 1;     // 对象id
+    required ZGID m_nBuffInstId = 2;         //Buff实例ID
+}
+
+/// GameServer -> NpcServer 取消BUFF
+/// MSGTYPE_DECLARE(MSG_NOTIFY_NPC_SVR_REMOVE_BUFF),
+// 通知NPCSVR,对象失去buff
+message NotifyNpcSvrRemoveBuff {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_NPC_SVR_REMOVE_BUFF; }
+
+    required ZGID m_nObjId = 1;     // 对象id
+    required UINT32 m_nBuffTpltId = 2;      //Buff模板ID
+    required ZGID m_nBuffInstId = 3;        //Buff实例ID
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_BUFF_UPDATE_TIME),           
+// 通知对象BUFF时间更新
+message UpdateBuffTime {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_BUFF_UPDATE_TIME; }
+
+    required ZGID   m_nBuffInstId = 1;         //Buff实例ID
+    required UINT32 m_nExistTime = 2; ///< BUFF存在时间（毫秒）
+    required BYTE   m_nStackCount = 3; ///< 堆叠次数
+}
+
+// buff自身替换规则
+enum BUFF_REPLACE_RULE {
+    BRR_REPLACE = 0;            ///< 替换前一个BUFF
+    BRR_USELESS = 1;            ///< 后一个无效
+    BRR_SHARE = 2;              ///< 共享           
+}
+
+// buff类型互斥替换规则
+enum BUFF_TYPE_REPLACE {
+    BTR_SHARE = 0;             ///< 共享（不同类型buff默认共享）
+    BTR_USELESS = 1;           ///< 后BUFF无效
+    BTR_REPLACE = 2;           ///< 后BUFF取代先BUFF(相同ID的buff默认取代)
+}

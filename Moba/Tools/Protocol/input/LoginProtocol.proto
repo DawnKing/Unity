@@ -1,0 +1,82 @@
+// ----------------------------------------------------------------------
+/// @file				interface/LoginProtocol.h
+/// @brief
+///
+/// @author				侯明园
+/// @copyright			Sixcube Information Technology Co,. Ltd. (2012)
+/// @date				2004-12-23 17:41:59
+// -----------------------------------------------------------------------
+/*
+*	以下为认证服务器使用的接口以及常量、枚举量定义
+*/
+enum AUTH_RESULT {
+    AUTH_RESULT_UNKNOWN = 0;        ///< 未知错误
+    AUTH_RESULT_OK = 1;             ///< 认证成功
+    AUTH_RESULT_SVRCONNECT = 2;     ///< 无法连接认证服务
+    AUTH_RESULT_HTTPERROR = 3;      ///< http认证服务返回不合法信息
+    AUTH_RESULT_SVRFULL = 4;        ///< 服务器满
+    AUTH_RESULT_WALLOW_TIME = 5;    ///< 角色被防沉迷
+    AUTH_WAO_TOKEN_NONE = 6;        ///< TOKEN无效，不存在
+    AUTH_WAO_TOKEN_TIMEOUT = 7;     ///< 过期
+    AUTH_RESULT_FAILD   = 8;        ///< 认证失败
+    AUTH_RESULT_ACCOUNT_CLOSED = 9; ///< 该帐号被封存
+    AUTH_RESULT_MAINTENANCE = 10;   ///< 服务器正在维护中
+    AUTH_RESULT_BAN_IP = 11;        ///< ip地址被封存
+    AUTH_RESULT_ACCOUNT_ID_ERR = 12;            ///< 账号id错误
+    AUTH_RESULT_LOAD_ACCOUNT_ERR = 13;          ///< 加载账号数据失败
+    AUTH_RESULT_RETURN_DB_ERR = 14;             ///< 接口返回数据库错误
+    AUTH_RESULT_COUNTRY_ERR = 15;               ///< 接口返回因授权范围原因不支持xx国家地区
+    AUTH_RESULT_PUBLIC_ACCOUNT_CLOSED = 16;     ///< 万人号被封存
+    AUTH_RESULT_PARAM_LACK = 100;               ///< 参数不完整
+    AUTH_RESULT_NAME_PASSWORD_ERROR = 101;      ///< 用户名密码错误
+    AUTH_RESULT_GAME_ID_NO_EXIST = 102;         ///< 游戏ID不存在
+    AUTH_RESULT_SERVER_NAME_NO_EXIST = 103;     ///< 游戏ID不存在
+    AUTH_RESULT_USER_ID_NO_EXIST = 104;         ///< 用户ID不存在
+}
+
+
+/*
+*	以下为登陆到具体登录服务器时的枚举量定义
+*/
+enum AUTH_SESSION_RESULT {
+    SR_CONFIRMED = 0;    //确认登录
+    SR_EXPIRED = 1;    //Session超时
+    SR_WRONGSESSION = 2;    //Session出错
+    SR_LOGGEDALREADY = 3;    //已经登录
+    SR_SVCUNAVAILABLE = 4;    //区服无法提供服务
+    SR_LOSTCONNECTION = 5;    //连接断开
+    SR_BEINGKICED = 6;    //被踢出
+    SR_PASSWORD_OK = 7;    //口令认证通过
+    SR_PASSWORD_FAIL = 8;    //口令认证未通过5
+    SR_PUT_INLINE = 9;    //被加入排队
+    SR_ANOTHER_LOGIN = 10;    //有帐号从别处正确登录
+    SR_LOST_IN_RESYNC = 11;    //认证中心被断开
+}
+
+
+/**
+ * @name    : Struct Name	: ServerInfo 
+ * @brief	: 用于保存一条服务器信息的结构体
+ * @remark	: 
+ */
+message ServerInfo {
+    required UINT32 m_ip = 1;
+    required UINT16 m_port = 2;
+    required int m_pvp = 3;
+    required int m_currentUser = 4;
+    required int m_maxPlayer = 5;
+}
+
+
+message REGION_INFO {
+    required UINT32 region_id = 1;    //区服编号
+    required string region_name = 2;    //区服名称
+    required string gate_realm = 3;    //网关域名
+    required UINT16 gate_port = 4;    //网关端口
+    required string comm_realm = 5;    //聊天域名
+    required UINT16 comm_port = 6;    //聊天端口
+    required char cur_load = 7;    //负载情况
+    required char is_pvp = 8;    //允许PK
+    required UINT32 open_time = 9;    //开服时间
+}
+

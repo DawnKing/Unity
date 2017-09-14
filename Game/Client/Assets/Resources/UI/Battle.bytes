@@ -1,0 +1,61 @@
+package.xml|880|<packageDescription id="tmnh7azc" name="Battle">
+  <resources>
+    <component id="v38d5" name="Joystick" path="/Components/" size="400,300"/>
+    <component id="v38d6" name="JoystickCircle" path="/Components/" size="212,212"/>
+    <component id="v38da" name="HpBar" path="/" size="72,14"/>
+    <image id="v38d0" name="1" path="/Images/" size="178,160"/>
+    <image id="v38d1" name="0" path="/Images/" size="76,77"/>
+    <image id="v38d2" name="image 6" path="/Images/" size="72,14"/>
+    <image id="v38d3" name="image 4" path="/Images/" size="66,8"/>
+    <image id="v38d4" name="image 1" path="/Images/" size="66,8"/>
+    <component id="v38d8" name="Battle" path="/" size="1280,720" exported="true"/>
+    <component id="v38d9" name="EntityInfo" path="/" size="120,50" exported="true"/>
+    <atlas id="atlas0" size="256,256" file="atlas0.png"/>
+  </resources>
+</packageDescription>v38d5.xml|450|<component size="400,300">
+  <displayList>
+    <image id="n7" name="joystick_center" src="v38d1" xy="152,109">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </image>
+    <component id="n4" name="joystick" src="v38d6" xy="86,45"/>
+    <text id="n8" name="txtDegree" xy="166,200" size="50,34" fontSize="30" text="360">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </text>
+  </displayList>
+</component>v38d6.xml|353|<component size="212,212" scroll="both" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <image id="n1" name="thumb" src="v38d0" xy="17,26" pivot="0.5,0.5">
+      <gearDisplay controller="button" pages="1,3"/>
+    </image>
+  </displayList>
+  <Button mode="Radio"/>
+</component>v38d8.xml|373|<component size="1280,720">
+  <displayList>
+    <component id="n0" name="MoveJoystick" src="v38d5" xy="0,418">
+      <relation target="" sidePair="bottom-bottom,left-left"/>
+    </component>
+    <component id="n1" name="AttackJoystick" src="v38d5" xy="880,420">
+      <relation target="" sidePair="right-right,bottom-bottom"/>
+    </component>
+  </displayList>
+</component>v38d9.xml|514|<component size="120,50" pivot="0.5,1" anchor="true">
+  <displayList>
+    <text id="n0_zpcw" name="txtName" xy="5,28" size="113,20" fontSize="16" color="#ff0000" letterSpacing="1" bold="true" strokeColor="#000000" singleLine="true" text="这是一个名字">
+      <relation target="" sidePair="center-center"/>
+    </text>
+    <component id="n1_ty2p" name="n1" src="v38da" xy="25,8">
+      <relation target="" sidePair="center-center"/>
+      <ProgressBar value="50" max="100"/>
+    </component>
+  </displayList>
+</component>v38da.xml|362|<component size="72,14" extention="ProgressBar">
+  <displayList>
+    <image id="n1" name="n1" src="v38d2" xy="0,0">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <image id="n3_ty2p" name="n3" src="v38d4" xy="3,3"/>
+    <image id="n2" name="bar" src="v38d3" xy="4,3" size="65,8"/>
+  </displayList>
+  <ProgressBar/>
+</component>

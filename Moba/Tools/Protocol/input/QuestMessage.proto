@@ -1,0 +1,202 @@
+// ----------------------------------------------------------------------
+///    @file            protocol/QuestMessage.h
+///    @brief           
+///    @author          yuhaixiao
+///    @copyright       Sixcube Information Technology Co,. Ltd. (2012)
+///    @date            
+// ----------------------------------------------------------------------
+
+import BulkDataType;
+import BulkDataEnum;
+
+/// 通知任务列表的类型
+enum QUEST_LIST_TYPE
+{
+    QLT_NONE = 0;
+    QLT_INIT = 1;   ///< 初始化
+    QLT_ADD  = 2;   ///< 新增
+}
+
+message QuestInfo
+{
+    required UINT32 m_nId = 1;          ///< 任务id
+    required UINT32 m_nState = 2;       ///< 任务状态 enum QUEST_STATE_TYPE
+    required UINT32 m_nCheckCount = 3;  ///< 检查点数量
+    required UINT32 m_nAcceptTime = 4;  ///< 接受任务的时间戳
+    required UINT32 m_nBeginTime = 5;   ///< 任务开始时间戳
+    required UINT32 m_nEndTime = 6;     ///< 任务结束时间戳
+    required UINT32 m_nChangeTime = 7;  ///< 任务改变时间戳 
+}
+
+message AcemInfo
+{
+    required UINT32 m_nId = 1;          ///< 成就id
+    required UINT32 m_nOpenTime = 2;    ///< 成就开启时间点
+    required UINT32 m_nState = 3;       ///< 成就状态 enum ACHIEVEMENT_STATE_TYPE (AST_CLOSED,AST_OPEN)
+    required UINT32 m_nCheckCount = 4;  ///< 检查点数量
+}
+
+// 请求完成任务，领取任务奖励
+message RequestCompleteQuest
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_COMPLETE_QUEST; }
+    
+    required UINT32 m_nQuestId = 1;
+    required UINT32 m_nChoItemId = 2;   ///< 选择物品奖励的id
+}
+
+// 通知任务信息
+message NotifyQuestList
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_QUEST_LIST; }
+    
+    repeated QuestInfo m_questVec = 1;
+    required QUEST_LIST_TYPE m_type = 2;
+}
+
+// 单个玩家任务信息
+message NotifyQuestInfo
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_QUEST_INFO; }
+    
+    required QuestInfo m_questInfo = 1;
+}
+
+// 删除任务信息
+message NotifyDeleteQuest
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_DELETE_QUEST; }
+    
+    repeated UINT32 m_questIdVec = 1;
+}
+
+// 通知完成任务
+message NotifyCompleteQuest
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_COMPLETE_QUEST; }
+    
+    required UINT32 m_questId = 1;
+}
+
+// 通知完成任务失败
+message NotifyCompleteQuestFail
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_COMPLETE_QUEST_FAIL; }
+    
+    required UINT32 m_questId = 1;    
+}
+
+// 同步任务成就信息togame
+message SyncQuestAcemInfoToGame
+{
+    enum { THIS_MSG_TYPE = MSG_SYNC_QUEST_ACEM_LIST_TOGAME; }
+    
+    required UINT32 m_nSceneId = 1;
+    required UINT32 m_nCharOid = 2;
+    repeated QuestInfo m_questVec = 3;
+    repeated AcemInfo m_acemVec = 4;
+}
+
+// 改变检查点数量
+message ChangeCheckCount
+{
+    enum { THIS_MSG_TYPE = MSG_CHANGE_CHECK_COUNT; }
+    
+    required UINT32 m_nCharOid = 1;
+    required UINT32 m_nCheckType = 2;
+    required UINT32 m_nCheckId = 3;
+    required UINT32 m_nCheckCount = 4;
+    required UINT32 m_nReuseA = 5;
+}
+
+// 通知成就信息
+message NotifyAcemList
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ACEM_LIST; }
+    
+    repeated AcemInfo m_acemVec = 1;
+}
+
+// 更新单个成就信息
+message NotifyAcemInfo
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ACEM_INFO; }
+    
+    required AcemInfo m_acemInfo = 1;
+}
+
+// 请求打开界面
+message RequestOpenUI
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_OPEN_UI; }
+    
+    required BYTE m_nUIType = 1; ///< enum UI_TYPE
+}
+
+// 通知附身玩家打开界面
+message NotifyOpenUIMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_OPEN_UI; }
+    
+    required BYTE m_nUIType = 1; ///< enum UI_TYPE
+}
+
+// 分享快乐
+message RequestShareEnjoyment
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SHARE_ENJOYMENT; }
+    
+    required UINT32 m_nShareId = 1; ///< 对应分享表的id    
+}
+
+// 收藏桌面
+message RequestSetDesktop
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SET_DESKTOP; } 
+}
+
+/// 赞
+message RequestLikeUs
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_LIKE_US; }       
+}
+
+// 请求读取任务信息（全服任务使用）
+message RequestReadQuest
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_READ_QUEST; } 
+    
+    required UINT32 m_nCheckType = 1;
+}
+
+// 请求切换任务
+message RequestSwitchQuest
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SWITCH_QUEST; }
+        
+    required UINT32 m_nQuestId = 1;
+}
+
+message NotifySwitchQuest
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SWITCH_QUEST; }
+    
+    required UINT32 m_nOldId = 1;    ///< 旧的任务ID
+    required UINT32 m_nNewId = 2;   ///< 新的任务ID
+}
+
+/// 通知track全服充值任务数额
+message NotifyServerChargeNum
+{
+		enum { THIS_MSG_TYPE = MSG_NOTIFY_SERVER_CHARGE_NUM; }
+		
+		repeated UINT32 m_vecChargeNum = 1;     
+}
+
+// 请求获得物品任务
+message RequestGetItemQuest
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_GET_ITEM_QUEST; }
+    
+    required UINT32 m_nItemId = 1;    ///< 开启任务的物品模板ID
+}

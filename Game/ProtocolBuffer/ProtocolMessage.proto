@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+option csharp_namespace = "GameProtocol";
+
+message ProtocolMessage {
+    uint32 type = 1;
+    bytes data = 2;
+}

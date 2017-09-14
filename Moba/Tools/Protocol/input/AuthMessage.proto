@@ -1,0 +1,281 @@
+// ----------------------------------------------------------------------
+///	@file			protocol/AuthMessage.h
+///	@brief			认证相关协议定义
+///	@author			侯明园
+///	@copyright		Sixcube Information Technology Co,. Ltd. (2012)
+///	@date			2004-12-22 15:10:17
+// ----------------------------------------------------------------------
+
+import LoginProtocol;
+
+/// @addtogroup dt_AuthProtocol
+/// @{
+/**
+ * 请求验证协议版本.
+ * 
+ * MSG_AUTH_REQUEST_AUTH_LOGIN
+ */
+message RequestProtocolVersion {
+    enum { THIS_MSG_TYPE = MSG_AUTH_REQUEST_PROTOCOL_VERSION; }
+
+    required UINT32 m_auth_ver = 1;     ///< 认证协议版本
+    required UINT32 m_gate_ver = 2;     ///< 网关协议版本
+    required UINT32 m_mixAuth = 3;      ///< 是否是混服认证方式。0，默认认证方式；1，混服认证方式
+    required string m_client_ver = 4;   ///< 客户端版本
+}
+
+/**
+ * 认证请求.
+ * 
+ * MSG_AUTH_REQUEST_AUTH_RELOGIN
+ */
+message RequestAuthLogin {
+    enum { THIS_MSG_TYPE = MSG_AUTH_REQUEST_AUTH_LOGIN; }
+
+    required BYTE m_microclient = 1;    ///< 是否微端：1-是；0-不是;
+    required string m_name = 2;         ///< 登入ID(openid)
+    required string m_passwd = 3;       ///< 密码(openkey)
+    
+    required string m_adult = 4;        ///< 1为未成年 0为成年 多玩
+    required string m_time = 5;         ///< 时间戳
+
+    required string m_platform = 6;     ///< 运营平台(robot:为机器人专用)
+    required string m_channel = 7;      ///< 运营渠道(pf)
+    required string m_token = 8;        ///< 市场活动代码
+    required string m_passport = 9;     ///< 通行证（多玩微端用)(pfkey)
+    required UINT32 m_clientSid = 10;   ///< 客户端选择的区服id
+}
+
+/**
+ * 请求等入网关服务器
+ *
+ * MSG_AUTH_REQUEST_SERVER_LOGIN 
+ */
+message RequestServerLogin {
+    enum { THIS_MSG_TYPE = MSG_AUTH_REQUEST_SERVER_LOGIN; }
+
+    required UINT32 m_session = 1;    ///< session key
+    required UINT32 m_nAcctId = 2;    ///< 账号id
+}
+
+
+/**
+ * 请求登出网关服务器
+ * 
+ * MSG_AUTH_REQUEST_SERVER_LOGOUT
+ */
+message RequestServerLogout {
+    enum { THIS_MSG_TYPE = MSG_AUTH_REQUEST_SERVER_LOGOUT; }
+
+    required UINT32 m_session = 1;    ///< session key
+    required UINT32 m_nAcctId = 2;    ///< 账号id
+}
+
+/*
+ * MSG_SERVER_LOGOUT_CONFIRMED
+ */
+message ServerLogoutConfirm {
+    enum { THIS_MSG_TYPE = MSG_SERVER_LOGOUT_CONFIRMED; }
+
+    required UINT32 m_session = 1;    ///< session key   
+}
+
+/**
+ * 认证前端->客户端：密码验证成功  
+ * MSGTYPE_DECLARE(MSG_AUTH_LOGIN_OK),	
+ */
+message LoginOk {
+    enum { THIS_MSG_TYPE = MSG_AUTH_LOGIN_OK; }
+
+    required UINT32 m_sessionkey = 1;       ///< 验证成功后获取的SESSIONKEY
+    required UINT32 m_expire_time = 2;      ///< SESSION 超时时间
+    required UINT32 m_has_char = 3;         ///< 0 : FALSE; 1 : TRUE
+    required UINT32 m_nAcctId = 4;          ///< 账号id
+}
+
+/**
+ * 认证前端->客户端：密码验证错误  
+ *
+ * MSGTYPE_DECLARE(MSG_AUTH_LOGIN_FAIL),
+ */
+message LoginFail {
+    enum { THIS_MSG_TYPE = MSG_AUTH_LOGIN_FAIL; }
+
+    required int m_reason = 1;			///< enum AUTH_RESULT
+    required UINT32 m_uOpenTime = 2;    /// 如果返回原因为服务器即将开启,此参数返回服务器将要开启的时间
+    required string m_errMsg = 3;    /// 华义定义错误消息
+}
+
+/**
+ * 网关游戏服务器不可用
+ */
+message PlayFail {
+    enum { THIS_MSG_TYPE = MSG_AUTH_PLAY_FAIL; }
+
+    required int m_reason = 1;
+}
+
+/**
+ * 区服列表 
+ */
+message RegionServerList {
+    enum { THIS_MSG_TYPE = MSG_AUTH_SERVER_LIST; }
+
+    repeated REGION_INFO m_regions = 2;
+}
+
+
+/**
+ * 版本验证成功 
+ */
+message VersionOk {
+    enum { THIS_MSG_TYPE = MSG_AUTH_VESION_OK; }
+
+    required UINT32 m_gameVer = 1;    //游戏主程序版本
+    required UINT32 m_dataVer = 2;    //数据材质版本
+}
+
+
+/**
+ * 版本验证失败 
+ */
+message VersionFail {
+    enum { THIS_MSG_TYPE = MSG_AUTH_VESION_FAILED; }
+
+    required int m_reason = 1;
+}
+
+
+/**
+ *  向认证服务器请求登录到区服网关
+ *
+ *　MSG_AUTH_REQUEST_REGION_SESSION
+ */
+message RequestRegionSession {
+    enum { THIS_MSG_TYPE = MSG_AUTH_REQUEST_REGION_SESSION; }
+
+    required UINT16 m_region_id = 1;    ///< 区服ID
+    required UINT32 m_session = 2;    ///< 所用的SessionKey
+    required string m_login = 3;    ///< 所用的登录名
+}
+
+
+/**
+ * 认证前端->客户端：Session开始
+ *
+ * MSG_AUTH_SESSION_REQUESTCONFIRM
+ */
+message SessionRequestConfirm {
+    enum { THIS_MSG_TYPE = MSG_AUTH_SESSION_REQUESTCONFIRM; }
+
+    required UINT32 m_is_valid = 1;    ///< 1表示有效的Sesison
+}
+
+
+/**
+ * 认证前端->客户端：Session请求被拒绝
+ *
+ * MSGTYPE_DECLARE(MSG_AUTH_SESSION_REQUESTREJECT)
+ */
+message SessionRequestReject {
+    enum { THIS_MSG_TYPE = MSG_AUTH_SESSION_REQUESTREJECT; }
+
+    required UINT32 m_reason = 1;    ///< @see AUTH_SESSION_RESULT
+}
+
+
+/**
+ * 网关->客户端：Session被中断
+ * 
+ * MSGTYPE_DECLARE(MSG_AUTH_SESSION_INTERRUPTED),
+ */
+message SessionInterruptMessage {
+    enum { THIS_MSG_TYPE = MSG_AUTH_SESSION_INTERRUPTED; }
+
+    enum SRR_REASON {
+        SRR_BEING_KICKED = 0;    ///< 有新的正确登录
+        SRR_SESSION_EXPIRED = 1;    ///< SESSION超时
+        SRR_SESSION_OUTOFFEE = 2;    ///< 点卡余额不足
+    }
+
+
+    required UINT32 m_reason = 1;    ///! @see SRR_REASON
+}
+
+/**
+ * 认证前端->客户端：Session结束
+ *
+ * MSGTYPE_DECLARE(MSG_AUTH_SESSION_CLOSECONFIRM)
+ */
+message CloseSessionConfirm {
+    enum { THIS_MSG_TYPE = MSG_AUTH_SESSION_CLOSECONFIRM; }
+
+    required UINT32 m_reason = 1;	///< enum:AUTH_SESSION_RESULT
+}
+
+
+/**
+ * 打断正在离开游戏的请求  
+ * MSGTYPE_DECLARE(MSG_AUTH_REQUEST_CANCEL_LOGOUT)
+ */
+message AuthRequestCancleLogout {
+    enum { THIS_MSG_TYPE = MSG_AUTH_REQUEST_CANCEL_LOGOUT; }
+
+    required UINT32 m_session = 1;
+}
+
+
+/**
+ * 通知客户端正在取 
+ * MSGTYPE_DECLARE(MSG_WORLD_LOGOUT_NOTIFY)				
+ */
+message AuthWorldLogoutNotify {
+    enum { THIS_MSG_TYPE = MSG_WORLD_LOGOUT_NOTIFY; }
+
+    required UINT32 m_cooling = 1;    ///< 正式退出前的冷却时间，单位秒
+}
+
+// MSGTYPE_DECLARE(MSG_AUTH_REQUEST_SWITCH_LINE),
+// 请求切换分线
+message RequestSwitchLine {
+    enum { THIS_MSG_TYPE = MSG_AUTH_REQUEST_SWITCH_LINE; }
+    
+    required UINT32 m_sessionkey = 1;       ///< 验证成功后获取的SESSIONKEY
+    required BYTE m_bVipLevel = 2;          ///< 玩家的vip等级,vip过期填0
+    required UINT32 m_clientSid = 3;        ///< 客户端选择的区服id
+    required UINT32 m_wallowtime = 4;       ///< gate上记录的wallowtime 分钟
+    required INT32  m_isPwdCheck = 5;       ///< 二级密码是否已验证
+}
+
+// MSGTYPE_DECLARE(MSG_AUTH_SWITCH_LINE_RESULT),
+// 通知切换分线结果
+message SwitchLineResult {
+    enum { THIS_MSG_TYPE = MSG_AUTH_SWITCH_LINE_RESULT; }
+    
+    enum {
+        SWITCH_OK = 0;              ///< 切分线成功
+        SWITCH_ERR_FULL = 1;        ///< 分线人数已满
+        SWITCH_ERR_NO_SVR = 2;      ///< 没有gatesvr
+        SWITCH_ERR_SID = 3;         ///< sid错误
+        SWITCH_ERR_SESSION_KEY = 4; ///< sessionkey错误
+        SWITCH_ERR_BUSY = 5;        ///< 分线繁忙
+    }
+    
+    required BYTE m_bResult = 1;              ///< 分线切换结果
+    required REGION_INFO m_regions = 2;
+}
+
+/**
+ * 请求附身登入网关服务器
+ *
+ * MSG_REQUEST_OBSERVER_LOGIN 
+ */
+message RequestObserverLoginMessage {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_OBSERVER_LOGIN; }
+
+    required UINT32 m_acctId 					= 1;    ///< 账号id
+    required UINT32 m_targetClietnId 	= 2;		///< 目标client
+}
+
+
+/// @}

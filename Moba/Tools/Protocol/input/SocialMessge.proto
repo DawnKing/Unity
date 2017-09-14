@@ -1,0 +1,38 @@
+// ----------------------------------------------------------------------
+///    @file            protocol/SocialMessage.h
+///    @brief           
+///    @author          libo
+///    @copyright       Sixcube Information Technology Co,. Ltd. (2012)
+///    @date            
+// ----------------------------------------------------------------------
+
+import ShareTypes;
+import BulkDataEnum;
+import BulkDataType;
+
+// 请求领取一个临时师徒关系的邀请码
+message RequestSocialTicket
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SOCIAL_TICKET; }
+    
+    required UINT32 m_socialType = 1;      ///< 关系的类型, 参见CHAR_SOCIAL_TYPE
+}
+
+// 请求领取一个临时师徒关系的邀请码
+message ConfirmSocialTicket
+{
+    enum { THIS_MSG_TYPE = MSG_CONFIRM_SOCIAL_TICKET; }
+    
+    required string m_ticket  = 1; 	    ///< 临时师徒关系的邀请码
+}
+
+// 请求领取邀请码的奖励
+message RequestSocialAward
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SOCIAL_AWARD; }
+    
+    required UINT32 m_awardId = 1;    	    ///< 请求领取的奖励代码
+}
+
+
+

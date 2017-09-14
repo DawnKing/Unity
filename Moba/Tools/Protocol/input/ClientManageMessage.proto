@@ -1,0 +1,41 @@
+// ----------------------------------------------------------------------
+///	@file			protocol/ClientManageMessage.h
+///	@brief
+///	@author			Hou Ming Yuan
+///	@copyright		Sixcube Information Technology Co,. Ltd. (2012)
+///	@date			2005-3-18 10:14:18
+// ----------------------------------------------------------------------
+/// @addtogroup dt_ManageMessage
+/// @{
+message ConnectIndicatePacket {
+    enum { THIS_MSG_TYPE = MSG_CLIENT_MANAGE_CONNECT_INDICATE; }
+
+    required UINT32 m_ip = 1;
+    required UINT32 m_isOut = 1;	///- 是否是服务端主动向外的连接
+}
+
+
+message DisconnectIndicatePacket {
+    enum { THIS_MSG_TYPE = MSG_CLIENT_MANAGE_DISCONNECT_INDICATE; }
+
+}
+
+
+message DisconnectCommandPacket {
+    enum { THIS_MSG_TYPE = MSG_CLIENT_MANAGE_DISCONNECT_COMMAND; }
+
+}
+
+/// 用来通知socket链接事件，给发送线程发送此消息，避免用锁
+message IndicateSocketEvent {
+    enum { THIS_MSG_TYPE = MSG_SOCKET_EVENT; }
+}
+
+message OpenConnectCommand {
+    enum { THIS_MSG_TYPE = MSG_CLIENT_MANAGE_OPENCONNECT_COMMAND; }
+
+    required string m_ip = 1;
+    required string m_port = 2;
+}
+
+/// @}

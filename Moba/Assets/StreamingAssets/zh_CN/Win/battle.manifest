@@ -1,0 +1,22 @@
+ManifestFileVersion: 0
+CRC: 2511553104
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 26b3699657f84fd5d660c6c87bad4a48
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: b0385918b5166da1c48818b5ba755712
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 7904933af1294c641b7f9fdd80076714, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+Assets:
+- Assets/LocalAssets/zh_CN/battle/EntityInfoPanel.prefab
+Dependencies: []

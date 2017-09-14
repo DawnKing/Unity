@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="120,50" pivot="0.5,1" anchor="true">
+  <displayList>
+    <text id="n0_zpcw" name="txtName" xy="5,28" size="113,20" fontSize="16" color="#ff0000" letterSpacing="1" bold="true" strokeColor="#000000" singleLine="true" text="这是一个名字">
+      <relation target="" sidePair="center-center"/>
+    </text>
+    <component id="n1_ty2p" name="n1" src="v38da" xy="25,8">
+      <relation target="" sidePair="center-center"/>
+      <ProgressBar value="50" max="100"/>
+    </component>
+  </displayList>
+</component>

@@ -1,0 +1,297 @@
+// ----------------------------------------------------------------------
+
+import BulkDataType;
+import ItemMessage;
+
+enum TURNUP_REQUEST_TYPE
+{
+	TURNUP_REQUEST_NORMAL 	= 1; 	///< 普通的
+	TURNUP_REQUEST_CASH	= 2;	///< 点券翻牌
+	TURNUP_REQUEST_GIFT = 3;    ///< 礼券翻牌
+}
+
+enum TURNUP_STATE
+{
+	TS_NONE		        = 0;    ///< 无
+	TS_FREE_RING_GOING	= 1;    ///< 免费轮进行中
+	TS_FREE_RING_OVER   = 2;    ///< 免费轮结束
+    TS_ADDED_RING_GOING = 3;    ///< 额外轮进行中
+    TS_OVER		        = 4;    ///< 翻牌结束
+}
+
+/// 翻牌信息结构体
+message TurnupInfo
+{
+	required INT32 	m_type 	= 1;	///< 奖励类型 TURNUP_AWARD_TYPE
+	required UINT32	m_value = 2;	///< 值（数值或者id）
+	required INT32  m_time  = 3;    ///< 存在时间（天）
+	required BYTE   m_bBind = 4;    ///< 是否绑定
+}
+
+/// 通知翻牌开始
+message NotifyTurnupBegin
+{
+    enum { THIS_MSG_TYPE = MSG_AWARD_NOTIFY_TURNUP_BEGIN; }
+	
+	required INT32	m_iCountDown 	= 1;	///< 倒计时 秒为单位
+	required INT32	m_iCardCount	= 2;	///< 牌的数量
+	required INT32	m_iTurnupCount 	= 3;	///< 可以翻牌的次数
+	required INT32	m_iCash         = 4;    ///< 点券翻牌需要的点券数量
+	required UINT32	m_nState        = 5;    ///< 翻牌状态 TURNUP_STATE
+}
+
+/// 请求翻牌
+message RequestOpenTurnup
+{
+	enum { THIS_MSG_TYPE = MSG_REQUEST_OPEN_TURNUP; }
+	
+	required INT32	m_site	= 1;	///< 翻起的位置
+	required INT32	m_type 	= 2;	///< 翻牌类型 TURNUP_REQUEST_TYPE
+}
+
+message OneTurnupResult
+{
+	required INT32	m_site	= 1;	///< 翻起的位置
+	required TurnupInfo m_info = 2;	///< 奖励信息
+	required UINT32	m_charOid = 3;	///< 翻起者的id
+}
+
+/// 通知翻牌结果
+message NotifyTurnupResult
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_TURNUP_RESULT; }
+	
+	required OneTurnupResult m_result = 1;
+}
+
+/// 通知翻牌结果给gatesvr
+message NotifyTurnupResultToGate
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_TURNUP_RESULT_TOGATE; }
+	
+	required TurnupInfo m_info = 1;	    ///< 奖励信息	
+	required UINT32     m_turnupType = 2;   ///< 翻牌类型
+	required INT32	    m_type 	= 3;	///< 请求类型 TURNUP_REQUEST_TYPE
+}
+
+/// 通知翻开其他牌
+message NotifyTurnupEnd
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_TURNUP_END;}
+	
+	repeated OneTurnupResult m_result = 1;	///< 自动翻牌的结果
+	repeated TurnupInfo 	m_infoVec = 2;	///< 翻开所有的牌	
+	required UINT32	        m_nState  = 3;  ///< 翻牌状态 TURNUP_STATE
+}
+
+//////////////////////////////////////////////////////////////////////////
+// 运营奖励相关
+
+// 奖励领取类型
+enum AWARD_DRAW_TYPE
+{
+    ADT_NONE        = 0;    ///< 不需要任何验证
+    ADT_NO_VALID    = 1;    ///< 不需要验证码，需要验证帐号
+    ADT_VALID       = 2;    ///< 需要验证码
+    ADT_CHAR_UUID   = 3;    ///< 不需要验证码，需要验证角色uuid
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_DRAW_AWARD),            
+// 请求领取奖励
+message RequestDrawAward {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_DRAW_AWARD;}
+
+    required UINT32     m_awardId   = 1;    ///< 奖励id
+    required string     m_validate  = 2;    ///< 奖励验证码
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_DRAW_AWARD_RESULT),          
+// 通知奖励领取结果
+message DrawAwardResult {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_DRAW_AWARD_RESULT;}
+    
+    required UINT32 m_awardId   = 1;    ///< 奖励id
+    required BYTE   m_isOk      = 2;    ///< 是否领取成功
+    required UINT32 m_sysTip    = 3;    ///< 系统提示
+}
+
+// 礼包领取类型
+enum AWARD_GIFT_TYPE
+{
+    AGT_YELLOW_UPLEVEL = 1;         ///< 黄钻升级礼包(360v计划等级礼包)
+    AGT_YELLOW_DAILY = 2;           ///< 黄钻每日礼包(360v计划每日礼包)
+    AGT_YELLOW_TYRO = 3;            ///< 黄钻新手礼包(360v计划特供礼包)
+    AGT_INVITE_FRIEND = 4;          ///< 邀请好友
+    AGT_BLUE_UPLEVEL = 5;           ///< 蓝钻升级礼包
+    AGT_BLUE_DAILY = 6;             ///< 蓝钻每日礼包
+    AGT_BLUE_TYRO = 7;              ///< 蓝钻新手礼包(360v计划年费特供礼包)
+    AGT_3366LV_DAILY = 8;           ///< 3366每日礼包
+    AGT_REACTIVE = 9;               ///< qq热血礼包(邮件发送,只能给予物品)
+    AGT_REACTIVE_BACK = 10;         ///< qq回归礼包(邮件发送,只能给予物品)
+    AGT_BECKON = 11;                ///< qq召唤礼包(邮件发送,只能给予物品)
+    AGT_RBECKON_BACK = 12;          ///< qq重归礼包(邮件发送,只能给予物品)
+    ACT_INVITE_GIFT = 13;           ///< 活动邀请好友礼包
+    ACT_REACTIVE_GIFT = 14;         ///< 活动召回老朋友礼包
+    AGT_QQ_INVITE_COUNT = 15;       ///< qq邀请好友人数礼包
+    AGT_QQ_BOX_DAILY = 16;          ///< QQ管家盒子每日礼包
+    AGT_TGP_DAILY = 17;             ///< TGP每日礼包
+    AGT_QQ_BROWSER_DAILY = 18;      ///< QQ浏览器每日礼包
+    AGT_360_GAMEHALL_DAILY = 19;    ///< 360游戏大厅每日礼包
+    AGT_SUPER_VIP_MONTH_AWARD = 20; ///< 超级VIP每月礼包
+    AGT_360_GAMEHALL_ONCE = 21;     ///< 360游戏大厅单次礼包
+    AGT_VIP_WEEKLY_AWARD = 22;      ///< VIP每周签到礼包
+    AGT_QQGAME_UPLEVEL = 23;        ///< 大厅升级礼包
+    AGT_QQGAME_DAILY = 24;          ///< 大厅每日礼包
+    AGT_QQGAME_TYRO = 25;           ///< 大厅新手礼包
+    
+    AGT_YELLOW_YEAR_DAILY = 101;    ///< 年费黄钻每日额外礼包(360v计划年费每日礼包)(仅做显示用,不可作为领取类型)
+    AGT_BLUE_YEAR_DAILY = 102;      ///< 年费蓝钻每日额外礼包(仅做显示用,不可作为领取类)
+    AGT_BLUE_HIGH_DAILY = 103;      ///< 豪华蓝钻每日额外礼包(仅做显示用,不可作为领取类)
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_DRAW_GIFT),
+// 请求领取礼包
+message RequestDrawGift {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_DRAW_GIFT;}
+
+    required BYTE m_bGiftType = 1;      ///< 礼包领取类型,有效值: <100 enum AWARD_GIFT_TYPE
+    required UINT32 m_nLevel = 2;       ///< 礼包等级
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_DRAW_GIFT_RESULT),
+// 通知礼包领取结果
+message DrawGiftResult {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_DRAW_GIFT_RESULT;}
+    
+    enum {
+        DGRT_SUCCESS = 1;       // 领取成功
+        DGRT_IS_DRAW = 2;       // 礼包已被领取过
+        DGRT_NO_YELLOW = 3;     // 不是黄钻会员
+        DGRT_HTTP_ERR = 4;      // 黄钻请求接口返回错误
+        DGRT_PACKAGE_FULL = 5;  // 包裹已满,请先清理包裹
+        DGRT_COIN_MAX = 6;      // 银币已达上限
+        DGRT_DATA_ERR = 7;      // 数据错误
+        DGRT_NO_AWARD = 8;      // 没有奖励数据
+    }
+    
+    required BYTE m_bGiftType = 1;      ///< 礼包领取类型 enum AWARD_GIFT_TYPE
+    required BYTE m_bRes= 2;            ///< 领取结果
+    required string m_errMsg = 3;       ///< m_bRes = 4时,请求接口返回错误信息
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_SET_INVITER_ACCTID),
+// 请求填写邀请者账号id
+message RequestSetInviterId {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SET_INVITER_ACCTID;}
+    
+    required BYTE m_bIsTyro = 1;            ///< 是否是新玩家
+    required UINT32 m_nInviterId = 2;       ///< 邀请者账号id
+}
+
+// 红包操作类型
+enum REDPKT_OP_TYPE
+{
+    ROT_SEND	= 0;		///< 发红包
+    ROT_ROB		= 1;        ///< 抢红包
+}
+
+// 红包货币类型
+enum REDPKT_MONEY_TYPE
+{
+	RMT_CASH		= 0;		///< 点券
+    RMT_GIFT		= 1;		///< 礼券
+    RMT_TOKEN		= 2;        ///< 金币
+	RMT_GOLDEN		= 3;        ///< 银币
+}
+
+// 红包记录
+message RedPktLog 
+{
+	required string strPacketUuid = 1;      ///< 红包uuid
+	required UINT32 opType = 2;				///< 操作类型(REDPKT_OP_TYPE)
+    required string pktOwnerName = 3;       ///< 红包的主人名字
+	required UINT32 nMoneyType = 4;			///< 货币类型(REDPKT_MONEY_TYPE)
+	required UINT32 nMoney = 5;       
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_SEND_REDPACKET),
+// 请求发红包
+message RequestSendRedPacket {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_SEND_REDPACKET;}
+    
+    required UINT32 nMoney = 1;       ///< 红包金额
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_SEND_REDPACKET_SUCC),
+// 通知发红包成功
+message NotifySendRedPacketSucc {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_SEND_REDPACKET_SUCC;}
+    
+    required RedPktLog pktLog = 1;       ///< 红包记录
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_ROB_REDPACKET),
+// 请求抢红包
+message RequestRobRedPacket {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_ROB_REDPACKET;}
+    
+    required string strPacketUuid = 1;       ///< 红包uuid
+	required BYTE bFromTrack = 2;     ///< 是否来自Track
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_ROB_REDPACKET_SUCC),
+// 通知抢红包成功
+message NotifyRobRedPacketSucc {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ROB_REDPACKET_SUCC;}
+    
+	required RedPktLog pktLog = 1;       ///< 红包记录
+}
+
+// MSGTYPE_DECLARE(MSG_SEND_REDPKT_BULLETIN),
+// gate-->track-->global 玩家发红包的公告
+message SendRedPktBulletin {
+    enum { THIS_MSG_TYPE = MSG_SEND_REDPKT_BULLETIN;}
+    
+	required UINT32 m_nBltId = 1;	///< 公告ID
+    repeated string m_argList = 2;	///< 公告参数
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_REDPACKET_LOG),
+// 请求所有红包记录
+message RequestRedPacketLog {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_REDPACKET_LOG;}
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_REDPACKET_LOG),
+// 通知所有红包记录
+message NotifyRedPacketLog {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_REDPACKET_LOG;}
+    
+	repeated RedPktLog m_logList = 1;	///< 红包记录
+}
+
+// 开宝箱类型
+enum OPEN_CHEST_TYPE
+{
+    OCT_ONE		= 0;		///< 开一次
+    OCT_TEN		= 1;        ///< 开十次
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_OPEN_CHEST),
+// 请求开宝箱
+message RequestOpenChest {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_OPEN_CHEST;}
+    
+	required UINT32 opType = 1;				///< 开宝箱类型(OPEN_CHEST_TYPE)
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_OPEN_CHEST),
+// 通知开宝箱成功
+message NotifyOpenChestSucc {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_OPEN_CHEST;}
+	
+}
+
+
+/// @}
+

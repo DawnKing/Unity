@@ -1,0 +1,90 @@
+// ----------------------------------------------------------------------
+///    @file            protocol/StoreMessage.h
+///    @brief           
+///    @author          libo
+///    @copyright       Sixcube Information Technology Co,. Ltd. (2012)
+///    @date            
+// ----------------------------------------------------------------------
+
+import BulkDataEnum;
+import BulkDataType;
+
+
+// 请求打开商店(会检查刷新)
+message RequestStoreMerchandise
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_STORE_MERCHANDISE; }
+    
+    required UINT32 m_storeType = 1;      ///< 商店类型, 参见STORE_TYPE
+}
+
+// 请求主动刷新商店
+// MSGTYPE_DECLARE(MSG_REQUEST_REFRESH_STORE),            
+message RequestRefreshStore
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_REFRESH_STORE; }
+    
+    required UINT16 m_storeType = 1;      ///< 商店类型, 参见STORE_TYPE
+}
+// 请求购买商店物品
+// MSGTYPE_DECLARE(MSG_REQUEST_STORE_PURCHASE),            
+message RequestStorePurchase
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_STORE_PURCHASE; }
+    
+    required UINT16 m_storeType = 1;      ///< 商店类型, 参见STORE_TYPE
+    required UINT16 m_itemPos   = 2; 	  ///< 商品所在格子的位置
+    required UINT16 m_count = 3;          ///< 购买数量
+}
+
+// 商店相关的消息
+// MSGTYPE_DECLARE_ASSIGN(MSG_NOTIFY_STORE_MERCHANDISE, 1140), 
+message NotifyStoreMerchandise
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_STORE_MERCHANDISE; }
+
+    required UINT16 m_storeType  = 1;      ///< 商店类型, 参见STORE_TYPE
+    required UINT32 m_lastUpdate = 3; 	   ///< 最后一次刷新时间
+    required UINT32 m_refreshCount = 4;    ///< 刷新次数
+    repeated STORE_GOODS m_storeGoods = 5; ///< 商城物品列表(模板ID，剩余数量，售价，货币种类)
+}
+
+// 通知商品购买的成功确认
+// MSGTYPE_DECLARE(MSG_CONFIRM_STORE_PURCHASE)
+message ConfirmStorePurchase 
+{
+    enum { THIS_MSG_TYPE = MSG_CONFIRM_STORE_PURCHASE; }
+
+    required UINT16 m_storeType = 1;      ///< 商店类型, 参见STORE_TYPE
+    required UINT16 m_itemPos   = 2; 	  ///< 商品所在格子的位置
+    required STORE_GOODS m_storeGood = 3; 	   ///< 商城物品信息
+}
+
+// 请求开通商店进入权限
+message RequestStoreEnable
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_STORE_ENABLE; }
+    
+    required UINT16 m_storeType = 1;      ///< 商店类型, 参见STORE_TYPE
+    required BYTE m_useCash = 2;          ///< 使用点券开启
+}
+
+// 通知商店简要信息
+message NotifyStoreBrief
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_STORE_BRIEF; }
+    
+    required UINT16 m_ntoreType = 1;  ///< 商店类型, 参见STORE_TYPE
+    required UINT32 m_lastUpdate = 2; ///< 最后一次刷新时间
+    required UINT32 m_refreshCount = 3;    ///< 刷新次数
+}
+
+// 通知商店开启成功
+message NotifyStoreEnableSucceed
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_STORE_ENABLE_SUCCEED; }
+    
+    required UINT16 m_ntoreType = 1;  ///< 商店类型, 参见STORE_TYPE
+    required UINT32 m_lastUpdate = 2; ///< 最后一次刷新时间
+    required UINT32 m_refreshCount = 3;    ///< 刷新次数
+}

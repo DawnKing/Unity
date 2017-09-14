@@ -1,0 +1,296 @@
+// ----------------------------------------------------------------------
+///    @file            protocol/ActivityMessage.h
+///    @brief           活动相关协议
+///    @author          Bob Lee (bob@onwind.cn)
+///    @copyright       Sixcube Information Technology Co,. Ltd. (2012)
+///    @date            2013-10-15 22:01:02
+// ----------------------------------------------------------------------
+import BulkDataType;
+
+
+message ActInfo
+{
+    required UINT32 m_nActId        = 1;    ///< 参见活动模板表，活动Id
+    required UINT32 m_nStartTime    = 2;    ///< 开始时间
+    required UINT32 m_nDurationTime = 3;    ///< 持续时间
+    required UINT32 m_state         = 4;    ///< 活动状态 enum ACTIVITY_STATE
+}
+
+//  通知单个活动信息
+message NotifyActInfo
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ACT_INFO; }
+    
+    required ActInfo m_actInfo = 1;         ///< 活动信息
+}
+
+// 通知多个活动信息
+message NotifyActInfoList
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ACT_INFO_LIST; }
+    
+    repeated ActInfo m_actList = 1;         ///< 活动列表
+}
+
+//  通知停止活动(目前只在GM指令中使用)
+message NotifyStopAct
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_STOP_ACT; }
+    
+    required UINT32 m_nActId        = 1;   ///< 参见活动模板表，活动Id
+}
+
+// 通知其他服务器活动开启
+message NotifyStartAct
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_START_ACT; }
+    
+    required UINT32 m_nActId = 1;    ///< 活动Id
+}
+
+// 同步活动信息给其他svr
+message SyncRunningActivityToSvr
+{
+    enum { THIS_MSG_TYPE = MSG_SYNC_RUNNING_ACTIVITY_TO_SVR; }
+    
+    repeated UINT32 m_vecId = 1;   ///< 活动ID列表
+}
+
+///MSGTYPE_DECLARE(MSG_ACTIVITY_NOTIFY_STATE_CHANGE),
+/// 通知客户端，活动的变化信息
+message ActivityNotifyStateChange {
+    enum { THIS_MSG_TYPE = MSG_ACTIVITY_NOTIFY_STATE_CHANGE; }
+    required INT32 m_activity = 1;
+    required INT32 m_state = 2;                 /// 0， 准备， 1，开始；2，关闭
+    required UINT32 m_nParam = 3;               /// 参数
+}
+
+
+// MSGTYPE_DECLARE(MSG_ACTIVITY_ENTER_BOSS)
+// 请求参加世界boss活动
+message ActivityEnterBoss {
+    enum { THIS_MSG_TYPE = MSG_ACTIVITY_ENTER_BOSS; }
+
+    required int m_iResetCD = 1;                ///< 是否重置进入cd
+}
+
+// 对boss造成伤害
+message HarmBossInfo
+{
+    required string m_charUuid = 1;         // 角色uuid
+    required string m_strName = 2;          // 角色名称
+    required int m_iHarm = 4;               // 累计伤害
+}
+
+// MSGTYPE_DECLARE(MSG_ACTIVITY_NOTIFY_BOSS_DATA),
+// 通知客户端, 世界boss活动信息
+message ActivityNotifyBossData {
+    enum { THIS_MSG_TYPE = MSG_ACTIVITY_NOTIFY_BOSS_DATA; }
+
+    required int m_nActId = 1;              // 活动模板id
+    required int m_iBossHp = 2;             // boss当前血量
+    required int m_iBossMaxHp = 3;          // boss最大血量
+    required int m_iHarm = 4;               // 自己对boss造成的伤害
+    required UINT32 m_nRank = 5;            // 自己的名次
+    required UINT32 m_nEnterCD = 6;         // 进入地图冷却时间
+    repeated HarmBossInfo m_rankVec = 7;    // 伤害前10名的信息
+}
+
+// MSGTYPE_DECLARE(MSG_ACTIVITY_BOSS_OPEN_UI),
+// 打开世界boss活动UI
+message OpenBossActUI {
+    enum { THIS_MSG_TYPE = MSG_ACTIVITY_BOSS_OPEN_UI; }
+}
+
+
+// MSGTYPE_DECLARE(MSG_ACTIVITY_BOSS_CLOSE_UI),
+// 关闭世界boss活动UI
+message CloseBossActUI {
+    enum { THIS_MSG_TYPE = MSG_ACTIVITY_BOSS_CLOSE_UI; }
+}
+
+// MSGTYPE_DECLARE(MSG_ACTIVITY_SYNC_BOSS_DATA),
+// 通知客户端, 同步世界boss活动信息
+message ActivitySyncBossData {
+    enum { THIS_MSG_TYPE = MSG_ACTIVITY_SYNC_BOSS_DATA; }
+
+    required int m_nActId = 1;              // 活动模板id
+    required int m_iBossHp = 2;             // boss当前血量
+    required int m_iBossMaxHp = 3;          // boss最大血量
+    repeated HarmBossInfo m_rankVec = 7;    // 伤害前10名的信息
+}
+
+// MSGTYPE_DECLARE(MSG_REQUEST_DRAW_ONLINE_PEAK_AWARD),
+// 请求自动领取在线峰值活动奖励
+message RequestDrawOnlinePeakAwardMessage {
+    enum { THIS_MSG_TYPE = MSG_REQUEST_DRAW_ONLINE_PEAK_AWARD; }
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_GRANT_ONLINE_PEAK_AWARD),
+// 通知发放在线峰值活动奖励
+message NotifyGrantOnlinePeakAwardMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_GRANT_ONLINE_PEAK_AWARD; }
+    
+    required INT32 m_awardId = 1;    // 奖励ID
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_NEXT_ONLINE_PEAK_ACT_START),
+// 通知开始下个阶段在线峰值活动
+message NotifyNextOnlinePeakActStartMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_NEXT_ONLINE_PEAK_ACT_START; }
+    
+    required INT32 m_onlinePeakPhase = 1;   //峰值在线活动阶段
+    required INT32 m_isNextStart     = 2;   //是否开启下一阶段
+       
+}
+
+message ActConvertInfo {
+	required UINT32 m_convertId 	 		= 1;    //兑换ID
+	required INT32  m_maxConvertCount	= 2;		//最大兑换次数
+	required INT32  m_curConvertCount = 3;		//当前可兑换次数
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_LUCK_CONVERT_COUNT),
+// 通知幸运活动兑换次数
+message NotifyLuckConvertCountMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_LUCK_CONVERT_COUNT; }
+    
+    required UINT32 m_actType = 1;									//活动类型
+    repeated ActConvertInfo m_convertInfoVec = 2;   //兑换信息
+}
+
+// MSGTYPE_DECLARE(MSG_NOTIFY_LUCK_CONVERT_SUCCESS),
+// 通知幸运活动成功兑换
+message NotifyLuckConvertSuccessMessage {
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_LUCK_CONVERT_SUCCESS; }
+    
+    required UINT32 m_convertId 	 = 1;    //兑换ID
+}
+
+/// 请求点赞
+message RequestRandStepSupportMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_RAND_STEP_SUPPORT; }   
+
+    required string   m_supportUuid = 1;      ///< 点赞UUID
+}
+
+/// 请求自己的点赞信息
+message RequestRandStepSupportInfoMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_RAND_STEP_SUPPORT_INFO; }   
+}
+
+/// 通知自己的点赞信息
+message NotifyRandStepSupportInfoMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_RAND_STEP_SUPPORT_INFO; }   
+    
+    repeated string m_supportUuidVec = 1;
+}
+
+//通知点赞成功
+message NotifyRandStepSupportSuccessMessage
+{
+	enum { THIS_MSG_TYPE = MSG_NOTIFY_RAND_STEP_SUPPORT_SUCCESS; }   
+}
+
+/// 请求领取阶段周活跃奖励
+message RequestDrawStageWeekFizzAwardMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_DRAW_STAGE_WEEK_FIZZ_AWARD; }   
+
+}
+
+/// 请求云购购买
+message RequestCloudPurchaseBuyMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_CLOUD_PURCHASE_BUY; }  
+    
+    required string   m_charUuid = 1;      ///< 玩家UUID 
+    required string   m_charName = 2;      ///< 玩家名
+}
+
+/// 请求获取云购购买信息
+message RequestGetCloudPurchaseBuyInfoMessage
+{
+    enum { THIS_MSG_TYPE = MSG_REQUEST_GET_CLOUD_PURCHASE_BUY_INFO; }  
+    
+    required string   m_charUuid = 1;      ///< 玩家UUID 
+}
+
+/// 通知云购购买信息
+message NotifyCloudPurchaseBuyInfoMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CLOUD_PURCHASE_BUY_INFO; }  
+    
+    enum NOTIFY_TYPE {
+    	NT_REQ_GET      = 0;		   //客户端请求
+    	NT_BUY_RESPONSE = 1;       //个人购买回馈
+    	NT_MULTICAST    = 2;       //购买广播
+    }
+    
+    required UINT32   m_notifyType = 1;	 ///<  通知类型
+    required UINT32   m_buyCnt = 2;      ///<  个人购买数量
+    required UINT32   m_totalCnt = 3;    ///<  全服购买数量  
+}
+
+
+/// 通知对应物品云购奖励坦克信息
+message NotifyItemCloudPurchaseTankInfoMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_ITEM_CLOUD_PURCHASE_TANK_INFO; }  
+    
+    required UINT32   m_awardTime = 1;
+    repeated UINT32   m_tankIdVec = 2;    ///<  坦克ID
+}
+
+message CloudPurchaseAwardInfo
+{
+		required UINT32 m_awardTime = 1;     //获得奖励时间
+		required string m_awardName = 2;     //获奖玩家名
+		required UINT32 m_buyCnt    = 3;     //购买次数
+}
+
+/// 通知云购大奖信息
+message NotifyCloudPurchaseAwardInfoMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_CLOUD_PURCHASE_AWARD_INFO; }  
+    
+    repeated CloudPurchaseAwardInfo   m_awardInfoVec = 1;	 ///<  云购大奖信息
+}
+
+
+/// 通知篝火活动添加柴火信息
+message NotifyBonFireUseCountInfoMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_BONFIRE_USE_COUNT_INFO; }  
+    
+    required UINT32   m_prevTotalUseCnt = 1;	 ///<  上次总使用数
+    required UINT32   m_curAddUseCnt    = 2;   ///<  本次增加次数
+    required INT32    m_useParam = 3;          ///<  添加柴火参数  
+}
+
+/// 通知篝火活动添加柴火
+message NotifyBonFireUseMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_BONFIRE_USE; }  
+    
+    required UINT32   m_charOid = 1;	 ///<  添加玩家OID
+}
+
+/// 通知篝火活动领取任务奖励
+message NotifyBonFireCompleteQuestMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_BONFIRE_COMPLETE_QUEST; }  
+    
+    required UINT32   m_charOid = 1;	 ///<  添加玩家OID
+}
+
+/// 通知篝火活动已领取任务奖励玩家信息
+message NotifyBonFireCompleteQuestInfoMessage
+{
+    enum { THIS_MSG_TYPE = MSG_NOTIFY_BONFIRE_COMPLETE_QUEST_INFO; }  
+    
+    required UINT32   m_questUseCnt = 1;	 ///<  玩家任务玩家数 
+}

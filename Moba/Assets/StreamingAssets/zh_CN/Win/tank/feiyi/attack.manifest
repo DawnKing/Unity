@@ -1,0 +1,40 @@
+ManifestFileVersion: 0
+CRC: 1760649133
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 21b0f289609250166d2687a104bd001e
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: f83cc608c93e1af5f788ecc788b44c79
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/LocalAssets/zh_CN/tank/feiyi/attack/trail17_lan 1.mat
+- Assets/LocalAssets/zh_CN/tank/feiyi/attack/jg.png
+- Assets/LocalAssets/zh_CN/tank/feiyi/attack/trail17_lan.mat
+- Assets/LocalAssets/zh_CN/tank/feiyi/attack/Plane_jg.FBX
+- Assets/LocalAssets/zh_CN/tank/feiyi/attack/attack.prefab
+Dependencies: []

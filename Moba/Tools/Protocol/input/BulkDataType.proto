@@ -1,0 +1,605 @@
+// ----------------------------------------------------------------------
+/// @file			bulkobjects/BulkDataType.h
+/// @brief			通用结构体定义
+///
+/// @author         Bob Lee (bob@onwind.cn)
+/// @copyright		Sixcube Information Technology Co,. Ltd. (2012)
+/// @date			2005-4-2 15:33:22
+// -----------------------------------------------------------------------
+
+import BulkDataEnum;
+
+//各种枚举量、常量的定义
+
+//////////////////////////////////////////////////////////////////////////
+/**
+  * Struct Name : char_basic
+    * @brief    : 角色基础信息
+      * @remark : .\instance\char_basic.xml
+        */
+message CHAR_BASIC {
+    required UINT32 account_oid  = 1;   // 角色帐号id
+    required UINT32 sexes   = 2;        // 角色性别
+    required UINT32 level   = 3;        // 角色等级
+    required UINT32 vipTime = 4;        // vip特权截至时间
+    required int    exp     = 5;        // 角色经验
+	required UINT32 tankExpDoubleTime = 6; // 坦克经验双倍时间
+    required UINT32 expDoubleTime = 7;     // 经验双倍时间戳
+    required UINT32 tokenDoubleTime = 8;   // 代币双倍时间戳
+    required UINT32 materialDoubleTime = 9;// 坦克材料双倍时间
+    required UINT32 tokenDoubleUse = 10;    // 代币双倍剩余使用次数
+    required UINT32 materialDoubleUse = 11;// 坦克材料双倍剩余使用次数
+	required UINT32 tankExpDoubleUse = 12; // 坦克经验双倍次数
+    required UINT32 milLevel = 13;       // 军衔
+    required int    milExp  = 14;        // 军衔经验
+    required UINT32 sprayId = 15;        // 喷图id
+    required UINT32 vipPoints = 16;     // VIP点数
+    required UINT32 vipPointsAddToday = 17; // VIP点数今日增加数
+    required UINT32 avatarId = 18;      // AVATARid
+    required UINT32 decorateId = 19;    // 角色（主题）背景ID 
+    required INT32  iFizz = 20;         // 活跃度
+    required INT16  iWeekFizz = 21;     // 周活跃度
+    required UINT32 superVipTime = 21; // 超级VIP截止时间
+    required UINT32 actionFlag = 31;    // 界面等是否开启的标记 enum CHAR_ACTION_FLAG_BIT
+    required int    thew = 32;          // 体力值
+    required int    thew_buy = 33;      // 体力值购买次数 
+    required UINT32 create_time = 34;   // 角色创建时间
+    required UINT32 online_time = 35;   // 累计在线分钟
+    required UINT32 honor_id = 36;      // 荣誉id
+    required UINT32 goldenPool = 37;    // 金币池累计的金币数
+    required UINT32 rlteStageCount = 38;    // 轮盘保底的次数
+    required UINT32 setting_flag = 39;   // 系统设置标记
+    required UINT32 cashback_times = 40; // 返点月卡领取的截止时间戳		
+    required UINT32 cashback_picked = 41; // 返点月卡最后领取时间	
+    required UINT32 prentice_cashback = 42; //徒弟充值返利
+    required UINT32 graduate_count = 43;  // 出徒人数
+    required UINT32 grocery_add = 44;     // 额外的杂货格子数
+    required UINT32 gm_level = 45;      // GM等级
+    required string name    = 91;       // 角色名称
+    required string charUuid = 92;      // 角色uuid
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+/**
+  * Struct Name : char_attr
+    * @brief    : 角色属性信息
+        */
+message CHAR_ATTR {
+    required int    iAttack     = 1;    // 攻击力
+    required int    iHp         = 2;    // 血量
+    required int    iFireInterv = 3;    // 射击间隔
+    required int    iCentesis   = 4;    // 穿甲
+    required int    iArmor      = 5;    // 护甲
+    required int    iSpeed      = 6;    // 移动速度
+    required int    iEgCtsis    = 7;    // 能量穿甲
+    required int    iEgArmor    = 8;    // 能量护甲
+    required int    iEgAtk      = 9;    // 能量攻击力
+	required int    iMp         = 10;   // 能量
+}
+
+/// 对象属性
+message OBJECT_ATTR
+{
+    required CHAR_ATTR  base_attr   = 1;    ///< 普通对象属性
+    
+    required int    iBdCtsis    = 2;    // 建筑穿甲
+    required int    iBdArmor    = 3;    // 建筑护甲
+    required int    iBdAtk      = 4;    // 建筑攻击力        
+}
+//////////////////////////////////////////////////////////////////////////
+// 战场道具
+message PropsInfo {
+    required UINT32 nPropsId = 1;       ///< 技能模板id
+    required BYTE   bSlotno = 2;        ///< 位置信息
+    required INT16  iCount = 3;         ///< 数量
+    required UINT64 nEndTime = 4;       ///< 技能释放冷却结束时间
+    required UINT64 nCountCoolTime = 5; ///< 数量刷新冷却时间
+}
+
+/// 玩家的限制信息
+message LimitInfo
+{
+    required UINT32 m_nLimitId  = 1;    ///< 限制id
+    required int    m_iCount    = 2;    ///< 当前数量
+}
+
+///< 天赋格
+message TALENT_GRID 
+{
+    required UINT32    nTalentId     = 1;    // 天赋ID
+    required UINT32    nLevel        = 2;    // 等级
+}
+
+///< 天赋页
+message TALENT_PAGE 
+{
+	required string strUuid    = 1;    ///< 天赋页uuid
+    required string strPageName    = 2;    ///< 天赋页名字
+	repeated TALENT_GRID talentTree = 3;	// 天赋树信息 
+	required UINT32 nCreateTime   = 4;    ///< 创建时间
+}
+
+///< 玩家当前天赋信息
+message CHAR_TALENT_PAGE 
+{
+	required UINT32 charOid    = 1;    ///< 玩家账号ID
+	repeated TALENT_GRID talentTree = 2;	// 天赋树信息 
+}
+
+///< 佣兵卡信息
+message YCARD_INFO 
+{
+	required UINT32 nCardId    = 1;    ///< 卡片Id
+    required UINT32 nCardLv    = 2;    ///< 卡片等级
+}
+
+// 坦克部件信息
+message TankPartInfo 
+{
+	required UINT32 nPartId		= 1;    ///< 部件ID enum TANK_PART_ID
+	required UINT32 nLv			= 2;    ///< 部件等级
+	required UINT32 nVal		= 3;    ///< 部件能量
+}
+
+/// tracksvr提供的gamesvr需要的战斗信息
+message BATTLE_INFO
+{
+    required UINT32     nPairTime   = 2;    ///< 匹配时间（秒）
+    required UINT32     nGuildId    = 3;    ///< 军团id
+    required UINT32     nTeamId     = 4;    ///< 战队id
+    required UINT32     nTeamLevel  = 5;    ///< 战队等级
+    required BYTE       guildPost   = 6;    ///< 军团职位 enum TEAM_POST_TYPE
+    repeated UINT32     buffVec     = 8;    ///< buff列表
+}
+
+/**
+ *  角色战斗数据结构体
+ */
+message CHAR_BATTLE {
+    required UINT32     charId      = 1;    ///< 角色id
+    required string     char_uuid   = 2;    ///< 角色uuid
+    required string     charName    = 3;    ///< 角色名
+    required BYTE       charLevel   = 4;    ///< 角色等级
+    required BYTE       vipLevel    = 5;    ///< vip等级
+    required UINT32     exp2Time    = 6;    ///< 角色双倍经验时间戳
+    required UINT32     tankCardExpTime = 7;   ///< 坦克卡双倍经验加成时间戳
+    required UINT32     tankCardExpCount = 8;  ///< 坦克卡双倍经验加成次数
+    required UINT32     tankActExpBonus = 9;    ///< 活动的坦克经验加成倍率
+    required UINT32     tankLevel   = 10;    ///< 坦克的等级
+    required UINT32     tankId      = 11;    ///< 坦克的模板id
+    required UINT32     sprayId     = 12;    ///< 喷图id
+    required UINT32     dropTimes   = 13;    ///< 比赛类型掉落次数
+    required INT32      passTimes   = 14;   ///< 地图通过次数
+    required int        iElo        = 15;   ///< 玩家的战力
+    required int        avAddCoin   = 16;   ///< avatar银币加成
+    required int        avAddExp    = 17;   ///< avatar经验加成
+    required int        coefK       = 18;   ///< 坦克的K值
+    required UINT32     iBoosterAttack = 19; ///< 助手攻击力
+    required UINT32     iRobotType = 20;    ///< 机器人类型
+    required CHAR_ATTR  char_attr   = 21;   ///< 角色属性信息
+    repeated PropsInfo  propsBar    = 22;   ///< 道具数据
+    repeated LimitInfo  limitVec    = 23;   ///< gamesvr用到的限制信息
+    repeated TALENT_GRID talentTree = 24;	///< 天赋树信息
+    repeated UINT32     crystalVec  = 25; ///< 晶片ID信息
+    repeated UINT32     skinQualityVec = 26; ///< 拥有对应品质皮肤数
+    required UINT32     eloSectionId   = 27; ///< 天梯段位 
+    repeated YCARD_INFO yCardVec	= 28;	///< 佣兵卡信息
+    repeated UINT32     newTankBuffVec  = 29; ///< 新坦克天使buff信息
+    repeated TankPartInfo  tankPartVec  = 30; ///< 坦克部件信息
+    required UINT32     nTankPartScore = 31;  ///< 坦克部件得分
+    required UINT32     allTankStar    = 32;  ///< 所有坦克星级
+    
+    required BATTLE_INFO info       = 50;   ///< 来自tracksvr的信息
+}
+
+// 玩家列表数据结构
+message PLAYER_BRIEF {
+    required UINT32     nAcctId     = 1;    ///< 帐号id
+    required string     szCharUuid  = 2;    ///< 角色uuid
+    required string     szName      = 3;    ///< 名字
+    required BYTE       bLevel      = 4;    ///< 等级
+    required BYTE       bSex        = 5;    ///< 角色性别
+    required BYTE       nVipLevel   = 6;    ///< vip等级
+    required UINT32	    nAvatar	    = 7;    ///< 外观ID
+    required UINT32     nDecorateId = 8;    ///< 角色主题装饰ID
+    required UINT32     nGraduate   = 9;    ///< 出徒人数
+    required int        iElo        = 10;   ///< 天梯elo值
+    required UINT32     nHonorId    = 11;   ///< 荣誉Id
+    required UINT32     nBoosterAttack = 12; ///< 助手战力
+    required UINT32     eloSectionId = 13; 	///< 本赛季段位
+    required UINT32     preEloSectionId = 14; ///< 上赛季段位
+    required UINT32     nTeamPlace  = 50;   ///< 战队名次，无战队为0
+    required string     szTeamName  = 51;   ///< 战队名字
+}
+
+// 其他简要信息
+message OTHER_BRIEF {
+    required UINT32 tankId          = 1;    ///< 坦克id
+    required UINT32 tankLevel       = 2;    ///< 坦克等级
+    required BYTE   tryTank         = 3;    ///< 使用坦克的类型 eunm TANK_CONTAINER_TYPE
+    required UINT32 btItemId        = 4;    ///< 助手物品id
+    required BYTE   btRank          = 5;    ///< 助手星级
+    required BYTE   btLevel         = 6;    ///< 助手等级
+    required BYTE   btUpLevel       = 7;    ///< 助手强化次数
+    required UINT32 btUpCost        = 8;    ///< 助手强化消耗
+    required UINT32 btRankCost      = 9;    ///< 助手升星消耗
+    required UINT32 honorId         = 10;   ///< 荣誉id
+    required UINT32 tankExternal    = 11;   ///< 坦克外观，为0时，取对应等级的外观
+    required UINT32 haloId          = 12;   ///< 坦克光环id
+	required UINT32 skinFrameType   = 13;   ///< 坦克皮肤边框 enum SKIN_FRAME_TYPE
+	required UINT32 btAtk           = 14;   ///< 助手总战力
+	required UINT32 tankPartScore   = 15;   ///< 坦克部件总评分
+	required UINT32 commandSkill    = 16;   ///< 指挥官技能
+}
+
+message CHAR_BRIEF {
+    required PLAYER_BRIEF charData  = 1;    ///< 角色数据
+    required OTHER_BRIEF  otherData = 2;    ///< 其他简要信息
+    required UINT32 regionUid       = 3;    ///< 服务器id
+	required UINT32 nIp				= 4;    ///< Ip地址
+    required BYTE   bCamp           = 6;    ///< 战场中的阵营
+    repeated UINT32 buffVec         = 7;    ///< buff列表
+}
+
+// 坦克简要信息，用于gate与track同步
+message TANK_BRIEF {
+    required UINT32 m_nTankId = 1;    ///< 坦克ID
+    required BYTE m_nTankCont = 2;  ///< 坦克容器 enum TANK_CONTAINER_TYPE
+    required BYTE m_nTankLevel = 3; ///< 坦克等级
+    required UINT32 m_nTankExt = 4;   ///< 坦克外观
+    required UINT32 m_nExistTime = 5; ///< 存在时间
+    required BYTE m_nSkinFrameType = 6; ///< 坦克皮肤边框
+    required UINT32 m_commanderSkill = 7; ///< 指挥官技能 
+}
+
+/**
+* 结构体：@ ITEM_INSTANCE，表示某个具体的ITEM实例
+*/
+message ITEM_INSTANCE { 
+    required fixstr37 	m_itemUuid  	= 1;    ///< 物品的uuid，唯一id
+    required UINT32 	m_templateId	= 2;    ///< 物品模板OID
+    required UINT32 	m_lifeTime		= 3;	///< 物品的存在时间(时间戳)
+    required UINT32		m_extFlag		= 4;	///< 物品扩展标记 enum ITEM_EXT_FLAG_BIT
+    required INT32		m_count		    = 5;	///< 物品的个数
+    required BYTE       m_level         = 6;    ///< 物品的等级
+    required BYTE       m_upLevel       = 7;    ///< 物品的提升次数
+    required INT32      m_exp           = 8;    ///< 物品的经验
+    required BYTE       m_rank          = 9;    ///< 物品的星级
+    required INT32      m_upCost        = 10;   ///< 物品的强化花费
+    required INT32      m_rankCost      = 11;   ///< 物品的加星花费
+    required UINT32     m_createTime    = 12;   ///< 物品创建时间
+    required INT16      m_slotNo        = 13;   ///< 物品位置
+}
+
+/// 玩家包裹，格子对应物品结构体
+message ITEM_SLOT_UUID
+{
+	required INT16		m_slotNo	= 1;	///< 包裹格子位置
+    required fixstr37 	m_itemUuid  = 2;    ///< 对应的物品uuid
+}
+
+/// 角色货币
+message CHAR_CURRENCY {
+    required int    m_iCash = 1;    // 点券
+    required int    m_iGolden = 2;  // 银币
+    required int    m_iSilver = 3;  // 礼券
+    required int    m_iHonor = 4;   // 勋章
+    required int    m_icrystal = 5; // 晶石
+    required int    m_iPresentPoint = 6; //赠送点数
+}
+
+/// 给与物品的结构
+message GiveItemStruct
+{
+    required UINT32 nTemplateId = 1;
+    required int    iCount      = 2;
+    required BYTE   bBind       = 3;
+    required int    iLifeTime   = 4; 
+}
+
+/// 位置信息
+message SITE_DATA {
+    required UINT32 nCharOid = 1;   // 角色id
+    required BYTE bStart = 2;       // 是否已经准备
+    required BYTE bIsLoaded = 3;    // 地图加载完成
+}
+
+// 坦克技术统计信息
+message TankStatInfo{
+    required UINT32 m_tankId = 1;       ///< 坦克id
+    repeated int m_iStatData = 2;       ///< 技术数据
+    required BYTE m_battlelevel = 3;    ///< 战场等级
+}
+
+// 单个技术统计信息
+message OneStatInfo
+{
+    required UINT32 m_type = 1;         ///< 参见DATA_STAT_TYPE
+    required int m_value = 2;
+}
+
+// 对象得分情况
+message OneObjScore
+{
+    required ZGID m_obj = 1;		///< 对象id
+    required int m_value = 2;
+}
+
+// 组成信息
+message SettleGroup
+{
+    required BATTLE_SETTLE_TYPE m_type = 1;
+    required int m_value = 2;    
+}
+
+message PVE_Evaluation_Result
+{
+		required INT32 m_iTotalEval = 1;     ///< 总评价
+		required INT32 m_iHarmEval = 2;      ///< 伤害评价
+		required INT32 m_iDeadEval = 3;      ///< 死亡评价
+		required INT32 m_iTimeEval = 4;      ///< 通关时间评价
+		required INT32 m_iBoosterEval = 5;  ///< 助手评价
+}
+
+// 战斗结束坦克信息
+message TankSettleInfo
+{
+    required UINT32 m_charOid = 1;      ///< 角色id
+    required UINT32 m_tankTpltId = 2;   ///< 坦克模板ID
+    repeated int m_iStatData = 3;       ///< 技术数据
+    required int m_iTeamMerit = 4;      ///< 战队贡献
+    required int m_iOldElo = 5;         ///< 旧的elo值
+    required int m_iNewElo = 6;         ///< 新的elo值
+    required BYTE m_bAward = 7;         ///< 是否有奖励
+    required BYTE m_isWin = 8;          ///< 是否获胜
+    required int m_iRobotType = 9;      ///< 机器人类型  = 0 不是机器人
+    repeated SettleGroup m_expVec   = 10;     ///< 角色经验组成信息
+    repeated SettleGroup m_coinVec  = 11;    ///< 银币组成信息
+    repeated SettleGroup m_tankExpVec = 12;  ///< 坦克经验组成信息
+    repeated GiveItemStruct m_itemVec = 13;  ///< 掉落物品列表,服务端用
+    required PVE_Evaluation_Result m_evalPve = 14; ///< PVE过关评价
+    required UINT32 m_battleLevel = 15; // 战场等级
+    required UINT32 m_eloSectionId = 16; //天梯阶段ID
+}
+
+
+// 坦克的实例信息
+message TankInstance
+{
+    required string     m_tankUuid      = 1;    ///< 坦克的uuid，唯一id
+    required UINT32     m_tpltId        = 2;    ///< 坦克的模板ID
+    required BYTE       m_level         = 3;    ///< 坦克等级
+    required UINT32     m_nExp          = 4;    ///< 坦克经验
+    required UINT32     m_extFlag       = 5;    ///< 坦克扩展标记 enum TANK_EXT_FLAG_BIT  
+    required BYTE       m_stthLevel       = 8;  ///< 强化等级
+    required UINT32     m_externalId    = 12;   ///< 坦克的外观id(皮肤)，为0时取对应等级的外观
+    required UINT32     m_warCount      = 13;   ///< 出战次数
+    required UINT32     m_weekWarCount  = 14;   ///< 周出战次数
+    required BYTE       m_contType      = 15;   ///< 坦克容器类型 enum TANK_CONTAINER_TYPE
+    required BYTE       m_cashHireCount = 16;   ///< 点券租用的次数
+    required BYTE       m_coinHireCount = 17;   ///< 银币租用的次数
+    required UINT32     m_existTime      = 18;  ///< 到期时间戳
+    required UINT32     m_haloId        = 19;   ///< 使用的光环物品id
+    required BYTE       m_skinFrameType = 20;   ///< 坦克皮肤边框
+    required UINT32     m_ownTime       = 21;   ///< 获得时间戳
+    required UINT32     m_stthCount = 22;       ///< 强化次数
+	required UINT32     m_comSkillId = 23;      ///< 指挥官技能
+	required BYTE       m_crystalSchemeId = 24; ///< 晶片方案
+    required string     m_talPageUuid    = 25;  ///< 科技方案
+}
+
+/// Buff信息
+message BuffInfo
+{
+    required UINT32 m_nBuffTpltId = 1;      // Buff模板ID
+    required ZGID   m_nBuffInstId = 2;      // Buff实例ID
+    required BYTE   m_nStackCount = 3;      // 叠加层数
+    required ZGID   m_nCasterId = 5;        // 释放者id
+}
+
+// 战场对象实例数据
+message ObjInfo {
+    required ZGID   m_objId = 1;        ///< 对象实例id
+    required UINT32 m_tplId = 3;        ///< npc模板id
+    required INT16  m_x = 4;            ///< x 坐标
+    required INT16  m_y = 5;            ///< y 坐标
+    required int    m_hp = 6;           ///< 当前血量
+    required BYTE   m_bCamp = 7;        ///< 阵营
+    required int    m_maxHp = 8;        ///< 最大血量值
+    required ZGID   m_ownerId = 9;      ///< 拥有者实例id
+    repeated BuffInfo m_buffVec = 10;      ///< buff信息
+}
+
+// AINPC实例数据
+message AiNpcInfo {
+    required ObjInfo m_objInfo  = 1;     ///< 实例数据
+    required INT32  m_reliveNum = 2;
+    required OBJECT_ATTR m_attr = 3;     ///< 属性信息 
+}
+
+// 单人副本关卡信息
+message CHAPTER_SCENE
+{
+    required UINT32 m_nMapId		= 1;		///< 关卡ID
+    required UINT32 m_nPassDate		= 2;		///< 上次过关时间（0表示未过关或被收回）
+    required UINT16 m_nPassTimes	= 3;		///< 本日已经通关次数
+    required UINT32 m_nBeHarm       = 4;		///< 最少掉血量
+    required UINT16 m_nDiedTimes	= 5;		///< 最少死亡次数
+    required UINT32 m_nScores		= 6;		///< 最高得分
+    required UINT16 m_nStars		= 7;		///< 最高星级
+    required UINT16 m_nStarsToday	= 8;		///< 本日星级
+    required UINT16 m_nElapsed		= 9;		///< 最短耗时（秒）
+    required UINT16 m_nSettleFlag	= 10;		///< 收益标记，参见PVE_SETTEL_FLAG
+    required UINT32 m_nSettleDate	= 11;		///< 收益结算时间
+    required UINT16 m_nResetTimes = 12;   ///< 本日重置次数
+}
+
+/// 获得物品
+message SettleItemInfo
+{
+    required UINT32 m_itemId = 1;
+    required int    m_count = 2;
+}
+
+message SettleItemVec
+{
+    required UINT32 m_nType = 1;  // 物品的奖励类型 BATTLE_SETTLE_TYPE
+    repeated SettleItemInfo m_itemVec= 2;  // 奖励的物品信息
+}
+
+message SettleAwardInfo
+{
+    required INT32 m_cash = 2;      ///< 奖励点券
+    required INT32 m_gift = 3;      ///< 奖励礼券
+    required INT32 m_golden = 4;    ///< 奖励银币
+    required INT32 m_glory = 5;    ///< 奖励战队荣耀
+    repeated SettleItemVec m_settleItemVec = 6;    /// 奖励的物品信息
+    repeated UINT32 m_tankVec = 9;  ///< 奖励的坦克信息       
+    required INT32 m_exp = 10;   ///< 经验值    
+}
+
+
+/// 城市信息
+message CITY_INFO
+{
+    required UINT32 m_cityId = 1;
+    required UINT32 m_value = 2; // enum CITY_STATE_TYPE 二进制
+    required BYTE m_bEvalEasy = 3;  //普通难度过关评价 enum PVE_EVALUATION
+    required BYTE m_bEvalDiff = 4;  //困难难度过关评价 enum PVE_EVALUATION
+    required UINT32 m_nDiffPass = 5;//困难副本进入次数
+    required UINT32 m_nResetTime = 6; //困难副本重置次数
+}
+
+/// 联赛奖励信息
+message LEAGUE_PRIZE
+{
+    required UINT32 nPrizeId = 1;             // 轮次奖励ID
+    required UINT32 nTeamId = 2;             // 战队ID
+    required UINT32 nExp = 3;             // 奖励个人经验
+    required UINT32 nGift = 4;             // 奖励礼券
+    required UINT32 nCoin = 5;             // 奖励银币
+    required UINT32 nMerit = 6;             // 奖励战队贡献
+    required UINT32 nGlory = 7;             // 奖励战队威望
+    required UINT32 nHonor = 8;             // 奖励战队荣誉
+    required UINT32 nTeamCoin = 9;             // 奖励战队资金
+    required UINT32 nTank = 10;             // 奖励坦克
+    required UINT32 nAvatar = 11;             // 奖励形象
+    required UINT32 nItem1 = 12;             // 奖励物品1
+    required UINT32 nItemCnt1 = 13;             // 奖励物品1数量
+    required UINT32 nItem2 = 14;             // 奖励物品2
+    required UINT32 nItemCnt2 = 15;             // 奖励物品2数量
+    required UINT32 nItem3 = 16;             // 奖励物品3
+    required UINT32 nItemCnt3 = 17;             // 奖励物品3数量
+    required UINT32 nItem4 = 18;             // 奖励物品4
+    required UINT32 nItemCnt4 = 19;             // 奖励物品4数量
+    required UINT32 nItem5 = 20;             // 奖励物品5
+    required UINT32 nItemCnt5 = 21;             // 奖励物品5数量
+    required fixstr37 szName = 22;          // 奖励名称
+    required fixstr37 szCharUuid = 23;		// 角色UUID
+    required UINT32 nBelongs = 24;             // 奖励归属： 0-个人；1-队伍奖励
+}
+
+/// 近期获奖信息
+message OneSvrAward
+{
+    required string m_strName = 1;  ///< 名字
+    required UINT32 m_rollId = 2;  ///< 轮盘id  
+    required INT32 m_iCount = 3;    ///< 物品数量
+    required UINT32 m_nTime = 4;    ///< 获得的时间戳
+}
+
+/// 简要信息
+message RECORD_BRIEF
+{
+    required UINT32     nActId = 1;         // 帐号id
+    required fixstr37   szCharUuid = 2;     // uuid
+    required fixstr37   szName = 3;         // 名称    
+}
+
+/// 匹配信息
+message PvpPairInfo
+{
+    required BYTE   m_type      = 1;    // enum PVP_PAIR_POOL_TYPE
+    required UINT32 m_nAvgTime  = 2;    // 匹配平均时间
+    required UINT32 m_nCount    = 3;    // 当前匹配人数
+}
+
+/// 匹配信息
+message ActivityInfo
+{
+    required INT32  m_nActId      = 1;    // enum ACTIVITY_TYPE
+    required UINT32 m_nState   = 2;    	    // 活动状态：0：未开启，1：已开启
+    required UINT32 m_nStart  = 3;    	    //  开启时间
+    required UINT32 m_nClose   = 4;    	    // 结束时间
+}
+
+// 商店待售物品
+message STORE_GOODS
+{
+    required UINT32 m_nItemId 	= 1;		// 物品的模板ID
+    required UINT16 m_nLeftCount = 2;		// 物品的剩余数量
+    required UINT32 m_nPrice    = 3;		// 物品的售价
+    required UINT8  m_nCoinType = 4;		// 售价的货币类型，enum COIN_TYPE
+    required UINT32 m_nOriginPrice = 5;     // 物品的原始售价
+}
+
+// 角色坦克简要信息容器
+message CHAR_TANK_BRIEF_CONT
+{
+    required UINT32 m_nOid = 1;             // 角色OID
+    repeated TANK_BRIEF m_vecTank = 2;      // 角色坦克容器
+}
+
+//晶片组合方案名
+message CharCrystalSchemeName
+{
+		required UINT32 scheme_id    = 1;     //方案ID
+		required string scheme_name  = 2;     //方案名
+}
+
+//晶片组合方案晶片信息
+message CharCrystalSchemeInfo
+{
+		required UINT32 scheme_id    = 1;     //方案ID
+		required UINT32 pos1_item_id = 2;  		//位置1物品ID
+		required UINT32 pos2_item_id = 3;  		//位置2物品ID
+		required UINT32 pos3_item_id = 4;  		//位置3物品ID
+		required UINT32 pos4_item_id = 5;  		//位置4物品ID
+		required UINT32 pos5_item_id = 6;  		//位置5物品ID
+		required UINT32 pos6_item_id = 7;  		//位置6物品ID
+		required UINT32 pos7_item_id = 8;  		//位置7物品ID
+		required UINT32 pos8_item_id = 9;  		//位置8物品ID
+		required UINT32 pos9_item_id = 10;  	//位置9物品ID
+		required UINT32 pos10_item_id = 11;  	//位置10物品ID
+		required UINT32 pos11_item_id = 12;  	//位置11物品ID
+		required UINT32 pos12_item_id = 13;  	//位置12物品ID
+		required UINT32 pos13_item_id = 14;  	//位置13物品ID
+		required UINT32 pos14_item_id = 15;  	//位置14物品ID
+		required UINT32 pos15_item_id = 16;  	//位置15物品ID
+		required UINT32 pos16_item_id = 17;  	//位置16物品ID
+		required UINT32 pos17_item_id = 18;  	//位置17物品ID
+		required UINT32 pos18_item_id = 19;  	//位置18物品ID
+		required UINT32 pos19_item_id = 20;  	//位置19物品ID
+		required UINT32 pos20_item_id = 21;  	//位置20物品ID
+		required UINT32 pos21_item_id = 22;  	//位置21物品ID
+		required UINT32 pos22_item_id = 23;  	//位置22物品ID
+		required UINT32 pos23_item_id = 24;  	//位置23物品ID
+		required UINT32 pos24_item_id = 25;  	//位置24物品ID
+		required UINT32 pos25_item_id = 26;  	//位置25物品ID
+		required UINT32 pos26_item_id = 27;  	//位置26物品ID
+		required UINT32 pos27_item_id = 28;  	//位置27物品ID
+		required UINT32 pos28_item_id = 29;  	//位置28物品ID
+		required UINT32 pos29_item_id = 30;  	//位置29物品ID
+		required UINT32 pos30_item_id = 31;  	//位置30物品ID
+}
+	
+//邀请好礼玩家信息
+message InviteGiftPlayerInfo
+{
+		required string char_uuid = 1;  //玩家UUID
+		required UINT32 login_cnt = 2;  //累计登陆天数
+		required UINT32 login_time = 3; //小伙伴登陆时间
+		required UINT32 draw_time = 4;  //奖励日领取时间
+		required UINT32 draw_acc_cnt = 5; //领取累计奖励次数
+}

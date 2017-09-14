@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option csharp_namespace = "GameProtocol";
+
+message RequestRegister {
+    string Account = 1;
+    string Password = 2;
+}
+
+message RequestLogin {
+    string Account = 1;
+    string Password = 2;
+}
+
+message NotifyLogin {
+    enum ResultType {
+        Unkonw = 0;
+        Success = 1;
+        IncorrectPassword = 2;
+    }
+    ResultType Result = 1;
+}

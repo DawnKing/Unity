@@ -1,0 +1,226 @@
+dg3e5e.xml|850|<component size="400,400">
+  <displayList>
+    <text id="n0_dg3e" name="redNum" xy="24,14" size="195,32" font="ui://rbw1tvvvosw91j" fontSize="12" letterSpacing="-16" autoSize="none" text="-9999"/>
+    <text id="n1_dg3e" name="greenNum" xy="24,45" size="195,32" font="ui://rbw1tvvvo3tp5a" fontSize="12" letterSpacing="-16" autoSize="none" text="+99999"/>
+    <text id="n2_dg3e" name="yellowNum" xy="24,76" size="195,32" font="ui://rbw1tvvvo3tp5b" fontSize="12" letterSpacing="-16" autoSize="none" text="+999999&#xA;"/>
+    <text id="n3_dg3e" name="purpleNum" xy="24,107" size="195,32" font="ui://rbw1tvvvo3tp5d" fontSize="12" letterSpacing="-16" autoSize="none" text="-9999999"/>
+    <text id="n4_dg3e" name="bigNum" xy="24,138" size="244,36" font="ui://rbw1tvvvo3tp5c" fontSize="12" letterSpacing="-6" text="-99999999"/>
+  </displayList>
+</component>g6oc1c.xml|728|<component size="1280,720">
+  <displayList>
+    <component id="n0" name="MoveJoystick" src="iitt1" xy="0,418">
+      <relation target="" sidePair="bottom-bottom,left-left"/>
+    </component>
+    <component id="n1" name="AttackJoystick" src="iitt1" xy="880,420">
+      <relation target="" sidePair="right-right,bottom-bottom"/>
+    </component>
+    <component id="n2" name="btnT1" src="hxla1d" xy="440,10" size="144,51">
+      <Button title="热更新引入bug" titleFontSize="20"/>
+    </component>
+    <component id="n4" name="BtnSkill1" src="hxla1d" xy="780,534" size="100,66">
+      <relation target="" sidePair="right-right,bottom-bottom"/>
+      <Button title="技能1" titleFontSize="30"/>
+    </component>
+  </displayList>
+</component>hxla1d.xml|1070|<component size="100,20" extention="Button">
+  <Button/>
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver"/>
+  <displayList>
+    <graph id="n1" name="n1" xy="0,0" size="100,20" type="rect" lineSize="0" fillColor="#F0F0F0" touchable="false">
+      <gearDisplay controller="button" pages="0"/>
+      <relation target="" sidePair="width,height"/>
+    </graph>
+    <graph id="n2" name="n2" xy="0,0" size="100,20" type="rect" lineSize="0" fillColor="#FAFAFA" touchable="false">
+      <gearDisplay controller="button" pages="2"/>
+      <relation target="" sidePair="width,height"/>
+    </graph>
+    <graph id="n3" name="n3" xy="0,0" size="100,20" type="rect" lineSize="0" fillColor="#CCCCCC" touchable="false">
+      <gearDisplay controller="button" pages="1,3"/>
+      <relation target="" sidePair="width,height"/>
+    </graph>
+    <text id="n4" name="title" xy="0,0" size="100,20" fontSize="12" autoSize="none" align="center" vAlign="middle" singleLine="true">
+      <relation target="" sidePair="width,height"/>
+    </text>
+  </displayList>
+</component>iitt1.xml|452|<component size="400,300">
+  <displayList>
+    <image id="n7" name="joystick_center" src="q9do1a" xy="152,109">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </image>
+    <component id="n4" name="joystick" src="q9do18" xy="86,45"/>
+    <text id="n8" name="txtDegree" xy="166,200" size="50,34" fontSize="30" text="360">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </text>
+  </displayList>
+</component>o3tp5a.fnt|659|info creator=UIBuilder
+char id=43 img=o3tp40 xoffset=0 yoffset=0 xadvance=0
+char id=45 img=o3tp3z xoffset=0 yoffset=0 xadvance=0
+char id=48 img=o3tp41 xoffset=0 yoffset=0 xadvance=0
+char id=49 img=o3tp42 xoffset=0 yoffset=0 xadvance=0
+char id=50 img=o3tp43 xoffset=0 yoffset=0 xadvance=0
+char id=51 img=o3tp44 xoffset=0 yoffset=0 xadvance=0
+char id=52 img=o3tp45 xoffset=0 yoffset=0 xadvance=0
+char id=53 img=o3tp46 xoffset=0 yoffset=0 xadvance=0
+char id=54 img=o3tp47 xoffset=0 yoffset=0 xadvance=0
+char id=55 img=o3tp48 xoffset=0 yoffset=0 xadvance=0
+char id=56 img=o3tp49 xoffset=0 yoffset=0 xadvance=0
+char id=57 img=o3tp4a xoffset=0 yoffset=0 xadvance=0
+o3tp5b.fnt|659|info creator=UIBuilder
+char id=43 img=o3tp4c xoffset=0 yoffset=0 xadvance=0
+char id=45 img=o3tp4b xoffset=0 yoffset=0 xadvance=0
+char id=48 img=o3tp4d xoffset=0 yoffset=0 xadvance=0
+char id=49 img=o3tp4e xoffset=0 yoffset=0 xadvance=0
+char id=50 img=o3tp4f xoffset=0 yoffset=0 xadvance=0
+char id=51 img=o3tp4g xoffset=0 yoffset=0 xadvance=0
+char id=52 img=o3tp4h xoffset=0 yoffset=0 xadvance=0
+char id=53 img=o3tp4i xoffset=0 yoffset=0 xadvance=0
+char id=54 img=o3tp4j xoffset=0 yoffset=0 xadvance=0
+char id=55 img=o3tp4k xoffset=0 yoffset=0 xadvance=0
+char id=56 img=o3tp4l xoffset=0 yoffset=0 xadvance=0
+char id=57 img=o3tp4m xoffset=0 yoffset=0 xadvance=0
+o3tp5c.fnt|606|info creator=UIBuilder
+char id=45 img=o3tp4z xoffset=0 yoffset=0 xadvance=0
+char id=48 img=o3tp50 xoffset=0 yoffset=0 xadvance=0
+char id=49 img=o3tp51 xoffset=0 yoffset=0 xadvance=0
+char id=50 img=o3tp52 xoffset=0 yoffset=0 xadvance=0
+char id=51 img=o3tp53 xoffset=0 yoffset=0 xadvance=0
+char id=52 img=o3tp54 xoffset=0 yoffset=0 xadvance=0
+char id=53 img=o3tp55 xoffset=0 yoffset=0 xadvance=0
+char id=54 img=o3tp56 xoffset=0 yoffset=0 xadvance=0
+char id=55 img=o3tp57 xoffset=0 yoffset=0 xadvance=0
+char id=56 img=o3tp58 xoffset=0 yoffset=0 xadvance=0
+char id=57 img=o3tp59 xoffset=0 yoffset=0 xadvance=0
+o3tp5d.fnt|659|info creator=UIBuilder
+char id=43 img=o3tp4o xoffset=0 yoffset=0 xadvance=0
+char id=45 img=o3tp4n xoffset=0 yoffset=0 xadvance=0
+char id=48 img=o3tp4p xoffset=0 yoffset=0 xadvance=0
+char id=49 img=o3tp4q xoffset=0 yoffset=0 xadvance=0
+char id=50 img=o3tp4r xoffset=0 yoffset=0 xadvance=0
+char id=51 img=o3tp4s xoffset=0 yoffset=0 xadvance=0
+char id=52 img=o3tp4t xoffset=0 yoffset=0 xadvance=0
+char id=53 img=o3tp4u xoffset=0 yoffset=0 xadvance=0
+char id=54 img=o3tp4v xoffset=0 yoffset=0 xadvance=0
+char id=55 img=o3tp4w xoffset=0 yoffset=0 xadvance=0
+char id=56 img=o3tp4x xoffset=0 yoffset=0 xadvance=0
+char id=57 img=o3tp4y xoffset=0 yoffset=0 xadvance=0
+osw91j.fnt|659|info creator=UIBuilder
+char id=43 img=o3tp3o xoffset=0 yoffset=0 xadvance=0
+char id=45 img=o3tp3n xoffset=0 yoffset=0 xadvance=0
+char id=48 img=o3tp3p xoffset=0 yoffset=0 xadvance=0
+char id=49 img=o3tp3q xoffset=0 yoffset=0 xadvance=0
+char id=50 img=o3tp3r xoffset=0 yoffset=0 xadvance=0
+char id=51 img=o3tp3s xoffset=0 yoffset=0 xadvance=0
+char id=52 img=o3tp3t xoffset=0 yoffset=0 xadvance=0
+char id=53 img=o3tp3u xoffset=0 yoffset=0 xadvance=0
+char id=54 img=o3tp3v xoffset=0 yoffset=0 xadvance=0
+char id=55 img=o3tp3w xoffset=0 yoffset=0 xadvance=0
+char id=56 img=o3tp3x xoffset=0 yoffset=0 xadvance=0
+char id=57 img=o3tp3y xoffset=0 yoffset=0 xadvance=0
+package.xml|5269|<packageDescription id="rbw1tvvv" name="战场">
+  <resources>
+    <component id="hxla1d" name="Button1" path="/组件/" size="100,20"/>
+    <component id="iitt1" name="Joystick" path="/组件/" size="400,300"/>
+    <component id="q9do18" name="JoystickCircle" path="/组件/" size="212,212"/>
+    <component id="ty2p1i" name="HpBar" path="/组件/" size="72,14"/>
+    <image id="o3tp3n" name="1_-" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp3o" name="1_+" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp3p" name="1_0" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp3q" name="1_1" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp3r" name="1_2" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp3s" name="1_3" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp3t" name="1_4" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp3u" name="1_5" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp3v" name="1_6" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp3w" name="1_7" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp3x" name="1_8" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp3y" name="1_9" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp3z" name="2_-" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp40" name="2_+" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp41" name="2_0" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp42" name="2_1" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp43" name="2_2" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp44" name="2_3" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp45" name="2_4" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp46" name="2_5" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp47" name="2_6" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp48" name="2_7" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp49" name="2_8" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4a" name="2_9" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4b" name="3_-" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4c" name="3_+" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4d" name="3_0" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4e" name="3_1" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4f" name="3_2" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4g" name="3_3" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4h" name="3_4" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4i" name="3_5" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4j" name="3_6" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4k" name="3_7" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4l" name="3_8" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4m" name="3_9" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4n" name="4_-" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4o" name="4_+" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4p" name="4_0" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4q" name="4_1" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4r" name="4_2" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4s" name="4_3" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4t" name="4_4" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4u" name="4_5" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4v" name="4_6" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4w" name="4_7" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4x" name="4_8" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4y" name="4_9" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp4z" name="5_-" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp50" name="5_0" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp51" name="5_1" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp52" name="5_2" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp53" name="5_3" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp54" name="5_4" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp55" name="5_5" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp56" name="5_6" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp57" name="5_7" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp58" name="5_8" path="/素材/数字/" size="32,32"/>
+    <image id="o3tp59" name="5_9" path="/素材/数字/" size="32,32"/>
+    <image id="q9do19" name="1" path="/素材/" size="178,160"/>
+    <image id="q9do1a" name="0" path="/素材/" size="76,77"/>
+    <image id="ty2p1f" name="image 6" path="/素材/" size="72,14"/>
+    <image id="ty2p1g" name="image 4" path="/素材/" size="66,8"/>
+    <image id="ty2p1h" name="image 1" path="/素材/" size="66,8"/>
+    <component id="dg3e5e" name="NumberLayer" path="/" size="400,400" exported="true"/>
+    <component id="g6oc1c" name="Battle" path="/" size="1280,720" exported="true"/>
+    <component id="zpcw1e" name="EntityInfo" path="/" size="120,50" exported="true"/>
+    <font id="o3tp5a" name="GreenNum" path="/组件/" size="0,0" exported="true" file="o3tp5a.fnt"/>
+    <font id="o3tp5b" name="YellowNum" path="/组件/" size="0,0" exported="true" file="o3tp5b.fnt"/>
+    <font id="o3tp5c" name="BigNum" path="/组件/" size="0,0" exported="true" file="o3tp5c.fnt"/>
+    <font id="o3tp5d" name="PurpleNum" path="/组件/" size="0,0" exported="true" file="o3tp5d.fnt"/>
+    <font id="osw91j" name="RedNum" path="/组件/" size="0,0" exported="true" file="osw91j.fnt"/>
+    <atlas id="atlas0" size="512,256" file="atlas0.png"/>
+  </resources>
+</packageDescription>q9do18.xml|354|<component size="212,212" scroll="both" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <image id="n1" name="thumb" src="q9do19" xy="17,26" pivot="0.5,0.5">
+      <gearDisplay controller="button" pages="1,3"/>
+    </image>
+  </displayList>
+  <Button mode="Radio"/>
+</component>ty2p1i.xml|365|<component size="72,14" extention="ProgressBar">
+  <displayList>
+    <image id="n1" name="n1" src="ty2p1f" xy="0,0">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <image id="n3_ty2p" name="n3" src="ty2p1h" xy="3,3"/>
+    <image id="n2" name="bar" src="ty2p1g" xy="4,3" size="65,8"/>
+  </displayList>
+  <ProgressBar/>
+</component>zpcw1e.xml|518|<component size="120,50" pivot="0.5,1" anchor="true">
+  <displayList>
+    <text id="n0_zpcw" name="txtName" xy="5,28" size="113,20" fontSize="16" color="#ff0000" letterSpacing="1" bold="true" strokeColor="#000000" singleLine="true" text="这是一个名字">
+      <relation target="" sidePair="center-center"/>
+    </text>
+    <component id="n1_ty2p" name="hpBar" src="ty2p1i" xy="25,8">
+      <relation target="" sidePair="center-center"/>
+      <ProgressBar value="50" max="100"/>
+    </component>
+  </displayList>
+</component>

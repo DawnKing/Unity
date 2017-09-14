@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option csharp_namespace = "GameProtocol";
+
+message NotifySelfPlayer {
+    uint32 id = 1;
+    float X = 2;
+    float Z = 3;
+}
