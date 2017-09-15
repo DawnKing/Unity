@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="zd5hl5a9" jpegQuality="80" compressPNG="true">
+  <resources>
+    <image id="8tgb1" name="checkbox_bk.png" path="/素材/"/>
+    <image id="8tgb2" name="checkbox_checked.png" path="/素材/"/>
+    <component id="8tgb4" name="Rb1.xml" path="/组件/" exported="true"/>
+  </resources>
+  <publish name="Common" packageCount="1">
+    <atlas name="默认" index="0"/>
+  </publish>
+</packageDescription>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="zwnpjpbp" jpegQuality="80" compressPNG="true">
+  <resources>
+    <image id="pbx00" name="code_bk.png" path="/素材/"/>
+    <image id="pbx01" name="button_bk.png" path="/素材/"/>
+    <image id="pbx02" name="button_reg_t.png" path="/素材/"/>
+    <image id="pbx03" name="button_login_t.png" path="/素材/"/>
+    <image id="pbx06" name="button_music_on.png" path="/素材/"/>
+    <image id="pbx07" name="button_music_off.png" path="/素材/"/>
+    <component id="pbx09" name="Login.xml" path="/" exported="true"/>
+    <component id="8tgbc" name="BtnLogin.xml" path="/组件/"/>
+    <component id="8tgbd" name="BtnRegister.xml" path="/组件/"/>
+    <component id="8tgbe" name="BtnMusic.xml" path="/组件/"/>
+    <image id="8tgbf" name="tkt_logo_03_t.png" path="/素材/" atlas="alone"/>
+    <image id="svhbg" name="login_bk.jpg" path="/素材/"/>
+  </resources>
+  <publish name="Login" packageCount="1" genCode="true">
+    <atlas name="默认" index="0"/>
+  </publish>
+</packageDescription>

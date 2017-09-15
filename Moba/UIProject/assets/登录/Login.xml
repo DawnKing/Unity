@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1280,720">
+  <displayList>
+    <image id="n22" name="n22" src="svhbg" xy="-320,-180">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </image>
+    <text id="n1" name="n1" xy="537,282" size="69,20" group="n24" fontSize="16" color="#ff9900" text="帐号名称"/>
+    <text id="n2" name="n2" xy="537,329" size="69,20" group="n24" fontSize="16" color="#ff9900" text="帐号密码"/>
+    <component id="n6" name="n6" src="8tgb4" pkg="zd5hl5a9" xy="549,379" size="227,22" group="n24">
+      <Button title="已阅读并同意游戏协议"/>
+    </component>
+    <image id="n7" name="n7" src="pbx01" xy="621,425" group="n24"/>
+    <image id="n8" name="n8" src="pbx01" xy="623,487" group="n24"/>
+    <component id="n9" name="BtnLogin" src="8tgbc" xy="630,434" group="n24"/>
+    <component id="n10" name="BtnRegister" src="8tgbd" xy="632,497" group="n24"/>
+    <component id="n11" name="n11" src="8tgbe" xy="673,557" group="n24"/>
+    <text id="n12" name="n12" xy="350,617" size="23,16" group="n24" fontSize="12" color="#ffffff" align="center" text="222"/>
+    <image id="n14" name="n14" src="pbx00" xy="607,269" group="n24"/>
+    <image id="n15" name="n15" src="pbx00" xy="607,319" group="n24"/>
+    <text id="n16" name="n16" xy="618,279" size="141,20" group="n24" input="true" prompt="请输入帐号" fontSize="16" color="#ffffff" autoSize="height" text=""/>
+    <text id="n17" name="n17" xy="618,329" size="144,20" group="n24" input="true" prompt="请输入密码" fontSize="16" color="#ffffff" autoSize="height" text=""/>
+    <loader id="n21" name="ml1" xy="520,109" size="360,152" group="n24" url="ui://zwnpjpbp8tgbf" autoSize="true"/>
+    <component id="n25_kgpu" name="BtnRemeber" src="8tgb4" pkg="zd5hl5a9" xy="790,279" size="103,22" group="n24">
+      <Button title="记住帐号"/>
+    </component>
+    <group id="n24" name="n24" xy="350,109" size="543,524" advanced="true">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </group>
+  </displayList>
+</component>

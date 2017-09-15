@@ -1,0 +1,14 @@
+{
+	"codeGeneration":{
+		"classNamePrefix":"UI",
+		"codePath":"..\\Moba\\Assets\\Scripts\\Skin",
+		"codeType":"",
+		"getMemberByName":false,
+		"ignoreNoname":true,
+		"memberNamePrefix":"",
+		"packageName":""
+	},
+	"fileExtension":"",
+	"packageCount":2,
+	"path":"{release}\\ui"
+}

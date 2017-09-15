@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="u293slls" jpegQuality="80" compressPNG="true">
+  <resources>
+    <component id="sylr1" name="Match.xml" path="/" exported="true"/>
+    <component id="sylr3" name="Button1.xml" path="/"/>
+  </resources>
+  <publish name="Match" genCode="true"/>
+</packageDescription>

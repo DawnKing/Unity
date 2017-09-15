@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="120,26" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="2"/>
+  <displayList>
+    <image id="n1" name="n1" src="pbx03" xy="-1,-1" size="122,28">
+      <gearXY controller="button" pages="2" values="-1,-1" default="0,0"/>
+      <gearSize controller="button" pages="2" values="122,28,1,1" default="120,26,1,1"/>
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+  </displayList>
+  <Button/>
+</component>

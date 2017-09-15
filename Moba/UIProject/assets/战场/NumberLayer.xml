@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="400,400">
+  <displayList>
+    <text id="n0_dg3e" name="redNum" xy="24,14" size="195,32" font="ui://rbw1tvvvosw91j" fontSize="12" letterSpacing="-16" autoSize="none" text="-9999"/>
+    <text id="n1_dg3e" name="greenNum" xy="24,45" size="195,32" font="ui://rbw1tvvvo3tp5a" fontSize="12" letterSpacing="-16" autoSize="none" text="+99999"/>
+    <text id="n2_dg3e" name="yellowNum" xy="24,76" size="195,32" font="ui://rbw1tvvvo3tp5b" fontSize="12" letterSpacing="-16" autoSize="none" text="+999999&#xA;"/>
+    <text id="n3_dg3e" name="purpleNum" xy="24,107" size="195,32" font="ui://rbw1tvvvo3tp5d" fontSize="12" letterSpacing="-16" autoSize="none" text="-9999999"/>
+    <text id="n4_dg3e" name="bigNum" xy="24,138" size="244,36" font="ui://rbw1tvvvo3tp5c" fontSize="12" letterSpacing="-6" text="-99999999"/>
+  </displayList>
+</component>

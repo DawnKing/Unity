@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="400,400">
+  <controller name="c1" pages="0,StartMatch,1,Matching" selected="0"/>
+  <displayList>
+    <text id="n2" name="n2" xy="106,185" size="185,37" fontSize="30" text="匹配中。。。&#xA;">
+      <gearDisplay controller="c1" pages="1"/>
+    </text>
+    <component id="n3" name="BtnMatch" src="sylr3" xy="112,146" size="183,83">
+      <gearDisplay controller="c1" pages="0"/>
+      <Button title="开始匹配" titleFontSize="30"/>
+    </component>
+  </displayList>
+</component>

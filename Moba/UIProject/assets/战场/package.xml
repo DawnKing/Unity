@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="rbw1tvvv" jpegQuality="80" compressPNG="true">
+  <resources>
+    <component id="iitt1" name="Joystick.xml" path="/组件/"/>
+    <component id="q9do18" name="JoystickCircle.xml" path="/组件/"/>
+    <image id="q9do19" name="1.png" path="/素材/"/>
+    <image id="q9do1a" name="0.png" path="/素材/"/>
+    <component id="g6oc1c" name="Battle.xml" path="/" exported="true"/>
+    <component id="hxla1d" name="Button1.xml" path="/组件/"/>
+    <component id="zpcw1e" name="EntityInfo.xml" path="/" exported="true"/>
+    <image id="ty2p1f" name="image 6.png" path="/素材/"/>
+    <image id="ty2p1g" name="image 4.jpg" path="/素材/"/>
+    <image id="ty2p1h" name="image 1.jpg" path="/素材/"/>
+    <component id="ty2p1i" name="HpBar.xml" path="/组件/"/>
+    <font id="osw91j" name="RedNum.fnt" path="/组件/" exported="true"/>
+    <image id="o3tp3n" name="1_-.png" path="/素材/数字/"/>
+    <image id="o3tp3o" name="1_+.png" path="/素材/数字/"/>
+    <image id="o3tp3p" name="1_0.png" path="/素材/数字/"/>
+    <image id="o3tp3q" name="1_1.png" path="/素材/数字/"/>
+    <image id="o3tp3r" name="1_2.png" path="/素材/数字/"/>
+    <image id="o3tp3s" name="1_3.png" path="/素材/数字/"/>
+    <image id="o3tp3t" name="1_4.png" path="/素材/数字/"/>
+    <image id="o3tp3u" name="1_5.png" path="/素材/数字/"/>
+    <image id="o3tp3v" name="1_6.png" path="/素材/数字/"/>
+    <image id="o3tp3w" name="1_7.png" path="/素材/数字/"/>
+    <image id="o3tp3x" name="1_8.png" path="/素材/数字/"/>
+    <image id="o3tp3y" name="1_9.png" path="/素材/数字/"/>
+    <image id="o3tp3z" name="2_-.png" path="/素材/数字/"/>
+    <image id="o3tp40" name="2_+.png" path="/素材/数字/"/>
+    <image id="o3tp41" name="2_0.png" path="/素材/数字/"/>
+    <image id="o3tp42" name="2_1.png" path="/素材/数字/"/>
+    <image id="o3tp43" name="2_2.png" path="/素材/数字/"/>
+    <image id="o3tp44" name="2_3.png" path="/素材/数字/"/>
+    <image id="o3tp45" name="2_4.png" path="/素材/数字/"/>
+    <image id="o3tp46" name="2_5.png" path="/素材/数字/"/>
+    <image id="o3tp47" name="2_6.png" path="/素材/数字/"/>
+    <image id="o3tp48" name="2_7.png" path="/素材/数字/"/>
+    <image id="o3tp49" name="2_8.png" path="/素材/数字/"/>
+    <image id="o3tp4a" name="2_9.png" path="/素材/数字/"/>
+    <image id="o3tp4b" name="3_-.png" path="/素材/数字/"/>
+    <image id="o3tp4c" name="3_+.png" path="/素材/数字/"/>
+    <image id="o3tp4d" name="3_0.png" path="/素材/数字/"/>
+    <image id="o3tp4e" name="3_1.png" path="/素材/数字/"/>
+    <image id="o3tp4f" name="3_2.png" path="/素材/数字/"/>
+    <image id="o3tp4g" name="3_3.png" path="/素材/数字/"/>
+    <image id="o3tp4h" name="3_4.png" path="/素材/数字/"/>
+    <image id="o3tp4i" name="3_5.png" path="/素材/数字/"/>
+    <image id="o3tp4j" name="3_6.png" path="/素材/数字/"/>
+    <image id="o3tp4k" name="3_7.png" path="/素材/数字/"/>
+    <image id="o3tp4l" name="3_8.png" path="/素材/数字/"/>
+    <image id="o3tp4m" name="3_9.png" path="/素材/数字/"/>
+    <image id="o3tp4n" name="4_-.png" path="/素材/数字/"/>
+    <image id="o3tp4o" name="4_+.png" path="/素材/数字/"/>
+    <image id="o3tp4p" name="4_0.png" path="/素材/数字/"/>
+    <image id="o3tp4q" name="4_1.png" path="/素材/数字/"/>
+    <image id="o3tp4r" name="4_2.png" path="/素材/数字/"/>
+    <image id="o3tp4s" name="4_3.png" path="/素材/数字/"/>
+    <image id="o3tp4t" name="4_4.png" path="/素材/数字/"/>
+    <image id="o3tp4u" name="4_5.png" path="/素材/数字/"/>
+    <image id="o3tp4v" name="4_6.png" path="/素材/数字/"/>
+    <image id="o3tp4w" name="4_7.png" path="/素材/数字/"/>
+    <image id="o3tp4x" name="4_8.png" path="/素材/数字/"/>
+    <image id="o3tp4y" name="4_9.png" path="/素材/数字/"/>
+    <image id="o3tp4z" name="5_-.png" path="/素材/数字/"/>
+    <image id="o3tp50" name="5_0.png" path="/素材/数字/"/>
+    <image id="o3tp51" name="5_1.png" path="/素材/数字/"/>
+    <image id="o3tp52" name="5_2.png" path="/素材/数字/"/>
+    <image id="o3tp53" name="5_3.png" path="/素材/数字/"/>
+    <image id="o3tp54" name="5_4.png" path="/素材/数字/"/>
+    <image id="o3tp55" name="5_5.png" path="/素材/数字/"/>
+    <image id="o3tp56" name="5_6.png" path="/素材/数字/"/>
+    <image id="o3tp57" name="5_7.png" path="/素材/数字/"/>
+    <image id="o3tp58" name="5_8.png" path="/素材/数字/"/>
+    <image id="o3tp59" name="5_9.png" path="/素材/数字/"/>
+    <font id="o3tp5a" name="GreenNum.fnt" path="/组件/" exported="true"/>
+    <font id="o3tp5b" name="YellowNum.fnt" path="/组件/" exported="true"/>
+    <font id="o3tp5c" name="BigNum.fnt" path="/组件/" exported="true"/>
+    <font id="o3tp5d" name="PurpleNum.fnt" path="/组件/" exported="true"/>
+    <component id="dg3e5e" name="NumberLayer.xml" path="/" exported="true"/>
+  </resources>
+  <publish name="Battle" genCode="true">
+    <atlas name="默认" index="0"/>
+  </publish>
+</packageDescription>
